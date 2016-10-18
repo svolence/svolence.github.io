@@ -106,7 +106,7 @@ Client1client$ sudo apt-get update &amp;amp;&amp;amp; apt-get install nfs-common
 <meta property="og:description" content="1.安装NFSServer1server$ sudo apt-get update &amp;amp;&amp;amp; apt-get install nfs-kernel-server
 Client1client$ sudo apt-get update &amp;amp;&amp;amp; apt-get install nfs-common
 2.服务端创建共享目录1server$ sudo mkdir /var/nfs/">
-<meta property="og:updated_time" content="2016-10-18T07:16:21.109Z">
+<meta property="og:updated_time" content="2016-10-18T09:45:26.707Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="NFS config & mount">
 <meta name="twitter:description" content="1.安装NFSServer1server$ sudo apt-get update &amp;amp;&amp;amp; apt-get install nfs-kernel-server
@@ -348,13 +348,25 @@ Client1client$ sudo apt-get update &amp;amp;&amp;amp; apt-get install nfs-common
 <a id="more"></a>
 <h1 id="3-配置服务端NFS-exports"><a href="#3-配置服务端NFS-exports" class="headerlink" title="3.配置服务端NFS exports"></a>3.配置服务端NFS exports</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">server$ sudo vim /etc/exports</div><div class="line">directory_to_share    client(share_option1,...,share_optionN)</div><div class="line"></div><div class="line">eg:</div><div class="line">/var/nfs/general    10.96.23.109(rw,sync,no_subtree_check)</div><div class="line">/var/nfs/general    10.96.23.0/24(rw,sync,no_subtree_check) # 同一网段</div><div class="line">/home               10.96.23.109(rw,sync,no_root_squash,no_subtree_check)</div></pre></td></tr></table></figure>
 <ul>
-<li><p>rw: This option gives the client computer both read and write access to the volume.</p>
+<li><p>ro 该主机对该共享目录有只读权限</p>
 </li>
-<li><p>sync: This option forces NFS to write changes to disk before replying.<br>This results in a more stable and consistent environment since the reply reflects the actual state of the remote volume.<br>However, it also reduces the speed of file operations.</p>
+<li><p>rw 该主机对该共享目录有读写权限</p>
 </li>
-<li><p>no_subtree_check: This option prevents subtree checking, which is a process where the host must check whether the file is actually still available in the exported tree for every request.<br>This can cause many problems when a file is renamed while the client has it opened.<br>In almost all cases, it is better to disable subtree checking.</p>
+<li><p>root_squash 客户机用root用户访问该共享文件夹时，将root用户映射成匿名用户</p>
 </li>
-<li><p>no_root_squash: By default, NFS translates requests from a root user remotely into a non-privileged user on the server.<br>This was intended as security feature to prevent a root account on the client from using the file system of the host as root.<br>no_root_squash disables this behavior for certain shares.</p>
+<li><p>no_root_squash 客户机用root访问该共享文件夹时，不映射root用户</p>
+</li>
+<li><p>all_squash 客户机上的任何用户访问该共享目录时都映射成匿名用户</p>
+</li>
+<li><p>anonuid 将客户机上的用户映射成指定的本地用户ID的用户</p>
+</li>
+<li><p>anongid 将客户机上的用户映射成属于指定的本地用户组ID</p>
+</li>
+<li><p>sync 资料同步写入到内存与硬盘中</p>
+</li>
+<li><p>async 资料会先暂存于内存中，而非直接写入硬盘</p>
+</li>
+<li><p>insecure 允许从这台机器过来的非授权访问</p>
 </li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">server$ sudo service nfs-kernel-server restart</div></pre></td></tr></table></figure>
@@ -367,6 +379,11 @@ Client1client$ sudo apt-get update &amp;amp;&amp;amp; apt-get install nfs-common
 </ul>
 <h1 id="8-客户端开启启动-挂载远程NFS目录"><a href="#8-客户端开启启动-挂载远程NFS目录" class="headerlink" title="8.客户端开启启动,挂载远程NFS目录"></a>8.客户端开启启动,挂载远程NFS目录</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">server$ sudo vim /etc/fstab</div><div class="line"></div><div class="line">eg:</div><div class="line">10.96.23.109:/var/nfs/general    /nfs/general   nfs auto,nofail,noatime,nolock,intr,tcp,actimeo=1800 0 0</div><div class="line">10.96.23.109:/home              /nfs/home       nfs auto,nofail,noatime,nolock,intr,tcp,actimeo=1800 0 0</div></pre></td></tr></table></figure>
 <h1 id="9-卸载NFS远程共享"><a href="#9-卸载NFS远程共享" class="headerlink" title="9.卸载NFS远程共享"></a>9.卸载NFS远程共享</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">client$ sudo umount /nfs/home</div><div class="line">client$ sudo umount /nfs/general</div></pre></td></tr></table></figure>
+<p>参考链接:</p>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Network_File_System" target="_blank" rel="external">https://en.wikipedia.org/wiki/Network_File_System</a></li>
+</ul>
+
       
     </div>
 
