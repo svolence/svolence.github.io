@@ -1,0 +1,701 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="HA," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="GitLab 高可用GitLab支持几种不同的高可用和集群类型.方案的选择将基于业务的可扩展性和可用性,最简单的解决方案应该是可扩展的.
+方案一(一主一备)
+利用DRBD(分布式快设备)保持数据同步,DRBD需要一个低延迟的链接保持同步
+方案二(双主)优点:可以很容易扩展,通过NFS进行集群,每一个应用都单独部署
+以下针对方案二进行详细配置
+分别在每一台GitLab application ser">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Gitlab HA">
+<meta property="og:url" content="http://yoursite.com/gitlab/ha/index.html">
+<meta property="og:site_name" content="Svolence's Blog">
+<meta property="og:description" content="GitLab 高可用GitLab支持几种不同的高可用和集群类型.方案的选择将基于业务的可扩展性和可用性,最简单的解决方案应该是可扩展的.
+方案一(一主一备)
+利用DRBD(分布式快设备)保持数据同步,DRBD需要一个低延迟的链接保持同步
+方案二(双主)优点:可以很容易扩展,通过NFS进行集群,每一个应用都单独部署
+以下针对方案二进行详细配置
+分别在每一台GitLab application ser">
+<meta property="og:image" content="https://docs.gitlab.com/ce/administration/img/high_availability/active-passive-diagram.png">
+<meta property="og:image" content="https://docs.gitlab.com/ce/administration/img/high_availability/active-active-diagram.png">
+<meta property="og:updated_time" content="2016-10-18T07:16:21.021Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Gitlab HA">
+<meta name="twitter:description" content="GitLab 高可用GitLab支持几种不同的高可用和集群类型.方案的选择将基于业务的可扩展性和可用性,最简单的解决方案应该是可扩展的.
+方案一(一主一备)
+利用DRBD(分布式快设备)保持数据同步,DRBD需要一个低延迟的链接保持同步
+方案二(双主)优点:可以很容易扩展,通过NFS进行集群,每一个应用都单独部署
+以下针对方案二进行详细配置
+分别在每一台GitLab application ser">
+<meta name="twitter:image" content="https://docs.gitlab.com/ce/administration/img/high_availability/active-passive-diagram.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/gitlab/ha/"/>
+
+
+  <title> Gitlab HA | Svolence's Blog </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Svolence's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Gitlab HA
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-09-15T15:59:04+08:00" content="2016-09-15">
+              2016-09-15
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/gitlab/" itemprop="url" rel="index">
+                    <span itemprop="name">gitlab</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/gitlab/ha/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="gitlab/ha/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="GitLab-高可用"><a href="#GitLab-高可用" class="headerlink" title="GitLab 高可用"></a>GitLab 高可用</h1><p>GitLab支持几种不同的高可用和集群类型.方案的选择将基于业务的可扩展性和可用性,最简单的解决方案应该是可扩展的.</p>
+<h2 id="方案一-一主一备"><a href="#方案一-一主一备" class="headerlink" title="方案一(一主一备)"></a>方案一(一主一备)</h2><p><img src="https://docs.gitlab.com/ce/administration/img/high_availability/active-passive-diagram.png" alt="一主一备配置"></p>
+<p>利用DRBD(分布式快设备)保持数据同步,DRBD需要一个低延迟的链接保持同步</p>
+<h2 id="方案二-双主"><a href="#方案二-双主" class="headerlink" title="方案二(双主)"></a>方案二(双主)</h2><p><img src="https://docs.gitlab.com/ce/administration/img/high_availability/active-active-diagram.png" alt="双主配置"><br>优点:可以很容易扩展,通过NFS进行集群,每一个应用都单独部署</p>
+<h3 id="以下针对方案二进行详细配置"><a href="#以下针对方案二进行详细配置" class="headerlink" title="以下针对方案二进行详细配置"></a>以下针对方案二进行详细配置</h3><ol>
+<li>分别在每一台GitLab application server安装NFS client<a id="more"></a>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"># Ubuntu/Debian</div><div class="line">apt-get install nfs-common</div><div class="line"></div><div class="line"># CentOS/Red Hat</div><div class="line">yum install nfs-utils nfs-utils-lib</div></pre></td></tr></table></figure>
+<!-- more -->
+<ol>
+<li>NFS挂载点设置</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">[nfs server]</div><div class="line"></div><div class="line">sudo mkdir -p /var/nfs/gitlab/.ssh /var/nfs/gitlab/gitlab-rails/uploads /var/nfs/gitlab/gitlab-rails/shared /var/nfs/gitlab/gitlab-ci/builds /var/nfs/gitlab/git-data</div><div class="line"></div><div class="line"># /etc/exports</div><div class="line">/var/nfs/gitlab/.ssh 10.96.23.104(rw,sync,no_root_squash,no_subtree_check)</div><div class="line"></div><div class="line">/var/nfs/gitlab/gitlab-rails/uploads 10.96.23.104(rw,sync,no_root_squash,no_subtree_check)</div><div class="line"></div><div class="line">/var/nfs/gitlab/gitlab-rails/shared 10.96.23.104(rw,sync,no_root_squash,no_subtree_check)</div><div class="line"></div><div class="line">/var/nfs/gitlab/gitlab-ci/builds 10.96.23.104(rw,sync,no_root_squash,no_subtree_check)</div><div class="line"></div><div class="line">/var/nfs/gitlab/git-data 10.96.23.104(rw,sync,no_root_squash,no_subtree_check)</div></pre></td></tr></table></figure>
+<hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">[nfs client]</div><div class="line"></div><div class="line"># [nfs server ip]:[nfs server share] [local server mount] [option]</div><div class="line"></div><div class="line"># sudo vim /etc/fstab</div><div class="line">10.96.23.109:/var/nfs/gitlab/.ssh /var/opt/gitlab/.ssh nfs4 defaults 0 0</div><div class="line"></div><div class="line">10.96.23.109:/var/nfs/gitlab/gitlab-rails/uploads /var/opt/gitlab/gitlab-rails/uploads nfs4 defaults 0 0</div><div class="line"></div><div class="line">10.96.23.109:/var/nfs/gitlab/gitlab-rails/shared /var/opt/gitlab/gitlab-rails/shared nfs4 defaults 0 0</div><div class="line"></div><div class="line">10.96.23.109:/var/nfs/gitlab/gitlab-ci/builds /var/opt/gitlab/gitlab-ci/builds nfs4 defaults 0 0</div><div class="line"></div><div class="line">10.96.23.109:/var/nfs/gitlab/git-data /var/opt/gitlab/git-data nfs4 defaults 0 0</div></pre></td></tr></table></figure>
+<ol>
+<li><p>GitLab配置</p>
+<ul>
+<li><p>安装依赖</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install curl openssh-server ca-certificates postfix</div></pre></td></tr></table></figure>
+</li>
+<li><p>安装GitLab</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">curl -sS https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.deb.sh | sudo bash</div><div class="line">sudo apt-get install gitlab-ce</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>配置database/redis</p>
+</li>
+</ol>
+<p><strong>在主GitLab服务器上运行<code>sudo gitlab-ctl reconfigure</code>获取配置中的信息</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"># Prevent GitLab from starting if NFS data mounts are not available</div><div class="line">high_availability[&apos;mountpoint&apos;] = &apos;/var/opt/gitlab/git-data&apos;</div><div class="line"></div><div class="line"># Disable the built-in Postgres</div><div class="line">postgresql[&apos;enable&apos;] = false</div><div class="line"></div><div class="line"># Fill in the values for database.yml</div><div class="line">gitlab_rails[&apos;db_adapter&apos;] = &quot;postgresql&quot;</div><div class="line">gitlab_rails[&apos;db_encoding&apos;] = &quot;unicode&quot;</div><div class="line">gitlab_rails[&apos;db_database&apos;] = &quot;gitlabhq_production&quot;</div><div class="line">gitlab_rails[&apos;db_host&apos;] = &apos;10.96.23.100&apos;</div><div class="line">gitlab_rails[&apos;db_port&apos;] = &apos;5432&apos;</div><div class="line">gitlab_rails[&apos;db_username&apos;] = &apos;gitlab&apos;</div><div class="line">gitlab_rails[&apos;db_password&apos;] = &apos;123456&apos;</div><div class="line"></div><div class="line"># Redis connection details</div><div class="line"></div><div class="line">redis[&apos;enable&apos;] = false</div><div class="line">gitlab_rails[&apos;redis_port&apos;] = &apos;6379&apos;</div><div class="line">gitlab_rails[&apos;redis_host&apos;] = &apos;10.96.23.100&apos;</div><div class="line">gitlab_rails[&apos;redis_password&apos;] = &apos;123456&apos;</div><div class="line"></div><div class="line"></div><div class="line">gitlab_shell[&apos;secret_token&apos;] = &apos;ac3862b29f8ff3eafc708d2fbfe30972baa72f6c384fca0e4e4989bfbbc6d82196afdc3564eee48ddbed6530aaddeb2dea1b3634cba1f042a139452aba4210fe&apos;</div><div class="line"></div><div class="line">gitlab_rails[&apos;otp_key_base&apos;] = &apos;fdcd70368f1c7804998ebc23b53da46e93990723a992f216ad50aeb3d33bb84fa075805c02b52751cca4c9cd5bcb4dc99f7ca48232943b82c6968eef2b38e94a&apos;</div><div class="line"></div><div class="line">gitlab_rails[&apos;secret_key_base&apos;] = &apos;17183d3ee83744b1063f3e34ac99f5c41e41909df8d8301ffccc6087a8b6cf8107ddee655bd498f3a92a0ee1b880ce6cd3b084aa79075b9369c963023cb38adc&apos;</div><div class="line"></div><div class="line">gitlab_rails[&apos;db_key_base&apos;] = &apos;2cab65c818790a1663c82b953a09ae254667446a1a02643807da83fcb88218789688b9e76c2896a01620c369a3d4c4dfbc3ae6141410dd6addea18942688658a&apos;</div></pre></td></tr></table></figure>
+<p><strong>在从GitLab服务器上执行<code>touch /etc/gitlab/skip-auto-migrations</code>避免数据库迁移</strong></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/HA/" rel="tag">#HA</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/gitlab/postgresql/" rel="next" title="pgsql basic usage">
+                <i class="fa fa-chevron-left"></i> pgsql basic usage
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/DRBD/README/" rel="prev" title="How to install DRBD & config on ubuntu">
+                How to install DRBD & config on ubuntu <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="gitlab/ha/"
+           data-title="Gitlab HA" data-url="http://yoursite.com/gitlab/ha/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Svolence" />
+          <p class="site-author-name" itemprop="name">Svolence</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#GitLab-高可用"><span class="nav-number">1.</span> <span class="nav-text">GitLab 高可用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#方案一-一主一备"><span class="nav-number">1.1.</span> <span class="nav-text">方案一(一主一备)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方案二-双主"><span class="nav-number">1.2.</span> <span class="nav-text">方案二(双主)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#以下针对方案二进行详细配置"><span class="nav-number">1.2.1.</span> <span class="nav-text">以下针对方案二进行详细配置</span></a></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Svolence</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"svolence"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

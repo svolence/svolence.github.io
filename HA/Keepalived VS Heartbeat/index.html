@@ -1,0 +1,662 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Keepalived,Heartbeat," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="Keepalived和HeartbeatKeepalived1.Keepalived使用更简单：从安装、配置、使用、维护等角度上对比,Keepalived都比Heartbeat要简单得多,尤其是Heartbeat 2.1.4后拆分成3个子项目,安装、配置、使用都比较复杂,尤其是出问题的时候,都不知道具体是哪个子系统出问题了,而Keepalived只有1个安装文件、1个配置文件，配置文件也简单很多">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Keepalived & Heartbeat difference">
+<meta property="og:url" content="http://yoursite.com/HA/Keepalived VS Heartbeat/index.html">
+<meta property="og:site_name" content="Svolence's Blog">
+<meta property="og:description" content="Keepalived和HeartbeatKeepalived1.Keepalived使用更简单：从安装、配置、使用、维护等角度上对比,Keepalived都比Heartbeat要简单得多,尤其是Heartbeat 2.1.4后拆分成3个子项目,安装、配置、使用都比较复杂,尤其是出问题的时候,都不知道具体是哪个子系统出问题了,而Keepalived只有1个安装文件、1个配置文件，配置文件也简单很多">
+<meta property="og:image" content="http://yoursite.com/images/keepalived-master-default.png">
+<meta property="og:image" content="http://yoursite.com/images/keepalived-transfer-slave.png">
+<meta property="og:updated_time" content="2016-10-18T07:44:51.051Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Keepalived & Heartbeat difference">
+<meta name="twitter:description" content="Keepalived和HeartbeatKeepalived1.Keepalived使用更简单：从安装、配置、使用、维护等角度上对比,Keepalived都比Heartbeat要简单得多,尤其是Heartbeat 2.1.4后拆分成3个子项目,安装、配置、使用都比较复杂,尤其是出问题的时候,都不知道具体是哪个子系统出问题了,而Keepalived只有1个安装文件、1个配置文件，配置文件也简单很多">
+<meta name="twitter:image" content="http://yoursite.com/images/keepalived-master-default.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/HA/Keepalived VS Heartbeat/"/>
+
+
+  <title> Keepalived & Heartbeat difference | Svolence's Blog </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Svolence's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Keepalived & Heartbeat difference
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-10-15T22:40:34+08:00" content="2016-10-15">
+              2016-10-15
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/HA/" itemprop="url" rel="index">
+                    <span itemprop="name">HA</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/HA/Keepalived VS Heartbeat/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="HA/Keepalived VS Heartbeat/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Keepalived和Heartbeat"><a href="#Keepalived和Heartbeat" class="headerlink" title="Keepalived和Heartbeat"></a>Keepalived和Heartbeat</h1><h2 id="Keepalived"><a href="#Keepalived" class="headerlink" title="Keepalived"></a>Keepalived</h2><p>1.Keepalived使用更简单：从安装、配置、使用、维护等角度上对比,Keepalived都比Heartbeat要简单得多,<br>尤其是Heartbeat 2.1.4后拆分成3个子项目,安装、配置、使用都比较复杂,尤其是出问题的时候,都不知道具体是哪个子系统出问题了,<br>而Keepalived只有1个安装文件、1个配置文件，配置文件也简单很多</p>
+<p>2.Heartbeat功能更强大:Heartbeat虽然复杂,但功能更强大,配套工具更全,适合做大型集群管理,而Keepalived主要用于集群倒换,基本没有管理功能</p>
+<p>3.协议不同:Keepalived使用VRRP协议进行通信和选举,Heartbeat使用心跳进行通信和选举,Heartbeat除了走网络外,还可以通过串口通信,貌似更可靠</p>
+<p>4.使用方式基本类似:如果要基于两者设计高可用方案,最终都要根据业务需要写自定义的脚本,Keepalived的脚本没有任何约束,随便怎么写都可以,Heartbeat的脚本有约束,<br>即要支持service start/stop/restart这种方式,而且Heartbeart提供了很多默认脚本,简单的绑定ip,启动apache等操作都已经有了</p>
+<p><strong>使用建议:优先使用<code>Keepalived</code>,当Keepalived不够用的时候才选择Heartbeat</strong></p>
+<a id="more"></a>
+<h2 id="ubuntu-配置VIP"><a href="#ubuntu-配置VIP" class="headerlink" title="ubuntu 配置VIP"></a>ubuntu 配置VIP</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">sudo -s</div><div class="line">ifconfig eth0:0 10.96.23.21 netmask 255.255.255.0 up</div><div class="line"></div><div class="line"># 删除VIP</div><div class="line">ifconfig eth0:0 down</div></pre></td></tr></table></figure>
+<h2 id="keepalived-install"><a href="#keepalived-install" class="headerlink" title="keepalived install"></a>keepalived install</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install build-essential libssl-dev</div><div class="line"></div><div class="line">sudo apt-get install keepalived</div></pre></td></tr></table></figure>
+<h2 id="keepalived-config"><a href="#keepalived-config" class="headerlink" title="keepalived config"></a>keepalived config</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div></pre></td><td class="code"><pre><div class="line">#master</div><div class="line">global_defs &#123;</div><div class="line">   notification_email &#123;</div><div class="line">      user@example.com</div><div class="line">   &#125;</div><div class="line"></div><div class="line">   notification_email_from mail@example.org</div><div class="line">   smtp_server 10.96.23.1</div><div class="line">   smtp_connect_timeout 30</div><div class="line">   router_id LVS_DEVEL</div><div class="line">&#125;</div><div class="line"></div><div class="line">vrrp_instance VI_1 &#123;</div><div class="line">    state MASTER #标示状态为MASTER</div><div class="line">    interface eth0</div><div class="line">    virtual_router_id 51</div><div class="line">    priority 101   #MASTER权重要高于BACKUP</div><div class="line">    advert_int 1</div><div class="line">    mcast_src_ip 10.96.23.120 #vrrp实体服务器的IP</div><div class="line"></div><div class="line">    authentication &#123;</div><div class="line">        auth_type PASS #主从服务器验证方式</div><div class="line">        auth_pass 123456</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    #VIP</div><div class="line">    virtual_ipaddress &#123;</div><div class="line">        10.96.23.21 #虚拟IP</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">#slave</div><div class="line">global_defs &#123;</div><div class="line">   notification_email &#123;</div><div class="line">       user@example.com</div><div class="line">   &#125;</div><div class="line"></div><div class="line">   notification_email_from mail@example.org</div><div class="line">   smtp_server 10.96.23.1</div><div class="line">   smtp_connect_timeout 30</div><div class="line">   router_id LVS_DEVEL</div><div class="line">&#125;</div><div class="line"></div><div class="line">vrrp_instance VI_1 &#123;</div><div class="line"></div><div class="line">    state SLAVE #状态为SLAVE</div><div class="line">    interface eth0</div><div class="line">    virtual_router_id 51</div><div class="line">    priority 100  #权重要低于MASTER</div><div class="line">    advert_int 1</div><div class="line">    mcast_src_ip 10.96.23.121 #vrrp实体服务器的IP</div><div class="line"></div><div class="line">    authentication &#123;</div><div class="line">        auth_type PASS</div><div class="line">        auth_pass 123456</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    #VIP</div><div class="line">    virtual_ipaddress &#123;</div><div class="line">        10.96.23.21 #虚拟IP</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h1 id="实例图"><a href="#实例图" class="headerlink" title="实例图"></a>实例图</h1><p><img src="/images/keepalived-master-default.png" alt="默认正常master状态"></p>
+<p><img src="/images/keepalived-transfer-slave.png" alt="failover 状态"></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Keepalived/" rel="tag">#Keepalived</a>
+          
+            <a href="/tags/Heartbeat/" rel="tag">#Heartbeat</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/docker/docker-ubuntu/" rel="next" title="Install docker on ubuntu">
+                <i class="fa fa-chevron-left"></i> Install docker on ubuntu
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="HA/Keepalived VS Heartbeat/"
+           data-title="Keepalived & Heartbeat difference" data-url="http://yoursite.com/HA/Keepalived VS Heartbeat/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Svolence" />
+          <p class="site-author-name" itemprop="name">Svolence</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Keepalived和Heartbeat"><span class="nav-number">1.</span> <span class="nav-text">Keepalived和Heartbeat</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Keepalived"><span class="nav-number">1.1.</span> <span class="nav-text">Keepalived</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ubuntu-配置VIP"><span class="nav-number">1.2.</span> <span class="nav-text">ubuntu 配置VIP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#keepalived-install"><span class="nav-number">1.3.</span> <span class="nav-text">keepalived install</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#keepalived-config"><span class="nav-number">1.4.</span> <span class="nav-text">keepalived config</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实例图"><span class="nav-number">2.</span> <span class="nav-text">实例图</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Svolence</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"svolence"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
