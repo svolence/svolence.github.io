@@ -114,7 +114,7 @@
 分别在每一台GitLab application ser">
 <meta property="og:image" content="https://docs.gitlab.com/ce/administration/img/high_availability/active-passive-diagram.png">
 <meta property="og:image" content="https://docs.gitlab.com/ce/administration/img/high_availability/active-active-diagram.png">
-<meta property="og:updated_time" content="2016-10-18T07:16:21.021Z">
+<meta property="og:updated_time" content="2016-10-19T08:40:30.777Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Gitlab HA">
 <meta name="twitter:description" content="GitLab 高可用GitLab支持几种不同的高可用和集群类型.方案的选择将基于业务的可扩展性和可用性,最简单的解决方案应该是可扩展的.
@@ -182,7 +182,7 @@
       <span class="logo-line-after"><i></i></span>
     </a>
   </div>
-  <p class="site-subtitle"></p>
+  <p class="site-subtitle">Talk is cheap show me the code!!!</p>
 </div>
 
 <div class="site-nav-toggle">
@@ -366,7 +366,7 @@
 <ol>
 <li>NFS挂载点设置</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">[nfs server]</div><div class="line"></div><div class="line">sudo mkdir -p /var/nfs/gitlab/.ssh /var/nfs/gitlab/gitlab-rails/uploads /var/nfs/gitlab/gitlab-rails/shared /var/nfs/gitlab/gitlab-ci/builds /var/nfs/gitlab/git-data</div><div class="line"></div><div class="line"># /etc/exports</div><div class="line">/var/nfs/gitlab/.ssh 10.96.23.104(rw,sync,no_root_squash,no_subtree_check)</div><div class="line"></div><div class="line">/var/nfs/gitlab/gitlab-rails/uploads 10.96.23.104(rw,sync,no_root_squash,no_subtree_check)</div><div class="line"></div><div class="line">/var/nfs/gitlab/gitlab-rails/shared 10.96.23.104(rw,sync,no_root_squash,no_subtree_check)</div><div class="line"></div><div class="line">/var/nfs/gitlab/gitlab-ci/builds 10.96.23.104(rw,sync,no_root_squash,no_subtree_check)</div><div class="line"></div><div class="line">/var/nfs/gitlab/git-data 10.96.23.104(rw,sync,no_root_squash,no_subtree_check)</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">[nfs server]</div><div class="line"></div><div class="line">sudo mkdir -p /var/nfs/gitlab/.ssh /var/nfs/gitlab/gitlab-rails/uploads /var/nfs/gitlab/gitlab-rails/shared /var/nfs/gitlab/gitlab-ci/builds /var/nfs/gitlab/git-data</div><div class="line"></div><div class="line"># /etc/exports</div><div class="line">/var/nfs/gitlab/.ssh 10.96.23.0/24(rw,sync,no_root_squash,no_subtree_check)</div><div class="line"></div><div class="line">/var/nfs/gitlab/gitlab-rails/uploads 10.96.23.0/24(rw,sync,no_root_squash,no_subtree_check)</div><div class="line"></div><div class="line">/var/nfs/gitlab/gitlab-rails/shared 10.96.23.0/24(rw,sync,no_root_squash,no_subtree_check)</div><div class="line"></div><div class="line">/var/nfs/gitlab/gitlab-ci/builds 10.96.23.0/24(rw,sync,no_root_squash,no_subtree_check)</div><div class="line"></div><div class="line">/var/nfs/gitlab/git-data 10.96.23.0/24(rw,sync,no_root_squash,no_subtree_check)</div></pre></td></tr></table></figure>
 <hr>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">[nfs client]</div><div class="line"></div><div class="line"># [nfs server ip]:[nfs server share] [local server mount] [option]</div><div class="line"></div><div class="line"># sudo vim /etc/fstab</div><div class="line">10.96.23.109:/var/nfs/gitlab/.ssh /var/opt/gitlab/.ssh nfs4 defaults 0 0</div><div class="line"></div><div class="line">10.96.23.109:/var/nfs/gitlab/gitlab-rails/uploads /var/opt/gitlab/gitlab-rails/uploads nfs4 defaults 0 0</div><div class="line"></div><div class="line">10.96.23.109:/var/nfs/gitlab/gitlab-rails/shared /var/opt/gitlab/gitlab-rails/shared nfs4 defaults 0 0</div><div class="line"></div><div class="line">10.96.23.109:/var/nfs/gitlab/gitlab-ci/builds /var/opt/gitlab/gitlab-ci/builds nfs4 defaults 0 0</div><div class="line"></div><div class="line">10.96.23.109:/var/nfs/gitlab/git-data /var/opt/gitlab/git-data nfs4 defaults 0 0</div></pre></td></tr></table></figure>
 <ol>
@@ -425,8 +425,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/DRBD/README/" rel="prev" title="How to install DRBD & config on ubuntu">
-                How to install DRBD & config on ubuntu <i class="fa fa-chevron-right"></i>
+              <a href="/gitlab/NFS/" rel="prev" title="NFS config & mount">
+                NFS config & mount <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>

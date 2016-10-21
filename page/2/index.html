@@ -162,7 +162,7 @@
       <span class="logo-line-after"><i></i></span>
     </a>
   </div>
-  <p class="site-subtitle"></p>
+  <p class="site-subtitle">Talk is cheap show me the code!!!</p>
 </div>
 
 <div class="site-nav-toggle">
@@ -268,8 +268,8 @@
             
               
                 
-                <a class="post-title-link" href="/DRBD/README/" itemprop="url">
-                  How to install DRBD & config on ubuntu
+                <a class="post-title-link" href="/gitlab/NFS/" itemprop="url">
+                  NFS config & mount
                 </a>
               
             
@@ -282,8 +282,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-09-15T15:59:04+08:00" content="2016-09-15">
-              2016-09-15
+            <time itemprop="dateCreated" datetime="2016-09-18T17:09:04+08:00" content="2016-09-18">
+              2016-09-18
             </time>
           </span>
 
@@ -296,8 +296,8 @@
               <span class="post-meta-item-text">In</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/DRBD/" itemprop="url" rel="index">
-                    <span itemprop="name">DRBD</span>
+                  <a href="/categories/gitlab/" itemprop="url" rel="index">
+                    <span itemprop="name">gitlab</span>
                   </a>
                 </span>
 
@@ -312,8 +312,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/DRBD/README/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="DRBD/README/" itemprop="commentsCount"></span>
+                <a href="/gitlab/NFS/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="gitlab/NFS/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -337,10 +337,12 @@
 
       
         
-          <h1 id="Installation"><a href="#Installation" class="headerlink" title="Installation"></a>Installation</h1><h2 id="CentOS"><a href="#CentOS" class="headerlink" title="CentOS"></a>CentOS</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install drbd kmod-drbd</div></pre></td></tr></table></figure>
-<h2 id="Ubuntu"><a href="#Ubuntu" class="headerlink" title="Ubuntu"></a>Ubuntu</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:linbit/linbit-drbd9-stack</div><div class="line">sudo apt-get update</div><div class="line"></div><div class="line">sudo apt-get install drbd-utils python-drbdmanage drbd-dkms</div></pre></td></tr></table></figure>
+          <h1 id="1-安装NFS"><a href="#1-安装NFS" class="headerlink" title="1.安装NFS"></a>1.安装NFS</h1><h2 id="Server"><a href="#Server" class="headerlink" title="Server"></a>Server</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">server$ sudo apt-get update &amp;&amp; apt-get install nfs-kernel-server</div></pre></td></tr></table></figure>
+<h2 id="Client"><a href="#Client" class="headerlink" title="Client"></a>Client</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">client$ sudo apt-get update &amp;&amp; apt-get install nfs-common</div></pre></td></tr></table></figure>
+<h1 id="2-服务端创建共享目录"><a href="#2-服务端创建共享目录" class="headerlink" title="2.服务端创建共享目录"></a>2.服务端创建共享目录</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">server$ sudo mkdir /var/nfs/general -p</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># 修改目录所属组</div><div class="line">server$ sudo chown nobody:nogroup /var/nfs/general -R</div></pre></td></tr></table></figure>
           <div class="post-more-link text-center">
-            <a class="btn" href="/DRBD/README/#more" rel="contents">
+            <a class="btn" href="/gitlab/NFS/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>

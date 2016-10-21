@@ -106,7 +106,7 @@ Client1client$ sudo apt-get update &amp;amp;&amp;amp; apt-get install nfs-common
 <meta property="og:description" content="1.安装NFSServer1server$ sudo apt-get update &amp;amp;&amp;amp; apt-get install nfs-kernel-server
 Client1client$ sudo apt-get update &amp;amp;&amp;amp; apt-get install nfs-common
 2.服务端创建共享目录1server$ sudo mkdir /var/nfs/">
-<meta property="og:updated_time" content="2016-10-18T09:45:26.707Z">
+<meta property="og:updated_time" content="2016-10-20T05:26:53.704Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="NFS config & mount">
 <meta name="twitter:description" content="1.安装NFSServer1server$ sudo apt-get update &amp;amp;&amp;amp; apt-get install nfs-kernel-server
@@ -170,7 +170,7 @@ Client1client$ sudo apt-get update &amp;amp;&amp;amp; apt-get install nfs-common
       <span class="logo-line-after"><i></i></span>
     </a>
   </div>
-  <p class="site-subtitle"></p>
+  <p class="site-subtitle">Talk is cheap show me the code!!!</p>
 </div>
 
 <div class="site-nav-toggle">
@@ -344,29 +344,43 @@ Client1client$ sudo apt-get update &amp;amp;&amp;amp; apt-get install nfs-common
         <h1 id="1-安装NFS"><a href="#1-安装NFS" class="headerlink" title="1.安装NFS"></a>1.安装NFS</h1><h2 id="Server"><a href="#Server" class="headerlink" title="Server"></a>Server</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">server$ sudo apt-get update &amp;&amp; apt-get install nfs-kernel-server</div></pre></td></tr></table></figure>
 <h2 id="Client"><a href="#Client" class="headerlink" title="Client"></a>Client</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">client$ sudo apt-get update &amp;&amp; apt-get install nfs-common</div></pre></td></tr></table></figure>
 <h1 id="2-服务端创建共享目录"><a href="#2-服务端创建共享目录" class="headerlink" title="2.服务端创建共享目录"></a>2.服务端创建共享目录</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">server$ sudo mkdir /var/nfs/general -p</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># 修改目录所属组</div><div class="line">server$ sudo chown nobody:nogroup /var/nfs/general</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># 修改目录所属组</div><div class="line">server$ sudo chown nobody:nogroup /var/nfs/general -R</div></pre></td></tr></table></figure>
 <a id="more"></a>
 <h1 id="3-配置服务端NFS-exports"><a href="#3-配置服务端NFS-exports" class="headerlink" title="3.配置服务端NFS exports"></a>3.配置服务端NFS exports</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">server$ sudo vim /etc/exports</div><div class="line">directory_to_share    client(share_option1,...,share_optionN)</div><div class="line"></div><div class="line">eg:</div><div class="line">/var/nfs/general    10.96.23.109(rw,sync,no_subtree_check)</div><div class="line">/var/nfs/general    10.96.23.0/24(rw,sync,no_subtree_check) # 同一网段</div><div class="line">/home               10.96.23.109(rw,sync,no_root_squash,no_subtree_check)</div></pre></td></tr></table></figure>
-<ul>
-<li><p>ro 该主机对该共享目录有只读权限</p>
+<h2 id="NFS主要有3类选项"><a href="#NFS主要有3类选项" class="headerlink" title="NFS主要有3类选项:"></a>NFS主要有3类选项:</h2><h3 id="访问权限选项"><a href="#访问权限选项" class="headerlink" title="访问权限选项"></a>访问权限选项</h3><ul>
+<li>设置输出目录只读: ro</li>
+<li>设置输出目录读写: rw</li>
+</ul>
+<h3 id="用户映射选项"><a href="#用户映射选项" class="headerlink" title="用户映射选项"></a>用户映射选项</h3><ul>
+<li><p>all_squash: 将远程访问的所有普通用户及所属组都映射为匿名用户或用户组(nfsnobody)</p>
 </li>
-<li><p>rw 该主机对该共享目录有读写权限</p>
+<li><p>no_all_squash: 与all_squash取反(默认设置)</p>
 </li>
-<li><p>root_squash 客户机用root用户访问该共享文件夹时，将root用户映射成匿名用户</p>
+<li><p>root_squash: 将root用户及所属组都映射为匿名用户或用户组(默认设置)</p>
 </li>
-<li><p>no_root_squash 客户机用root访问该共享文件夹时，不映射root用户</p>
+<li><p>no_root_squash: 与rootsquash取反</p>
 </li>
-<li><p>all_squash 客户机上的任何用户访问该共享目录时都映射成匿名用户</p>
+<li><p>anonuid=xxx: 将远程访问的所有用户都映射为匿名用户，并指定该用户为本地用户(UID=xxx)</p>
 </li>
-<li><p>anonuid 将客户机上的用户映射成指定的本地用户ID的用户</p>
+<li><p>anongid=xxx: 将远程访问的所有用户组都映射为匿名用户组账户，并指定该匿名用户组账户为本地用户组账户(GID=xxx)</p>
 </li>
-<li><p>anongid 将客户机上的用户映射成属于指定的本地用户组ID</p>
+</ul>
+<h3 id="其它选项"><a href="#其它选项" class="headerlink" title="其它选项"></a>其它选项</h3><ul>
+<li><p>secure: 限制客户端只能从小于1024的tcp/ip端口连接nfs服务器(默认设置)</p>
 </li>
-<li><p>sync 资料同步写入到内存与硬盘中</p>
+<li><p>insecure: 允许客户端从大于1024的tcp/ip端口连接服务器</p>
 </li>
-<li><p>async 资料会先暂存于内存中，而非直接写入硬盘</p>
+<li><p>sync: 将数据同步写入内存缓冲区与磁盘中，效率低，但可以保证数据的一致性</p>
 </li>
-<li><p>insecure 允许从这台机器过来的非授权访问</p>
+<li><p>async: 将数据先保存在内存缓冲区中，必要时才写入磁盘</p>
+</li>
+<li><p>wdelay: 检查是否有相关的写操作，如果有则将这些写操作一起执行，这样可以提高效率(默认设置)</p>
+</li>
+<li><p>no_wdelay: 若有写操作则立即执行，应与sync配合使用</p>
+</li>
+<li><p>subtree: 若输出目录是一个子目录，则nfs服务器将检查其父目录的权限(默认设置)</p>
+</li>
+<li><p>no_subtree: 即使输出目录是一个子目录，nfs服务器也不检查其父目录的权限，这样可以提高效率</p>
 </li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">server$ sudo service nfs-kernel-server restart</div></pre></td></tr></table></figure>
@@ -374,6 +388,18 @@ Client1client$ sudo apt-get update &amp;amp;&amp;amp; apt-get install nfs-common
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># 服务端开启2049端口,防火墙允许访问</div><div class="line">server$ sudo ufw allow from 10.96.23.109 to any port nfs</div></pre></td></tr></table></figure>
 <h1 id="5-客户端创建挂载点"><a href="#5-客户端创建挂载点" class="headerlink" title="5.客户端创建挂载点"></a>5.客户端创建挂载点</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">client$ sudo mkdir -p /nfs/general</div></pre></td></tr></table></figure>
 <h1 id="6-在客户端上挂载服务端共享目录"><a href="#6-在客户端上挂载服务端共享目录" class="headerlink" title="6.在客户端上挂载服务端共享目录"></a>6.在客户端上挂载服务端共享目录</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">client$ sudo mount 10.96.23.109:/var/nfs/general /nfs/general</div></pre></td></tr></table></figure>
+<h2 id="客户端常用的指定方式"><a href="#客户端常用的指定方式" class="headerlink" title="客户端常用的指定方式"></a>客户端常用的指定方式</h2><ul>
+<li><p>指定ip地址的主机: 10.96.23.120</p>
+</li>
+<li><p>指定子网中的所有主机: 10.96.23.0/24 10.96.0.0/255.255.255.0</p>
+</li>
+<li><p>指定域名的主机: www.imooc.com</p>
+</li>
+<li><p>指定域中的所有主机: *.imooc.com</p>
+</li>
+<li><p>所有主机: *</p>
+</li>
+</ul>
 <h1 id="7-测试NFS权限"><a href="#7-测试NFS权限" class="headerlink" title="7.测试NFS权限"></a>7.测试NFS权限</h1><ul>
 <li>创建一个文件,看所属组是否和服务端当初设置的一样</li>
 </ul>
@@ -414,8 +440,8 @@ Client1client$ sudo apt-get update &amp;amp;&amp;amp; apt-get install nfs-common
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/DRBD/README/" rel="next" title="How to install DRBD & config on ubuntu">
-                <i class="fa fa-chevron-left"></i> How to install DRBD & config on ubuntu
+              <a href="/gitlab/ha/" rel="next" title="Gitlab HA">
+                <i class="fa fa-chevron-left"></i> Gitlab HA
               </a>
             
           </div>
@@ -542,7 +568,7 @@ Client1client$ sudo apt-get update &amp;amp;&amp;amp; apt-get install nfs-common
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-安装NFS"><span class="nav-number">1.</span> <span class="nav-text">1.安装NFS</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Server"><span class="nav-number">1.1.</span> <span class="nav-text">Server</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Client"><span class="nav-number">1.2.</span> <span class="nav-text">Client</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-服务端创建共享目录"><span class="nav-number">2.</span> <span class="nav-text">2.服务端创建共享目录</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-配置服务端NFS-exports"><span class="nav-number">3.</span> <span class="nav-text">3.配置服务端NFS exports</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-服务端防火墙设置"><span class="nav-number">4.</span> <span class="nav-text">4.服务端防火墙设置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-客户端创建挂载点"><span class="nav-number">5.</span> <span class="nav-text">5.客户端创建挂载点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-在客户端上挂载服务端共享目录"><span class="nav-number">6.</span> <span class="nav-text">6.在客户端上挂载服务端共享目录</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#7-测试NFS权限"><span class="nav-number">7.</span> <span class="nav-text">7.测试NFS权限</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#8-客户端开启启动-挂载远程NFS目录"><span class="nav-number">8.</span> <span class="nav-text">8.客户端开启启动,挂载远程NFS目录</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#9-卸载NFS远程共享"><span class="nav-number">9.</span> <span class="nav-text">9.卸载NFS远程共享</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-安装NFS"><span class="nav-number">1.</span> <span class="nav-text">1.安装NFS</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Server"><span class="nav-number">1.1.</span> <span class="nav-text">Server</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Client"><span class="nav-number">1.2.</span> <span class="nav-text">Client</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-服务端创建共享目录"><span class="nav-number">2.</span> <span class="nav-text">2.服务端创建共享目录</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-配置服务端NFS-exports"><span class="nav-number">3.</span> <span class="nav-text">3.配置服务端NFS exports</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#NFS主要有3类选项"><span class="nav-number">3.1.</span> <span class="nav-text">NFS主要有3类选项:</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#访问权限选项"><span class="nav-number">3.1.1.</span> <span class="nav-text">访问权限选项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用户映射选项"><span class="nav-number">3.1.2.</span> <span class="nav-text">用户映射选项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其它选项"><span class="nav-number">3.1.3.</span> <span class="nav-text">其它选项</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-服务端防火墙设置"><span class="nav-number">4.</span> <span class="nav-text">4.服务端防火墙设置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-客户端创建挂载点"><span class="nav-number">5.</span> <span class="nav-text">5.客户端创建挂载点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-在客户端上挂载服务端共享目录"><span class="nav-number">6.</span> <span class="nav-text">6.在客户端上挂载服务端共享目录</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#客户端常用的指定方式"><span class="nav-number">6.1.</span> <span class="nav-text">客户端常用的指定方式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#7-测试NFS权限"><span class="nav-number">7.</span> <span class="nav-text">7.测试NFS权限</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#8-客户端开启启动-挂载远程NFS目录"><span class="nav-number">8.</span> <span class="nav-text">8.客户端开启启动,挂载远程NFS目录</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#9-卸载NFS远程共享"><span class="nav-number">9.</span> <span class="nav-text">9.卸载NFS远程共享</span></a></li></ol></div>
             
           </div>
         </section>
