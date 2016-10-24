@@ -323,6 +323,15 @@
 
           
           
+             <span id="/gitlab/NFS/" class="leancloud_visitors" data-flag-title="NFS config & mount">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">visitors </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
 
           
         </div>
@@ -343,133 +352,6 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># 修改目录所属组</div><div class="line">server$ sudo chown nobody:nogroup /var/nfs/general -R</div></pre></td></tr></table></figure>
           <div class="post-more-link text-center">
             <a class="btn" href="/gitlab/NFS/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/gitlab/ha/" itemprop="url">
-                  Gitlab HA
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-09-15T15:59:04+08:00" content="2016-09-15">
-              2016-09-15
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/gitlab/" itemprop="url" rel="index">
-                    <span itemprop="name">gitlab</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/gitlab/ha/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="gitlab/ha/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="GitLab-高可用"><a href="#GitLab-高可用" class="headerlink" title="GitLab 高可用"></a>GitLab 高可用</h1><p>GitLab支持几种不同的高可用和集群类型.方案的选择将基于业务的可扩展性和可用性,最简单的解决方案应该是可扩展的.</p>
-<h2 id="方案一-一主一备"><a href="#方案一-一主一备" class="headerlink" title="方案一(一主一备)"></a>方案一(一主一备)</h2><p><img src="https://docs.gitlab.com/ce/administration/img/high_availability/active-passive-diagram.png" alt="一主一备配置"></p>
-<p>利用DRBD(分布式快设备)保持数据同步,DRBD需要一个低延迟的链接保持同步</p>
-<h2 id="方案二-双主"><a href="#方案二-双主" class="headerlink" title="方案二(双主)"></a>方案二(双主)</h2><p><img src="https://docs.gitlab.com/ce/administration/img/high_availability/active-active-diagram.png" alt="双主配置"><br>优点:可以很容易扩展,通过NFS进行集群,每一个应用都单独部署</p>
-<h3 id="以下针对方案二进行详细配置"><a href="#以下针对方案二进行详细配置" class="headerlink" title="以下针对方案二进行详细配置"></a>以下针对方案二进行详细配置</h3><ol>
-<li>分别在每一台GitLab application server安装NFS client
-          <div class="post-more-link text-center">
-            <a class="btn" href="/gitlab/ha/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -575,6 +457,15 @@
 
           
           
+             <span id="/gitlab/postgresql/" class="leancloud_visitors" data-flag-title="pgsql basic usage">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">visitors </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
 
           
         </div>
@@ -593,6 +484,142 @@
 <h2 id="命令行登陆数据库"><a href="#命令行登陆数据库" class="headerlink" title="命令行登陆数据库"></a>命令行登陆数据库</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">psql -U gitlab -d gitlabhq_production -h 10.96.23.104</div></pre></td></tr></table></figure>
           <div class="post-more-link text-center">
             <a class="btn" href="/gitlab/postgresql/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/gitlab/ha/" itemprop="url">
+                  Gitlab HA
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-09-15T15:59:04+08:00" content="2016-09-15">
+              2016-09-15
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/gitlab/" itemprop="url" rel="index">
+                    <span itemprop="name">gitlab</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/gitlab/ha/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="gitlab/ha/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/gitlab/ha/" class="leancloud_visitors" data-flag-title="Gitlab HA">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">visitors </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="GitLab-高可用"><a href="#GitLab-高可用" class="headerlink" title="GitLab 高可用"></a>GitLab 高可用</h1><p>GitLab支持几种不同的高可用和集群类型.方案的选择将基于业务的可扩展性和可用性,最简单的解决方案应该是可扩展的.</p>
+<h2 id="方案一-一主一备"><a href="#方案一-一主一备" class="headerlink" title="方案一(一主一备)"></a>方案一(一主一备)</h2><p><img src="https://docs.gitlab.com/ce/administration/img/high_availability/active-passive-diagram.png" alt="一主一备配置"></p>
+<p>利用DRBD(分布式快设备)保持数据同步,DRBD需要一个低延迟的链接保持同步</p>
+<h2 id="方案二-双主"><a href="#方案二-双主" class="headerlink" title="方案二(双主)"></a>方案二(双主)</h2><p><img src="https://docs.gitlab.com/ce/administration/img/high_availability/active-active-diagram.png" alt="双主配置"><br>优点:可以很容易扩展,通过NFS进行集群,每一个应用都单独部署</p>
+<h3 id="以下针对方案二进行详细配置"><a href="#以下针对方案二进行详细配置" class="headerlink" title="以下针对方案二进行详细配置"></a>以下针对方案二进行详细配置</h3><ol>
+<li>分别在每一台GitLab application server安装NFS client
+          <div class="post-more-link text-center">
+            <a class="btn" href="/gitlab/ha/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -846,6 +873,113 @@
   
 
   
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("gg4V2cN69UAJQ53rO4JwVmaL-gzGzoHsz", "uYSk8wzlMAMgisyaGCA2yWFq");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
 
   
 
