@@ -1,0 +1,606 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="pgsql," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="postgresql 使用123456789101112131415161718192021cd /var/opt/gitlab/postgresql/datavim pg_hba.confhost all all 0.0.0.0/0 md5  #0.0.0.0为地址段,0为多少二进制位host    all    all  10.96.23.0/24  trust    添加这行:10.96.2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="pgsql basic usage">
+<meta property="og:url" content="http://yoursite.com/2016/09/15/gitlab/postgresql/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="postgresql 使用123456789101112131415161718192021cd /var/opt/gitlab/postgresql/datavim pg_hba.confhost all all 0.0.0.0/0 md5  #0.0.0.0为地址段,0为多少二进制位host    all    all  10.96.23.0/24  trust    添加这行:10.96.2">
+<meta property="og:updated_time" content="2016-10-18T07:16:21.125Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="pgsql basic usage">
+<meta name="twitter:description" content="postgresql 使用123456789101112131415161718192021cd /var/opt/gitlab/postgresql/datavim pg_hba.confhost all all 0.0.0.0/0 md5  #0.0.0.0为地址段,0为多少二进制位host    all    all  10.96.23.0/24  trust    添加这行:10.96.2">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/09/15/gitlab/postgresql/"/>
+
+
+  <title> pgsql basic usage | Hexo </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Hexo</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Startseite
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archiv
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                pgsql basic usage
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Veröffentlicht am</span>
+            <time itemprop="dateCreated" datetime="2016-09-15T15:59:04+08:00" content="2016-09-15">
+              2016-09-15
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">in</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/gitlab/" itemprop="url" rel="index">
+                    <span itemprop="name">gitlab</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="postgresql-使用"><a href="#postgresql-使用" class="headerlink" title="postgresql 使用"></a>postgresql 使用</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">cd /var/opt/gitlab/postgresql/data</div><div class="line"></div><div class="line">vim pg_hba.conf</div><div class="line"></div><div class="line">host all all 0.0.0.0/0 md5  #0.0.0.0为地址段,0为多少二进制位</div><div class="line"></div><div class="line">host    all    all  10.96.23.0/24  trust    添加这行:10.96.23.0/24这个段的ip地址不需要密码可以连接</div><div class="line">host    all    all  10.96.23.0/24  md5      添加这行:10.96.23.0/24这个段的ip链接需要密码</div><div class="line"></div><div class="line">vim postgresql.conf</div><div class="line"></div><div class="line">listen_addresses = &apos;10.96.23.104&apos;      修改监听地址为ip</div><div class="line"></div><div class="line">gitlab-ctl restart postgresql</div><div class="line"></div><div class="line">cd /opt/gitlab/embedded/</div><div class="line"></div><div class="line">bin/psql -U gitlab -d gitlabhq_production -h 10.96.23.102             不用输入密码就可进来</div><div class="line"></div><div class="line">psql (9.2.18)</div><div class="line">Type &quot;help&quot; for help.</div></pre></td></tr></table></figure>
+<h2 id="命令行登陆数据库"><a href="#命令行登陆数据库" class="headerlink" title="命令行登陆数据库"></a>命令行登陆数据库</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">psql -U gitlab -d gitlabhq_production -h 10.96.23.104</div></pre></td></tr></table></figure>
+<a id="more"></a>
+<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><p>1.列出所有的数据库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql:show databases</div><div class="line">psql:\l或list</div></pre></td></tr></table></figure>
+<p>2.切换数据库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql: use dbname</div><div class="line">psql: \c dbname</div></pre></td></tr></table></figure>
+<p>3.列出当前数据库下的数据表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql: show tables</div><div class="line">psql: \d</div></pre></td></tr></table></figure>
+<p>4.列出指定表的所有字段</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql: show columns from table name</div><div class="line">psql: \d tablename</div></pre></td></tr></table></figure>
+<p>5.查看指定表的基本情况</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql: describe tablename</div><div class="line">psql: \d+ tablename</div></pre></td></tr></table></figure>
+<p>6.删除数据库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"># 删除数据库,首先需要切到postgres用户</div><div class="line">sudo-u postgres psql postgres</div><div class="line"></div><div class="line">dropdb &lt;database-name&gt;</div></pre></td></tr></table></figure>
+<p>7.删除用户</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dropuser &lt;user-name&gt;</div></pre></td></tr></table></figure>
+<p>8.退出登录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mysql: quit 或者\q</div><div class="line">psql:\q</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">sudo su postgres #切换至postgres</div><div class="line"></div><div class="line">psql postgres #登入默认数据库</div><div class="line"></div><div class="line">以上可以合并成一条命令：sudo -u postgres psql postgres</div><div class="line"></div><div class="line">\password postgres #给postgres用户设置密码</div></pre></td></tr></table></figure>
+<h2 id="新建gitlab用户和gitlabhq-production数据库"><a href="#新建gitlab用户和gitlabhq-production数据库" class="headerlink" title="新建gitlab用户和gitlabhq_production数据库"></a>新建gitlab用户和gitlabhq_production数据库</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div></pre></td><td class="code"><pre><div class="line">postgres@oceanwen:/home/oceanwen$ psql postgres</div><div class="line">psql (9.5.4)</div><div class="line">Type &quot;help&quot; for help.</div><div class="line"></div><div class="line">postgres=#</div><div class="line">postgres=#</div><div class="line">postgres=#</div><div class="line">postgres=# \l</div><div class="line">                                  List of databases</div><div class="line">   Name    |  Owner   | Encoding |   Collate   |    Ctype    |   Access privileges</div><div class="line">-----------+----------+----------+-------------+-------------+-----------------------</div><div class="line"> postgres  | postgres | UTF8     | en_US.UTF-8 | en_US.UTF-8 |</div><div class="line"> template0 | postgres | UTF8     | en_US.UTF-8 | en_US.UTF-8 | =c/postgres          +</div><div class="line">           |          |          |             |             | postgres=CTc/postgres</div><div class="line"> template1 | postgres | UTF8     | en_US.UTF-8 | en_US.UTF-8 | =c/postgres          +</div><div class="line">           |          |          |             |             | postgres=CTc/postgres</div><div class="line">(3 rows)</div><div class="line"></div><div class="line">postgres=# \password postgres</div><div class="line">Enter new password:</div><div class="line">Enter it again:</div><div class="line">postgres=# \q</div><div class="line">postgres@oceanwen:/home/oceanwen$ createuser --help</div><div class="line">createuser creates a new PostgreSQL role.</div><div class="line"></div><div class="line">Usage:</div><div class="line">  createuser [OPTION]... [ROLENAME]</div><div class="line"></div><div class="line">Options:</div><div class="line">  -c, --connection-limit=N  connection limit for role (default: no limit)</div><div class="line">  -d, --createdb            role can create new databases</div><div class="line">  -D, --no-createdb         role cannot create databases (default)</div><div class="line">  -e, --echo                show the commands being sent to the server</div><div class="line">  -E, --encrypted           encrypt stored password</div><div class="line">  -g, --role=ROLE           new role will be a member of this role</div><div class="line">  -i, --inherit             role inherits privileges of roles it is a</div><div class="line">                            member of (default)</div><div class="line">  -I, --no-inherit          role does not inherit privileges</div><div class="line">  -l, --login               role can login (default)</div><div class="line">  -L, --no-login            role cannot login</div><div class="line">  -N, --unencrypted         do not encrypt stored password</div><div class="line">  -P, --pwprompt            assign a password to new role</div><div class="line">  -r, --createrole          role can create new roles</div><div class="line">  -R, --no-createrole       role cannot create roles (default)</div><div class="line">  -s, --superuser           role will be superuser</div><div class="line">  -S, --no-superuser        role will not be superuser (default)</div><div class="line">  -V, --version             output version information, then exit</div><div class="line">  --interactive             prompt for missing role name and attributes rather</div><div class="line">                            than using defaults</div><div class="line">  --replication             role can initiate replication</div><div class="line">  --no-replication          role cannot initiate replication</div><div class="line">  -?, --help                show this help, then exit</div><div class="line"></div><div class="line">Connection options:</div><div class="line">  -h, --host=HOSTNAME       database server host or socket directory</div><div class="line">  -p, --port=PORT           database server port</div><div class="line">  -U, --username=USERNAME   user name to connect as (not the one to create)</div><div class="line">  -w, --no-password         never prompt for password</div><div class="line">  -W, --password            force password prompt</div><div class="line"></div><div class="line">Report bugs to &lt;pgsql-bugs@postgresql.org&gt;.</div><div class="line">postgres@oceanwen:/home/oceanwen$ createuser -drSP gitlab</div><div class="line">Enter password for new role:</div><div class="line">Enter it again:</div><div class="line">postgres@oceanwen:/home/oceanwen$ createdb --help</div><div class="line">createdb creates a PostgreSQL database.</div><div class="line"></div><div class="line">Usage:</div><div class="line">  createdb [OPTION]... [DBNAME] [DESCRIPTION]</div><div class="line"></div><div class="line">Options:</div><div class="line">  -D, --tablespace=TABLESPACE  default tablespace for the database</div><div class="line">  -e, --echo                   show the commands being sent to the server</div><div class="line">  -E, --encoding=ENCODING      encoding for the database</div><div class="line">  -l, --locale=LOCALE          locale settings for the database</div><div class="line">      --lc-collate=LOCALE      LC_COLLATE setting for the database</div><div class="line">      --lc-ctype=LOCALE        LC_CTYPE setting for the database</div><div class="line">  -O, --owner=OWNER            database user to own the new database</div><div class="line">  -T, --template=TEMPLATE      template database to copy</div><div class="line">  -V, --version                output version information, then exit</div><div class="line">  -?, --help                   show this help, then exit</div><div class="line"></div><div class="line">Connection options:</div><div class="line">  -h, --host=HOSTNAME          database server host or socket directory</div><div class="line">  -p, --port=PORT              database server port</div><div class="line">  -U, --username=USERNAME      user name to connect as</div><div class="line">  -w, --no-password            never prompt for password</div><div class="line">  -W, --password               force password prompt</div><div class="line">  --maintenance-db=DBNAME      alternate maintenance database</div><div class="line"></div><div class="line">By default, a database with the same name as the current user is created.</div><div class="line"></div><div class="line">Report bugs to &lt;pgsql-bugs@postgresql.org&gt;.</div><div class="line">postgres@oceanwen:/home/oceanwen$ createdb -O gitlab gitlabhq_production</div><div class="line">postgres@oceanwen:/home/oceanwen$</div><div class="line"></div><div class="line">postgres@oceanwen:/home/oceanwen$ dropuser gitlab</div><div class="line">dropuser: removal of role &quot;gitlab&quot; failed: ERROR:  role &quot;gitlab&quot; cannot be dropped because some objects depend on it</div><div class="line">DETAIL:  owner of database gitlabhq_production</div><div class="line"></div><div class="line">postgres@oceanwen:/home/oceanwen$ dropdb gitlabhq_production</div><div class="line">dropdb: database removal failed: ERROR:  database &quot;gitlabhq_production&quot; is being accessed by other users</div><div class="line">DETAIL:  There are 4 other sessions using the database.</div><div class="line"></div><div class="line">postgres@oceanwen:/home/oceanwen$ dropdb gitlabhq_production</div><div class="line">dropdb: database removal failed: ERROR:  database &quot;gitlabhq_production&quot; is being accessed by other users</div><div class="line">DETAIL:  There are 3 other sessions using the database.</div><div class="line"></div><div class="line">postgres@oceanwen:/home/oceanwen$ dropuser gitlab</div><div class="line">dropuser: removal of role &quot;gitlab&quot; failed: ERROR:  role &quot;gitlab&quot; cannot be dropped because some objects depend on it</div><div class="line">DETAIL:  owner of database gitlabhq_production</div><div class="line"></div><div class="line">postgres@oceanwen:/home/oceanwen$ dropuser gitlab</div><div class="line">dropuser: could not connect to database postgres: could not connect to server: No such file or directory</div><div class="line">    Is the server running locally and accepting</div><div class="line">    connections on Unix domain socket &quot;/var/run/postgresql/.s.PGSQL.5432&quot;?</div><div class="line"></div><div class="line">postgres@oceanwen:/home/oceanwen$ dropuser gitlab</div><div class="line">dropuser: removal of role &quot;gitlab&quot; failed: ERROR:  role &quot;gitlab&quot; cannot be dropped because some objects depend on it</div><div class="line">DETAIL:  owner of database gitlabhq_production</div><div class="line"></div><div class="line">postgres@oceanwen:/home/oceanwen$ dropdb gitlabhq_production</div><div class="line">dropdb: database removal failed: ERROR:  database &quot;gitlabhq_production&quot; is being accessed by other users</div><div class="line">DETAIL:  There is 1 other session using the database.</div><div class="line"></div><div class="line">postgres@oceanwen:/home/oceanwen$ dropdb gitlabhq_production</div><div class="line">dropdb: database removal failed: ERROR:  database &quot;gitlabhq_production&quot; is being accessed by other users</div><div class="line">DETAIL:  There is 1 other session using the database.</div><div class="line"></div><div class="line">postgres@oceanwen:/home/oceanwen$ dropdb gitlabhq_production</div><div class="line">postgres@oceanwen:/home/oceanwen$ dropuser gitlab</div><div class="line">postgres@oceanwen:/home/oceanwen$</div></pre></td></tr></table></figure>
+<p><code>PS:(这里是因为我在别的远程主机里面有登陆,退出,sudo service postgresql restart就好了)</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">================================================================================</div><div class="line">Error executing action `run` on resource &apos;bash[migrate gitlab-rails database]&apos;</div><div class="line">================================================================================</div><div class="line"></div><div class="line">Mixlib::ShellOut::ShellCommandFailed</div><div class="line">------------------------------------</div><div class="line">Expected process to exit with [0], but received &apos;1&apos;</div><div class="line">---- Begin output of &quot;bash&quot;  &quot;/tmp/chef-script20160929-2371-1rdy2fm&quot; ----</div><div class="line">STDOUT: rake aborted!</div><div class="line">ActiveRecord::StatementInvalid: PG::InsufficientPrivilege: ERROR:  permission denied to create extension &quot;pg_trgm&quot;</div><div class="line">HINT:  Must be superuser to create this extension.</div><div class="line">: CREATE EXTENSION IF NOT EXISTS &quot;pg_trgm&quot;</div></pre></td></tr></table></figure>
+<p><code>PS:(createuser 的时候指定 -s,赋予超级权限即可)</code></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/pgsql/" rel="tag">#pgsql</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/09/15/gitlab/ha/" rel="prev" title="Gitlab HA">
+                Gitlab HA <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Inhaltsverzeichnis
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Übersicht
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="John Doe" />
+          <p class="site-author-name" itemprop="name">John Doe</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-name">Artikel</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">Kategorien</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">Tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#postgresql-使用"><span class="nav-number">1.</span> <span class="nav-text">postgresql 使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#命令行登陆数据库"><span class="nav-number">1.1.</span> <span class="nav-text">命令行登陆数据库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常用命令"><span class="nav-number">1.2.</span> <span class="nav-text">常用命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#新建gitlab用户和gitlabhq-production数据库"><span class="nav-number">1.3.</span> <span class="nav-text">新建gitlab用户和gitlabhq_production数据库</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+
+<div class="powered-by">
+  Erstellt mit  <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Muse
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
