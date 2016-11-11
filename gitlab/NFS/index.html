@@ -1,0 +1,896 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="NFS," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="1.安装NFSServer1server$ sudo apt-get update &amp;amp;&amp;amp; apt-get install nfs-kernel-server
+Client1client$ sudo apt-get update &amp;amp;&amp;amp; apt-get install nfs-common
+2.服务端创建共享目录1server$ sudo mkdir /var/nfs/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NFS config & mount">
+<meta property="og:url" content="https://svolence.github.io/gitlab/NFS/index.html">
+<meta property="og:site_name" content="Svolence's Blog">
+<meta property="og:description" content="1.安装NFSServer1server$ sudo apt-get update &amp;amp;&amp;amp; apt-get install nfs-kernel-server
+Client1client$ sudo apt-get update &amp;amp;&amp;amp; apt-get install nfs-common
+2.服务端创建共享目录1server$ sudo mkdir /var/nfs/">
+<meta property="og:updated_time" content="2016-10-20T05:26:53.704Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="NFS config & mount">
+<meta name="twitter:description" content="1.安装NFSServer1server$ sudo apt-get update &amp;amp;&amp;amp; apt-get install nfs-kernel-server
+Client1client$ sudo apt-get update &amp;amp;&amp;amp; apt-get install nfs-common
+2.服务端创建共享目录1server$ sudo mkdir /var/nfs/">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '6342375249689970000',
+      author: 'Svolence'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://svolence.github.io/gitlab/NFS/"/>
+
+
+
+
+
+  <title> NFS config & mount | Svolence's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Svolence's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://svolence.github.io/gitlab/NFS/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Svolence">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Svolence's Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Svolence's Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                NFS config & mount
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-09-18T17:09:04+08:00">
+              2016-09-18
+            </time>
+
+            &nbsp;|&nbsp;
+
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-check-o"></i>
+            </span>
+            <time title="Post modified" itemprop="dateModified" datetime="2016-10-20T13:26:53+08:00">
+              2016-10-20
+            </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/gitlab/" itemprop="url" rel="index">
+                    <span itemprop="name">gitlab</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/gitlab/NFS/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="gitlab/NFS/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/gitlab/NFS/" class="leancloud_visitors" data-flag-title="NFS config & mount">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">Visitors </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="1-安装NFS"><a href="#1-安装NFS" class="headerlink" title="1.安装NFS"></a>1.安装NFS</h1><h2 id="Server"><a href="#Server" class="headerlink" title="Server"></a>Server</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">server$ sudo apt-get update &amp;&amp; apt-get install nfs-kernel-server</div></pre></td></tr></table></figure>
+<h2 id="Client"><a href="#Client" class="headerlink" title="Client"></a>Client</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">client$ sudo apt-get update &amp;&amp; apt-get install nfs-common</div></pre></td></tr></table></figure>
+<h1 id="2-服务端创建共享目录"><a href="#2-服务端创建共享目录" class="headerlink" title="2.服务端创建共享目录"></a>2.服务端创建共享目录</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">server$ sudo mkdir /var/nfs/general -p</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># 修改目录所属组</div><div class="line">server$ sudo chown nobody:nogroup /var/nfs/general -R</div></pre></td></tr></table></figure>
+<a id="more"></a>
+<h1 id="3-配置服务端NFS-exports"><a href="#3-配置服务端NFS-exports" class="headerlink" title="3.配置服务端NFS exports"></a>3.配置服务端NFS exports</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">server$ sudo vim /etc/exports</div><div class="line">directory_to_share    client(share_option1,...,share_optionN)</div><div class="line"></div><div class="line">eg:</div><div class="line">/var/nfs/general    10.96.23.109(rw,sync,no_subtree_check)</div><div class="line">/var/nfs/general    10.96.23.0/24(rw,sync,no_subtree_check) # 同一网段</div><div class="line">/home               10.96.23.109(rw,sync,no_root_squash,no_subtree_check)</div></pre></td></tr></table></figure>
+<h2 id="NFS主要有3类选项"><a href="#NFS主要有3类选项" class="headerlink" title="NFS主要有3类选项:"></a>NFS主要有3类选项:</h2><h3 id="访问权限选项"><a href="#访问权限选项" class="headerlink" title="访问权限选项"></a>访问权限选项</h3><ul>
+<li>设置输出目录只读: ro</li>
+<li>设置输出目录读写: rw</li>
+</ul>
+<h3 id="用户映射选项"><a href="#用户映射选项" class="headerlink" title="用户映射选项"></a>用户映射选项</h3><ul>
+<li><p>all_squash: 将远程访问的所有普通用户及所属组都映射为匿名用户或用户组(nfsnobody)</p>
+</li>
+<li><p>no_all_squash: 与all_squash取反(默认设置)</p>
+</li>
+<li><p>root_squash: 将root用户及所属组都映射为匿名用户或用户组(默认设置)</p>
+</li>
+<li><p>no_root_squash: 与rootsquash取反</p>
+</li>
+<li><p>anonuid=xxx: 将远程访问的所有用户都映射为匿名用户，并指定该用户为本地用户(UID=xxx)</p>
+</li>
+<li><p>anongid=xxx: 将远程访问的所有用户组都映射为匿名用户组账户，并指定该匿名用户组账户为本地用户组账户(GID=xxx)</p>
+</li>
+</ul>
+<h3 id="其它选项"><a href="#其它选项" class="headerlink" title="其它选项"></a>其它选项</h3><ul>
+<li><p>secure: 限制客户端只能从小于1024的tcp/ip端口连接nfs服务器(默认设置)</p>
+</li>
+<li><p>insecure: 允许客户端从大于1024的tcp/ip端口连接服务器</p>
+</li>
+<li><p>sync: 将数据同步写入内存缓冲区与磁盘中，效率低，但可以保证数据的一致性</p>
+</li>
+<li><p>async: 将数据先保存在内存缓冲区中，必要时才写入磁盘</p>
+</li>
+<li><p>wdelay: 检查是否有相关的写操作，如果有则将这些写操作一起执行，这样可以提高效率(默认设置)</p>
+</li>
+<li><p>no_wdelay: 若有写操作则立即执行，应与sync配合使用</p>
+</li>
+<li><p>subtree: 若输出目录是一个子目录，则nfs服务器将检查其父目录的权限(默认设置)</p>
+</li>
+<li><p>no_subtree: 即使输出目录是一个子目录，nfs服务器也不检查其父目录的权限，这样可以提高效率</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">server$ sudo service nfs-kernel-server restart</div></pre></td></tr></table></figure>
+<h1 id="4-服务端防火墙设置"><a href="#4-服务端防火墙设置" class="headerlink" title="4.服务端防火墙设置"></a>4.服务端防火墙设置</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># 查看防火墙状态</div><div class="line">server$ sudo ufw status</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># 服务端开启2049端口,防火墙允许访问</div><div class="line">server$ sudo ufw allow from 10.96.23.109 to any port nfs</div></pre></td></tr></table></figure>
+<h1 id="5-客户端创建挂载点"><a href="#5-客户端创建挂载点" class="headerlink" title="5.客户端创建挂载点"></a>5.客户端创建挂载点</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">client$ sudo mkdir -p /nfs/general</div></pre></td></tr></table></figure>
+<h1 id="6-在客户端上挂载服务端共享目录"><a href="#6-在客户端上挂载服务端共享目录" class="headerlink" title="6.在客户端上挂载服务端共享目录"></a>6.在客户端上挂载服务端共享目录</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">client$ sudo mount 10.96.23.109:/var/nfs/general /nfs/general</div></pre></td></tr></table></figure>
+<h2 id="客户端常用的指定方式"><a href="#客户端常用的指定方式" class="headerlink" title="客户端常用的指定方式"></a>客户端常用的指定方式</h2><ul>
+<li><p>指定ip地址的主机: 10.96.23.120</p>
+</li>
+<li><p>指定子网中的所有主机: 10.96.23.0/24 10.96.0.0/255.255.255.0</p>
+</li>
+<li><p>指定域名的主机: www.imooc.com</p>
+</li>
+<li><p>指定域中的所有主机: *.imooc.com</p>
+</li>
+<li><p>所有主机: *</p>
+</li>
+</ul>
+<h1 id="7-测试NFS权限"><a href="#7-测试NFS权限" class="headerlink" title="7.测试NFS权限"></a>7.测试NFS权限</h1><ul>
+<li>创建一个文件,看所属组是否和服务端当初设置的一样</li>
+</ul>
+<h1 id="8-客户端开启启动-挂载远程NFS目录"><a href="#8-客户端开启启动-挂载远程NFS目录" class="headerlink" title="8.客户端开启启动,挂载远程NFS目录"></a>8.客户端开启启动,挂载远程NFS目录</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">server$ sudo vim /etc/fstab</div><div class="line"></div><div class="line">eg:</div><div class="line">10.96.23.109:/var/nfs/general    /nfs/general   nfs auto,nofail,noatime,nolock,intr,tcp,actimeo=1800 0 0</div><div class="line">10.96.23.109:/home              /nfs/home       nfs auto,nofail,noatime,nolock,intr,tcp,actimeo=1800 0 0</div></pre></td></tr></table></figure>
+<h1 id="9-卸载NFS远程共享"><a href="#9-卸载NFS远程共享" class="headerlink" title="9.卸载NFS远程共享"></a>9.卸载NFS远程共享</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">client$ sudo umount /nfs/home</div><div class="line">client$ sudo umount /nfs/general</div></pre></td></tr></table></figure>
+<p>参考链接:</p>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Network_File_System" target="_blank" rel="external">https://en.wikipedia.org/wiki/Network_File_System</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/NFS/" rel="tag"># NFS</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/gitlab/ha/" rel="next" title="Gitlab HA">
+                <i class="fa fa-chevron-left"></i> Gitlab HA
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/gitlab/question/" rel="prev" title="gitlab Troubleshoting">
+                gitlab Troubleshoting <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="gitlab/NFS/"
+           data-title="NFS config & mount" data-url="https://svolence.github.io/gitlab/NFS/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Svolence" />
+          <p class="site-author-name" itemprop="name">Svolence</p>
+          <p class="site-description motion-element" itemprop="description">Talk is cheap, show me the code!!!</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-安装NFS"><span class="nav-number">1.</span> <span class="nav-text">1.安装NFS</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Server"><span class="nav-number">1.1.</span> <span class="nav-text">Server</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Client"><span class="nav-number">1.2.</span> <span class="nav-text">Client</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-服务端创建共享目录"><span class="nav-number">2.</span> <span class="nav-text">2.服务端创建共享目录</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-配置服务端NFS-exports"><span class="nav-number">3.</span> <span class="nav-text">3.配置服务端NFS exports</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#NFS主要有3类选项"><span class="nav-number">3.1.</span> <span class="nav-text">NFS主要有3类选项:</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#访问权限选项"><span class="nav-number">3.1.1.</span> <span class="nav-text">访问权限选项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用户映射选项"><span class="nav-number">3.1.2.</span> <span class="nav-text">用户映射选项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其它选项"><span class="nav-number">3.1.3.</span> <span class="nav-text">其它选项</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-服务端防火墙设置"><span class="nav-number">4.</span> <span class="nav-text">4.服务端防火墙设置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-客户端创建挂载点"><span class="nav-number">5.</span> <span class="nav-text">5.客户端创建挂载点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-在客户端上挂载服务端共享目录"><span class="nav-number">6.</span> <span class="nav-text">6.在客户端上挂载服务端共享目录</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#客户端常用的指定方式"><span class="nav-number">6.1.</span> <span class="nav-text">客户端常用的指定方式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#7-测试NFS权限"><span class="nav-number">7.</span> <span class="nav-text">7.测试NFS权限</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#8-客户端开启启动-挂载远程NFS目录"><span class="nav-number">8.</span> <span class="nav-text">8.客户端开启启动,挂载远程NFS目录</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#9-卸载NFS远程共享"><span class="nav-number">9.</span> <span class="nav-text">9.卸载NFS远程共享</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Svolence</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"svolence"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("gg4V2cN69UAJQ53rO4JwVmaL-gzGzoHsz", "uYSk8wzlMAMgisyaGCA2yWFq");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+</body>
+</html>
