@@ -1,0 +1,906 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="lsyncd," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="lsyncd 安装1234#env ubuntu16.10sudo apt-get updatesudo apt-get install lsyncd
+lsyncd config demo123456789101112131415161718192021ls /usr/share/doc/lsyncd/exampleslbash.lua  lecho.lua  lgforce.lua  limag">
+<meta property="og:type" content="article">
+<meta property="og:title" content="lsyncd in ubuntu">
+<meta property="og:url" content="https://svolence.github.io/linux/lsyncd-in-ubuntu/index.html">
+<meta property="og:site_name" content="Svolence's Blog">
+<meta property="og:description" content="lsyncd 安装1234#env ubuntu16.10sudo apt-get updatesudo apt-get install lsyncd
+lsyncd config demo123456789101112131415161718192021ls /usr/share/doc/lsyncd/exampleslbash.lua  lecho.lua  lgforce.lua  limag">
+<meta property="og:updated_time" content="2016-11-15T06:48:59.311Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="lsyncd in ubuntu">
+<meta name="twitter:description" content="lsyncd 安装1234#env ubuntu16.10sudo apt-get updatesudo apt-get install lsyncd
+lsyncd config demo123456789101112131415161718192021ls /usr/share/doc/lsyncd/exampleslbash.lua  lecho.lua  lgforce.lua  limag">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '6342375249689970000',
+      author: 'Svolence'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://svolence.github.io/linux/lsyncd-in-ubuntu/"/>
+
+
+
+
+
+  <title> lsyncd in ubuntu | Svolence's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Svolence's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://svolence.github.io/linux/lsyncd-in-ubuntu/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Svolence">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Svolence's Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Svolence's Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                lsyncd in ubuntu
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-11-14T11:25:34+08:00">
+              2016-11-14
+            </time>
+
+            &nbsp;|&nbsp;
+
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-check-o"></i>
+            </span>
+            <time title="Post modified" itemprop="dateModified" datetime="2016-11-15T14:48:59+08:00">
+              2016-11-15
+            </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/lsyncd/" itemprop="url" rel="index">
+                    <span itemprop="name">lsyncd</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/linux/lsyncd-in-ubuntu/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="linux/lsyncd-in-ubuntu/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/linux/lsyncd-in-ubuntu/" class="leancloud_visitors" data-flag-title="lsyncd in ubuntu">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">Visitors </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="lsyncd-安装"><a href="#lsyncd-安装" class="headerlink" title="lsyncd 安装"></a>lsyncd 安装</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#env ubuntu16.10</span></div><div class="line"></div><div class="line">sudo apt-get update</div><div class="line">sudo apt-get install lsyncd</div></pre></td></tr></table></figure>
+<h2 id="lsyncd-config-demo"><a href="#lsyncd-config-demo" class="headerlink" title="lsyncd config demo"></a>lsyncd config demo</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">ls /usr/share/doc/lsyncd/examples</div><div class="line"></div><div class="line">lbash.lua  lecho.lua  lgforce.lua  limagemagic.lua  lpostcmd.lua  lrsync.lua  lrsyncssh.lua</div><div class="line"></div><div class="line">vim lrsync.lua</div><div class="line"></div><div class="line">----</div><div class="line">-- User configuration file <span class="keyword">for</span> lsyncd.</div><div class="line">--</div><div class="line">-- Simple example <span class="keyword">for</span> default rsync.</div><div class="line">--</div><div class="line">settings = &#123;</div><div class="line">        statusFile = <span class="string">"/tmp/lsyncd.stat"</span>,</div><div class="line">        statusInterval = 1,</div><div class="line">&#125;</div><div class="line"></div><div class="line">sync&#123;</div><div class="line">        default.rsync,</div><div class="line">        <span class="built_in">source</span>=<span class="string">"src"</span>,</div><div class="line">        target=<span class="string">"trg"</span>,</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="config"><a href="#config" class="headerlink" title="config"></a>config</h2><ul>
+<li><p>本地创建要复制的目录文件夹</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo mkdir -p /origin</div><div class="line">sudo mkdir /dest</div></pre></td></tr></table></figure>
+</li>
+<li><p>创建测试文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> /origin</div><div class="line">sudo touch file&#123;1..100&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>创建lsyncd日至文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo mkdir /var/<span class="built_in">log</span>/lsyncd</div><div class="line">touch /var/<span class="built_in">log</span>/lsyncd/lsyncd.&#123;<span class="built_in">log</span>,status&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>创建lsyncd配置文件目录</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">sudo mkdir /etc/lsyncd</div><div class="line"></div><div class="line">sudo vim /etc/lsyncd/lsyncd.conf.lua</div><div class="line"></div><div class="line">settings = &#123;</div><div class="line">	logfile = <span class="string">"/var/log/lsyncd/lsyncd.log"</span>,</div><div class="line">	statusFile = <span class="string">"/var/log/lsyncd/lsyncd.status"</span>,</div><div class="line">    inotifyMode  = <span class="string">"CloseWrite"</span>,</div><div class="line">    maxProcesses = 7,</div><div class="line">    -- nodaemon = <span class="literal">true</span>,</div><div class="line">&#125;</div><div class="line"></div><div class="line">sync &#123;</div><div class="line">	default.rsync,</div><div class="line">	<span class="built_in">source</span> = <span class="string">"/origin"</span>,</div><div class="line">	target = <span class="string">"/dest"</span></div><div class="line"></div><div class="line">    rsync     = &#123;</div><div class="line">        binary    = <span class="string">"/usr/bin/rsync"</span>,</div><div class="line">        archive   = <span class="literal">true</span>,</div><div class="line">        compress  = <span class="literal">true</span>,</div><div class="line">        verbose   = <span class="literal">true</span></div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="配置选项说明"><a href="#配置选项说明" class="headerlink" title="配置选项说明"></a>配置选项说明</h2><h3 id="settings"><a href="#settings" class="headerlink" title="settings"></a>settings</h3><p><code>settings</code>:里面是全局设置，–开头表示注释,下面是常用选项说明:</p>
+<ul>
+<li><p><code>logfile</code> 定义日志文件</p>
+</li>
+<li><p><code>stausFile</code> 定义状态文件</p>
+</li>
+<li><p><code>nodaemon=true</code> 表示不启用守护模式，默认</p>
+</li>
+<li><p><code>statusInterval</code> 将lsyncd的状态写入上面的statusFile的间隔，默认10秒</p>
+</li>
+<li><p><code>inotifyMode</code> 指定inotify监控的事件，默认是CloseWrite，还可以是Modify或CloseWrite or Modify</p>
+</li>
+<li><p><code>maxProcesses</code> 同步进程的最大个数。假如同时有20个文件需要同步，而maxProcesses = 8，则最大能看到有8个rysnc进程</p>
+</li>
+<li><p><code>maxDelays</code> 累计到多少所监控的事件激活一次同步，即使后面的delay延迟时间还未到</p>
+</li>
+</ul>
+<a id="more"></a>
+<h3 id="sync"><a href="#sync" class="headerlink" title="sync"></a>sync</h3><p><code>sync</code>:里面是定义同步参数，可以继续使用<code>maxDelays</code>来重写<code>settings</code>的全局变量<br>一般第一个参数指定<code>lsyncd</code>以什么模式运行：<code>rsync</code>、<code>rsyncssh</code>、<code>direct</code>三种模式：</p>
+<p><code>default.rsync</code> ：本地目录间同步，使用rsync，也可以达到使用ssh形式的远程rsync效果，或daemon方式连接远程rsyncd进程</p>
+<p><code>default.direct</code> ：本地目录间同步，使用cp、rm等命令完成差异文件备份</p>
+<p><code>default.rsyncssh</code> ：同步到远程主机目录，rsync的ssh模式，需要使用key来认证</p>
+<p><code>source</code> 同步的源目录，使用绝对路径。</p>
+<p><code>target</code> 定义目的地址.对应不同的模式有几种写法：</p>
+<p><code>/tmp/dest</code> ：本地目录同步，可用于direct和rsync模式</p>
+<p><code>remote_ip:/tmp/dest</code> ：同步到远程服务器目录，可用于<code>rsync</code>和<code>rsyncssh</code>模式，拼接的命令类似于<code>/usr/bin/rsync -ltsd --delete --include-from=- --exclude=* SOURCE TARGET</code>，剩下的就是rsync的内容了，比如指定username，免密码同步</p>
+<p><code>remote_ip::module</code> ：同步到远程服务器目录，用于<code>rsync</code>模式<br>三种模式的示例会在后面给出。</p>
+<p><code>init</code> 这是一个优化选项，当<code>init = false</code>，只同步进程启动以后发生改动事件的文件，原有的目录即使有差异也不会同步。默认是<code>true</code></p>
+<p><code>delay</code> 累计事件，等待rsync同步延时时间，默认15秒（最大累计到1000个不可合并的事件）。也就是15s内监控目录下发生的改动，会累积到一次rsync同步，避免过于频繁的同步。（可合并的意思是，15s内两次修改了同一文件，最后只同步最新的文件）</p>
+<p><code>excludeFrom</code> 排除选项，后面指定排除的列表文件，如<code>excludeFrom = &quot;/etc/lsyncd.exclude&quot;</code>，如果是简单的排除，可以使用<code>exclude = LIST</code><br>这里的排除规则写法与原生rsync有点不同，更为简单：</p>
+<ul>
+<li><p>监控路径里的任何部分匹配到一个文本，都会被排除，例如/bin/foo/bar可以匹配规则foo</p>
+</li>
+<li><p>如果规则以斜线/开头，则从头开始要匹配全部</p>
+</li>
+<li><p>如果规则以/结尾，则要匹配监控路径的末尾</p>
+</li>
+<li><p><code>?</code>匹配任何字符，但不包括<code>/</code></p>
+</li>
+<li><p>匹配0或多个字符，但不包括<code>/</code></p>
+</li>
+<li><p><code>**</code>匹配0或多个字符，可以是<code>/</code></p>
+</li>
+</ul>
+<p><code>delete</code> 为了保持target与souce完全同步，Lsyncd默认会<code>delete = true</code>来允许同步删除。它除了<code>false</code>，还有<code>startup</code>、<code>running</code>值，请参考 <a href="https://axkibe.github.io/lsyncd/" target="_blank" rel="external">Lsyncd 2.1.x ‖ Layer 4 Config ‖ Default Behavior</a></p>
+<h3 id="rsync"><a href="#rsync" class="headerlink" title="rsync"></a>rsync</h3><blockquote>
+<p>提示一下，delete和exclude本来都是rsync的选项，上面是配置在sync中的，我想这样做的原因是为了减少rsync的开销</p>
+</blockquote>
+<ul>
+<li><p>bwlimit 限速，单位kb/s，与rsync相同（这么重要的选项在文档里竟然没有标出）</p>
+</li>
+<li><p>compress 压缩传输默认为true。在带宽与cpu负载之间权衡，本地目录同步可以考虑把它设为false</p>
+</li>
+<li><p>perms 默认保留文件权限。</p>
+</li>
+<li><p>其它rsync的选项</p>
+</li>
+</ul>
+<p>其它还有<code>rsyncssh</code>模式独有的配置项，如<code>host</code>、<code>targetdir</code>、<code>rsync_path</code>、<code>password_file</code>,<code>rsyncOps={&quot;-avz&quot;,&quot;--delete&quot;}</code>这样的写法在2.1.*版本已经不支持</p>
+<p><code>lsyncd.conf</code>可以有多个<code>sync</code>，各自的<code>source</code>，各自的<code>target</code>，各自的模式，互不影响。</p>
+<h1 id="启动lsyncd"><a href="#启动lsyncd" class="headerlink" title="启动lsyncd"></a>启动lsyncd</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">lsyncd -log Exec /etc/lsyncd.conf</div></pre></td></tr></table></figure>
+<h1 id="lsyncd-conf-其它模式示例"><a href="#lsyncd-conf-其它模式示例" class="headerlink" title="lsyncd.conf　其它模式示例"></a>lsyncd.conf　其它模式示例</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div></pre></td><td class="code"><pre><div class="line">settings &#123;</div><div class="line">    logfile =<span class="string">"/var/log/lsyncd.log"</span>,</div><div class="line">    statusFile =<span class="string">"/var/log/lsyncd.status"</span>,</div><div class="line">    inotifyMode = <span class="string">"CloseWrite"</span>,</div><div class="line">    maxProcesses = 8,</div><div class="line">    &#125;</div><div class="line">-- I. 本地目录同步，direct：cp/rm/mv。 适用：500+万文件，变动不大</div><div class="line">sync &#123;</div><div class="line">    default.direct,</div><div class="line">    <span class="built_in">source</span>    = <span class="string">"/tmp/src"</span>,</div><div class="line">    target    = <span class="string">"/tmp/dest"</span>,</div><div class="line">    delay = 1</div><div class="line">    maxProcesses = 1</div><div class="line">    &#125;</div><div class="line">-- II. 本地目录同步，rsync模式：rsync</div><div class="line">sync &#123;</div><div class="line">    default.rsync,</div><div class="line">    <span class="built_in">source</span>    = <span class="string">"/tmp/src"</span>,</div><div class="line">    target    = <span class="string">"/tmp/dest1"</span>,</div><div class="line">    excludeFrom = <span class="string">"/etc/rsyncd.d/rsync_exclude.lst"</span>,</div><div class="line">    rsync     = &#123;</div><div class="line">        binary = <span class="string">"/usr/bin/rsync"</span>,</div><div class="line">        archive = <span class="literal">true</span>,</div><div class="line">        compress = <span class="literal">true</span>,</div><div class="line">        bwlimit   = 2000</div><div class="line">        &#125; </div><div class="line">    &#125;</div><div class="line">-- III. 远程目录同步，rsync模式 + rsyncd daemon</div><div class="line">sync &#123;</div><div class="line">    default.rsync,</div><div class="line">    <span class="built_in">source</span>    = <span class="string">"/tmp/src"</span>,</div><div class="line">    target    = <span class="string">"syncuser@remote_ip::module1"</span>,</div><div class="line">    delete=<span class="string">"running"</span>,</div><div class="line">    exclude = &#123; <span class="string">".*"</span>, <span class="string">".tmp"</span> &#125;,</div><div class="line">    delay = 30,</div><div class="line">    init = <span class="literal">false</span>,</div><div class="line">    rsync     = &#123;</div><div class="line">        binary = <span class="string">"/usr/bin/rsync"</span>,</div><div class="line">        archive = <span class="literal">true</span>,</div><div class="line">        compress = <span class="literal">true</span>,</div><div class="line">        verbose   = <span class="literal">true</span>,</div><div class="line">        password_file = <span class="string">"/etc/rsyncd.d/rsync.pwd"</span>,</div><div class="line">        _extra    = &#123;<span class="string">"--bwlimit=200"</span>&#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">-- IV. 远程目录同步，rsync模式 + ssh shell</div><div class="line">sync &#123;</div><div class="line">    default.rsync,</div><div class="line">    <span class="built_in">source</span>    = <span class="string">"/tmp/src"</span>,</div><div class="line">    target    = <span class="string">"remote_ip:/tmp/dest"</span>,</div><div class="line">    -- target    = <span class="string">"root@remote_ip:/remote/dest"</span>,</div><div class="line">    -- 上面target，注意如果是普通用户，必须拥有写权限</div><div class="line">    maxDelays = 5,</div><div class="line">    delay = 30,</div><div class="line">    -- init = <span class="literal">true</span>,</div><div class="line">    rsync     = &#123;</div><div class="line">        binary = <span class="string">"/usr/bin/rsync"</span>,</div><div class="line">        archive = <span class="literal">true</span>,</div><div class="line">        compress = <span class="literal">true</span>,</div><div class="line">        bwlimit   = 2000</div><div class="line">        -- rsh = <span class="string">"/usr/bin/ssh -p 22 -o StrictHostKeyChecking=no"</span></div><div class="line">        -- 如果要指定其它端口，请用上面的rsh</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">-- V. 远程目录同步，rsync模式 + rsyncssh，效果与上面相同</div><div class="line">sync &#123;</div><div class="line">    default.rsyncssh,</div><div class="line">    <span class="built_in">source</span>    = <span class="string">"/tmp/src2"</span>,</div><div class="line">    host      = <span class="string">"remote_ip"</span>,</div><div class="line">    targetdir = <span class="string">"/remote/dir"</span>,</div><div class="line">    excludeFrom = <span class="string">"/etc/rsyncd.d/rsync_exclude.lst"</span>,</div><div class="line">    -- maxDelays = 5,</div><div class="line">    delay = 0,</div><div class="line">    -- init = <span class="literal">false</span>,</div><div class="line">    rsync    = &#123;</div><div class="line">        binary = <span class="string">"/usr/bin/rsync"</span>,</div><div class="line">        archive = <span class="literal">true</span>,</div><div class="line">        compress = <span class="literal">true</span>,</div><div class="line">        verbose   = <span class="literal">true</span>,</div><div class="line">        _extra = &#123;<span class="string">"--bwlimit=2000"</span>&#125;,</div><div class="line">        &#125;,</div><div class="line">    ssh      = &#123;</div><div class="line">        port  =  1234</div><div class="line">        &#125;</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>在远端被同步的服务器上开启ssh无密码登录，请注意用户身份：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$ ssh-keygen -t rsa</div><div class="line"><span class="comment"># 一路回车...</span></div><div class="line">$ <span class="built_in">cd</span> ~/.ssh</div><div class="line">$ cat id_rsa.pub &gt;&gt; authorized_keys</div></pre></td></tr></table></figure></p>
+<p>把<code>id_rsa</code>私钥拷贝到执行lsyncd的机器上<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">chmod 600 ~/.ssh/id_rsa</div></pre></td></tr></table></figure></p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://axkibe.github.io/lsyncd/" target="_blank" rel="external">Lsyncd21Manual </a></p>
+<p><a href="http://www.cnblogs.com/ivistn/p/3906897.html" target="_blank" rel="external">使用lsyncd配置数据库备份多异地同步</a></p>
+<p><a href="http://ju.outofmemory.cn/entry/87237" target="_blank" rel="external">如何实时同步大量小文件</a></p>
+<p><a href="http://weekyuan.blog.51cto.com/2389856/1334324" target="_blank" rel="external">Lsyncd 测试远程、本地目录自动同步</a></p>
+<p><a href="http://seanlook.com/2015/05/06/lsyncd-synchronize-realtime/" target="_blank" rel="external">lsyncd实时同步搭建指南——取代rsync+inotify</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/lsyncd/" rel="tag"># lsyncd</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/HA/Keepalived VS Heartbeat/" rel="next" title="Keepalived & Heartbeat difference">
+                <i class="fa fa-chevron-left"></i> Keepalived & Heartbeat difference
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="linux/lsyncd-in-ubuntu/"
+           data-title="lsyncd in ubuntu" data-url="https://svolence.github.io/linux/lsyncd-in-ubuntu/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Svolence" />
+          <p class="site-author-name" itemprop="name">Svolence</p>
+          <p class="site-description motion-element" itemprop="description">Talk is cheap, show me the code!!!</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">9</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#lsyncd-安装"><span class="nav-number">1.</span> <span class="nav-text">lsyncd 安装</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#lsyncd-config-demo"><span class="nav-number">1.1.</span> <span class="nav-text">lsyncd config demo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#config"><span class="nav-number">1.2.</span> <span class="nav-text">config</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置选项说明"><span class="nav-number">1.3.</span> <span class="nav-text">配置选项说明</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#settings"><span class="nav-number">1.3.1.</span> <span class="nav-text">settings</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sync"><span class="nav-number">1.3.2.</span> <span class="nav-text">sync</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rsync"><span class="nav-number">1.3.3.</span> <span class="nav-text">rsync</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#启动lsyncd"><span class="nav-number">2.</span> <span class="nav-text">启动lsyncd</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#lsyncd-conf-其它模式示例"><span class="nav-number">3.</span> <span class="nav-text">lsyncd.conf　其它模式示例</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">4.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Svolence</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"svolence"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("gg4V2cN69UAJQ53rO4JwVmaL-gzGzoHsz", "uYSk8wzlMAMgisyaGCA2yWFq");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+</body>
+</html>
