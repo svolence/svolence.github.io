@@ -104,7 +104,7 @@
 <meta property="og:site_name" content="Svolence's Blog">
 <meta property="og:description" content="下载ubuntu镜像1sudo docker pull ubuntu:16.04
 创建一个容器,运行bash1234567sudo docker run -it ubuntu:16.04 /bin/bash# 参数：# -i：表示以“交互模式”运行容器，-i 则让容器的标准输入保持打开# -t：表示容器启动后会进入其命令行，-t 选项让Docker分配一个伪终端（pseudo-tty）并绑定到容器">
-<meta property="og:updated_time" content="2016-10-18T08:31:59.644Z">
+<meta property="og:updated_time" content="2016-11-21T06:27:25.844Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Install docker on ubuntu">
 <meta name="twitter:description" content="下载ubuntu镜像1sudo docker pull ubuntu:16.04
@@ -318,8 +318,8 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-check-o"></i>
             </span>
-            <time title="Post modified" itemprop="dateModified" datetime="2016-10-18T16:31:59+08:00">
-              2016-10-18
+            <time title="Post modified" itemprop="dateModified" datetime="2016-11-21T14:27:25+08:00">
+              2016-11-21
             </time>
             
           </span>
@@ -385,26 +385,26 @@
       
 
       
-        <h1 id="下载ubuntu镜像"><a href="#下载ubuntu镜像" class="headerlink" title="下载ubuntu镜像"></a>下载ubuntu镜像</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo docker pull ubuntu:16.04</div></pre></td></tr></table></figure>
-<h1 id="创建一个容器-运行bash"><a href="#创建一个容器-运行bash" class="headerlink" title="创建一个容器,运行bash"></a>创建一个容器,运行bash</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">sudo docker run -it ubuntu:16.04 /bin/bash</div><div class="line"># 参数：</div><div class="line"># -i：表示以“交互模式”运行容器，-i 则让容器的标准输入保持打开</div><div class="line"># -t：表示容器启动后会进入其命令行，-t 选项让Docker分配一个伪终端（pseudo-tty）并绑定到容器的标准输入上</div><div class="line"># -v：表示需要将本地哪个目录挂载到容器中，格式：-v &lt;宿主机目录&gt;:&lt;容器目录&gt;，-v 标记来创建一个数据卷并挂载到容器里。在一次 run 中多次使用可以挂载多个数据卷。</div><div class="line"># -p：指定对外80端口</div><div class="line"># 不一定要使用“镜像 ID”，也可以使用“仓库名:标签名”</div></pre></td></tr></table></figure>
+        <h1 id="下载ubuntu镜像"><a href="#下载ubuntu镜像" class="headerlink" title="下载ubuntu镜像"></a>下载ubuntu镜像</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo docker pull ubuntu:16.04</div></pre></td></tr></table></figure>
+<h1 id="创建一个容器-运行bash"><a href="#创建一个容器-运行bash" class="headerlink" title="创建一个容器,运行bash"></a>创建一个容器,运行bash</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">sudo docker run -it ubuntu:16.04 /bin/bash</div><div class="line"><span class="comment"># 参数：</span></div><div class="line"><span class="comment"># -i：表示以“交互模式”运行容器，-i 则让容器的标准输入保持打开</span></div><div class="line"><span class="comment"># -t：表示容器启动后会进入其命令行，-t 选项让Docker分配一个伪终端（pseudo-tty）并绑定到容器的标准输入上</span></div><div class="line"><span class="comment"># -v：表示需要将本地哪个目录挂载到容器中，格式：-v &lt;宿主机目录&gt;:&lt;容器目录&gt;，-v 标记来创建一个数据卷并挂载到容器里。在一次 run 中多次使用可以挂载多个数据卷。</span></div><div class="line"><span class="comment"># -p：指定对外80端口</span></div><div class="line"><span class="comment"># 不一定要使用“镜像 ID”，也可以使用“仓库名:标签名”</span></div></pre></td></tr></table></figure>
 <h1 id="保存docker中的修改"><a href="#保存docker中的修改" class="headerlink" title="保存docker中的修改"></a>保存docker中的修改</h1><ul>
 <li><p>列出所有容器</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo docker ps</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo docker ps</div></pre></td></tr></table></figure>
 </li>
 <li><p>提交修改</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo docker commit &#123;containerId&#125;</div><div class="line"># 会返回一个id</div><div class="line">sudo docker tag &#123;id&#125; oceanwen/test:1.0</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo docker commit &#123;containerId&#125;</div><div class="line"><span class="comment"># 会返回一个id</span></div><div class="line">sudo docker tag &#123;id&#125; oceanwen/<span class="built_in">test</span>:1.0</div></pre></td></tr></table></figure>
 </li>
 <li><p>杀死所有正在运行的容器</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker kill $(docker ps -a -q)</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker <span class="built_in">kill</span> $(docker ps <span class="_">-a</span> -q)</div></pre></td></tr></table></figure>
 </li>
 <li><p>删除所有已经停止的容器</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker rm $(docker ps -a -q)</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker rm $(docker ps <span class="_">-a</span> -q)</div></pre></td></tr></table></figure>
 </li>
 <li><p>删除所有镜像</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker rmi $(docker ps -a -q)</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker rmi $(docker ps <span class="_">-a</span> -q)</div></pre></td></tr></table></figure>
 </li>
 <li><p>查看容器信息</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker inspect &#123;containerId&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker inspect &#123;containerId&#125;</div></pre></td></tr></table></figure>
 </li>
 </ul>
 <a id="more"></a>
@@ -413,23 +413,23 @@
 3.docker commit提交修改的镜像
 4.docker run新的镜像
 </code></pre><h2 id="使用-DockerFile-来创建镜像"><a href="#使用-DockerFile-来创建镜像" class="headerlink" title="使用 DockerFile 来创建镜像"></a>使用 DockerFile 来创建镜像</h2><p>使用 docker commit 来扩展一个镜像比较简单,但是不方便在一个团队中分享.我们可以使用 docker build 来创建一个新的镜像.为此,首先需要创建一个 DockerFile,包含一些如何创建镜像的指令.</p>
-<h2 id="生成镜像"><a href="#生成镜像" class="headerlink" title="生成镜像"></a>生成镜像</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sudo docker build -t = &quot;oceanwen/test:v1&quot; .</div><div class="line"># 参数：</div><div class="line"># -t 标记来添加 tag,指定新的镜像的用户和镜像名称信息。</div><div class="line"># &quot;.&quot; 是 Dockerfile 所在的路径（当前目录）,也可以替换为一个具体的 Dockerfile 的路径。</div></pre></td></tr></table></figure>
+<h2 id="生成镜像"><a href="#生成镜像" class="headerlink" title="生成镜像"></a>生成镜像</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sudo docker build -t = <span class="string">"oceanwen/test:v1"</span> .</div><div class="line"><span class="comment"># 参数：</span></div><div class="line"><span class="comment"># -t 标记来添加 tag,指定新的镜像的用户和镜像名称信息。</span></div><div class="line"><span class="comment"># "." 是 Dockerfile 所在的路径（当前目录）,也可以替换为一个具体的 Dockerfile 的路径。</span></div></pre></td></tr></table></figure>
 <h1 id="安装GitLab"><a href="#安装GitLab" class="headerlink" title="安装GitLab"></a>安装GitLab</h1><ul>
 <li>安装依赖</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install curl openssh-server ca-certificates postfix</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install curl openssh-server ca-certificates postfix</div></pre></td></tr></table></figure>
 <ul>
 <li>安装GitLab</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">curl -sS https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.deb.sh | sudo bash</div><div class="line">sudo apt-get install gitlab-ce</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">curl <span class="_">-s</span>S https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.deb.sh | sudo bash</div><div class="line">sudo apt-get install gitlab-ce</div></pre></td></tr></table></figure>
 <ul>
 <li>安装ZSH</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install zsh</div><div class="line">chsh -s /bin/zsh //设置当前用户使用zsh</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install zsh</div><div class="line">chsh <span class="_">-s</span> /bin/zsh //设置当前用户使用zsh</div></pre></td></tr></table></figure>
 <ul>
 <li>安装oh my zsh</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install git</div><div class="line">wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install git</div><div class="line">wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh</div></pre></td></tr></table></figure>
       
     </div>
 

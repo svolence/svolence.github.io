@@ -114,7 +114,7 @@
 1netstat -plnt | grep 8080
 
 ==&amp;gt; /var/log/gitlab/unicorn/unicorn_stderr.log &amp;lt;== Errno::EADDRINUSE: Address alr">
-<meta property="og:updated_time" content="2016-11-16T11:53:21.097Z">
+<meta property="og:updated_time" content="2016-11-21T06:26:05.905Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="gitlab Troubleshoting">
 <meta name="twitter:description" content="GitLab 碰到的问题
@@ -333,8 +333,8 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-check-o"></i>
             </span>
-            <time title="Post modified" itemprop="dateModified" datetime="2016-11-16T19:53:21+08:00">
-              2016-11-16
+            <time title="Post modified" itemprop="dateModified" datetime="2016-11-21T14:26:05+08:00">
+              2016-11-21
             </time>
             
           </span>
@@ -404,7 +404,7 @@
 <p>502 Whoops, GitLab is taking too much time to respond.</p>
 </blockquote>
 <p>1.查看8080端口是否被占用</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">netstat -plnt | grep 8080</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">netstat -plnt | grep 8080</div></pre></td></tr></table></figure>
 <blockquote>
 <p>==&gt; /var/log/gitlab/unicorn/unicorn_stderr.log &lt;==<br> Errno::EADDRINUSE: Address already in use - bind(2) for 127.0.0.1:8080</p>
 </blockquote>

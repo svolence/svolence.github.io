@@ -319,8 +319,8 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-check-o"></i>
             </span>
-            <time title="Post modified" itemprop="dateModified" datetime="2016-10-18T15:16:21+08:00">
-              2016-10-18
+            <time title="Post modified" itemprop="dateModified" datetime="2016-11-21T14:26:18+08:00">
+              2016-11-21
             </time>
             
           </span>
@@ -388,7 +388,7 @@
       
         
           
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">resource r0 &#123;</div><div class="line">        protocol C;</div><div class="line">        startup &#123;</div><div class="line">                wfc-timeout  15;</div><div class="line">                degr-wfc-timeout 60;</div><div class="line">        &#125;</div><div class="line">        net &#123;</div><div class="line">                cram-hmac-alg sha1;</div><div class="line">                shared-secret &quot;secret&quot;;</div><div class="line">        &#125;</div><div class="line">        on drbd1 &#123;</div><div class="line">                device /dev/drbd0;</div><div class="line">                disk /dev/sda7;</div><div class="line">                address 10.96.23.120:7788;</div><div class="line">                meta-disk internal;</div><div class="line">        &#125;</div><div class="line">        on drbd2 &#123;</div><div class="line">                device /dev/drbd0;</div><div class="line">                disk /dev/sda7;</div><div class="line">                address 10.96.23.121:7788;</div><div class="line">                meta-disk internal;</div><div class="line">        &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+            <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">resource r0 &#123;</div><div class="line">        protocol C;</div><div class="line">        startup &#123;</div><div class="line">                wfc-timeout  15;</div><div class="line">                degr-wfc-timeout 60;</div><div class="line">        &#125;</div><div class="line">        net &#123;</div><div class="line">                cram-hmac-alg sha1;</div><div class="line">                shared-secret <span class="string">"secret"</span>;</div><div class="line">        &#125;</div><div class="line">        on drbd1 &#123;</div><div class="line">                device /dev/drbd0;</div><div class="line">                disk /dev/sda7;</div><div class="line">                address 10.96.23.120:7788;</div><div class="line">                meta-disk internal;</div><div class="line">        &#125;</div><div class="line">        on drbd2 &#123;</div><div class="line">                device /dev/drbd0;</div><div class="line">                disk /dev/sda7;</div><div class="line">                address 10.96.23.121:7788;</div><div class="line">                meta-disk internal;</div><div class="line">        &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
           
         
       
@@ -474,8 +474,8 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-check-o"></i>
             </span>
-            <time title="Post modified" itemprop="dateModified" datetime="2016-11-16T19:53:21+08:00">
-              2016-11-16
+            <time title="Post modified" itemprop="dateModified" datetime="2016-11-21T14:26:05+08:00">
+              2016-11-21
             </time>
             
           </span>
@@ -547,7 +547,7 @@
 <p>502 Whoops, GitLab is taking too much time to respond.</p>
 </blockquote>
 <p>1.查看8080端口是否被占用</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">netstat -plnt | grep 8080</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">netstat -plnt | grep 8080</div></pre></td></tr></table></figure>
 <blockquote>
 <p>==&gt; /var/log/gitlab/unicorn/unicorn_stderr.log &lt;==<br> Errno::EADDRINUSE: Address already in use - bind(2) for 127.0.0.1:8080</p>
 </blockquote>
@@ -643,8 +643,8 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-check-o"></i>
             </span>
-            <time title="Post modified" itemprop="dateModified" datetime="2016-11-16T19:53:28+08:00">
-              2016-11-16
+            <time title="Post modified" itemprop="dateModified" datetime="2016-11-21T14:25:09+08:00">
+              2016-11-21
             </time>
             
           </span>
@@ -711,10 +711,10 @@
 
       
         
-          <h1 id="1-安装NFS"><a href="#1-安装NFS" class="headerlink" title="1.安装NFS"></a>1.安装NFS</h1><h2 id="Server"><a href="#Server" class="headerlink" title="Server"></a>Server</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">server$ sudo apt-get update &amp;&amp; apt-get install nfs-kernel-server</div></pre></td></tr></table></figure>
-<h2 id="Client"><a href="#Client" class="headerlink" title="Client"></a>Client</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">client$ sudo apt-get update &amp;&amp; apt-get install nfs-common</div></pre></td></tr></table></figure>
-<h1 id="2-服务端创建共享目录"><a href="#2-服务端创建共享目录" class="headerlink" title="2.服务端创建共享目录"></a>2.服务端创建共享目录</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">server$ sudo mkdir /var/nfs/general -p</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># 修改目录所属组</div><div class="line">server$ sudo chown nobody:nogroup /var/nfs/general -R</div></pre></td></tr></table></figure>
+          <h1 id="1-安装NFS"><a href="#1-安装NFS" class="headerlink" title="1.安装NFS"></a>1.安装NFS</h1><h2 id="Server"><a href="#Server" class="headerlink" title="Server"></a>Server</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">server$ sudo apt-get update &amp;&amp; apt-get install nfs-kernel-server</div></pre></td></tr></table></figure>
+<h2 id="Client"><a href="#Client" class="headerlink" title="Client"></a>Client</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">client$ sudo apt-get update &amp;&amp; apt-get install nfs-common</div></pre></td></tr></table></figure>
+<h1 id="2-服务端创建共享目录"><a href="#2-服务端创建共享目录" class="headerlink" title="2.服务端创建共享目录"></a>2.服务端创建共享目录</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">server$ sudo mkdir /var/nfs/general -p</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 修改目录所属组</span></div><div class="line">server$ sudo chown nobody:nogroup /var/nfs/general -R</div></pre></td></tr></table></figure>
           <!--noindex-->
           <div class="post-more-link text-center">
             <a class="btn" href="/gitlab/NFS/#more" rel="contents">
@@ -806,8 +806,8 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-check-o"></i>
             </span>
-            <time title="Post modified" itemprop="dateModified" datetime="2016-11-16T19:53:08+08:00">
-              2016-11-16
+            <time title="Post modified" itemprop="dateModified" datetime="2016-11-21T14:24:05+08:00">
+              2016-11-21
             </time>
             
           </span>
@@ -971,8 +971,8 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-check-o"></i>
             </span>
-            <time title="Post modified" itemprop="dateModified" datetime="2016-11-16T19:53:15+08:00">
-              2016-11-16
+            <time title="Post modified" itemprop="dateModified" datetime="2016-11-21T14:26:02+08:00">
+              2016-11-21
             </time>
             
           </span>
@@ -1039,8 +1039,8 @@
 
       
         
-          <h1 id="postgresql-使用"><a href="#postgresql-使用" class="headerlink" title="postgresql 使用"></a>postgresql 使用</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">cd /var/opt/gitlab/postgresql/data</div><div class="line"></div><div class="line">vim pg_hba.conf</div><div class="line"></div><div class="line">host all all 0.0.0.0/0 md5  #0.0.0.0为地址段,0为多少二进制位</div><div class="line"></div><div class="line">host    all    all  10.96.23.0/24  trust    添加这行:10.96.23.0/24这个段的ip地址不需要密码可以连接</div><div class="line">host    all    all  10.96.23.0/24  md5      添加这行:10.96.23.0/24这个段的ip链接需要密码</div><div class="line"></div><div class="line">vim postgresql.conf</div><div class="line"></div><div class="line">listen_addresses = &apos;10.96.23.104&apos;      修改监听地址为ip</div><div class="line"></div><div class="line">gitlab-ctl restart postgresql</div><div class="line"></div><div class="line">cd /opt/gitlab/embedded/</div><div class="line"></div><div class="line">bin/psql -U gitlab -d gitlabhq_production -h 10.96.23.102             不用输入密码就可进来</div><div class="line"></div><div class="line">psql (9.2.18)</div><div class="line">Type &quot;help&quot; for help.</div></pre></td></tr></table></figure>
-<h2 id="命令行登陆数据库"><a href="#命令行登陆数据库" class="headerlink" title="命令行登陆数据库"></a>命令行登陆数据库</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">psql -U gitlab -d gitlabhq_production -h 10.96.23.104</div></pre></td></tr></table></figure>
+          <h1 id="postgresql-使用"><a href="#postgresql-使用" class="headerlink" title="postgresql 使用"></a>postgresql 使用</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> /var/opt/gitlab/postgresql/data</div><div class="line"></div><div class="line">vim pg_hba.conf</div><div class="line"></div><div class="line">host all all 0.0.0.0/0 md5  <span class="comment">#0.0.0.0为地址段,0为多少二进制位</span></div><div class="line"></div><div class="line">host    all    all  10.96.23.0/24  trust    添加这行:10.96.23.0/24这个段的ip地址不需要密码可以连接</div><div class="line">host    all    all  10.96.23.0/24  md5      添加这行:10.96.23.0/24这个段的ip链接需要密码</div><div class="line"></div><div class="line">vim postgresql.conf</div><div class="line"></div><div class="line">listen_addresses = <span class="string">'10.96.23.104'</span>      修改监听地址为ip</div><div class="line"></div><div class="line">gitlab-ctl restart postgresql</div><div class="line"></div><div class="line"><span class="built_in">cd</span> /opt/gitlab/embedded/</div><div class="line"></div><div class="line">bin/psql -U gitlab <span class="_">-d</span> gitlabhq_production -h 10.96.23.102             不用输入密码就可进来</div><div class="line"></div><div class="line">psql (9.2.18)</div><div class="line">Type <span class="string">"help"</span> <span class="keyword">for</span> help.</div></pre></td></tr></table></figure>
+<h2 id="命令行登陆数据库"><a href="#命令行登陆数据库" class="headerlink" title="命令行登陆数据库"></a>命令行登陆数据库</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">psql -U gitlab <span class="_">-d</span> gitlabhq_production -h 10.96.23.104</div></pre></td></tr></table></figure>
           <!--noindex-->
           <div class="post-more-link text-center">
             <a class="btn" href="/gitlab/postgresql/#more" rel="contents">

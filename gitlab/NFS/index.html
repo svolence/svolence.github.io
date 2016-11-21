@@ -106,7 +106,7 @@ Client1client$ sudo apt-get update &amp;amp;&amp;amp; apt-get install nfs-common
 <meta property="og:description" content="1.安装NFSServer1server$ sudo apt-get update &amp;amp;&amp;amp; apt-get install nfs-kernel-server
 Client1client$ sudo apt-get update &amp;amp;&amp;amp; apt-get install nfs-common
 2.服务端创建共享目录1server$ sudo mkdir /var/nfs/">
-<meta property="og:updated_time" content="2016-11-16T11:53:28.669Z">
+<meta property="og:updated_time" content="2016-11-21T06:25:09.506Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="NFS config & mount">
 <meta name="twitter:description" content="1.安装NFSServer1server$ sudo apt-get update &amp;amp;&amp;amp; apt-get install nfs-kernel-server
@@ -321,8 +321,8 @@ Client1client$ sudo apt-get update &amp;amp;&amp;amp; apt-get install nfs-common
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-check-o"></i>
             </span>
-            <time title="Post modified" itemprop="dateModified" datetime="2016-11-16T19:53:28+08:00">
-              2016-11-16
+            <time title="Post modified" itemprop="dateModified" datetime="2016-11-21T14:25:09+08:00">
+              2016-11-21
             </time>
             
           </span>
@@ -388,12 +388,12 @@ Client1client$ sudo apt-get update &amp;amp;&amp;amp; apt-get install nfs-common
       
 
       
-        <h1 id="1-安装NFS"><a href="#1-安装NFS" class="headerlink" title="1.安装NFS"></a>1.安装NFS</h1><h2 id="Server"><a href="#Server" class="headerlink" title="Server"></a>Server</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">server$ sudo apt-get update &amp;&amp; apt-get install nfs-kernel-server</div></pre></td></tr></table></figure>
-<h2 id="Client"><a href="#Client" class="headerlink" title="Client"></a>Client</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">client$ sudo apt-get update &amp;&amp; apt-get install nfs-common</div></pre></td></tr></table></figure>
-<h1 id="2-服务端创建共享目录"><a href="#2-服务端创建共享目录" class="headerlink" title="2.服务端创建共享目录"></a>2.服务端创建共享目录</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">server$ sudo mkdir /var/nfs/general -p</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># 修改目录所属组</div><div class="line">server$ sudo chown nobody:nogroup /var/nfs/general -R</div></pre></td></tr></table></figure>
+        <h1 id="1-安装NFS"><a href="#1-安装NFS" class="headerlink" title="1.安装NFS"></a>1.安装NFS</h1><h2 id="Server"><a href="#Server" class="headerlink" title="Server"></a>Server</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">server$ sudo apt-get update &amp;&amp; apt-get install nfs-kernel-server</div></pre></td></tr></table></figure>
+<h2 id="Client"><a href="#Client" class="headerlink" title="Client"></a>Client</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">client$ sudo apt-get update &amp;&amp; apt-get install nfs-common</div></pre></td></tr></table></figure>
+<h1 id="2-服务端创建共享目录"><a href="#2-服务端创建共享目录" class="headerlink" title="2.服务端创建共享目录"></a>2.服务端创建共享目录</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">server$ sudo mkdir /var/nfs/general -p</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 修改目录所属组</span></div><div class="line">server$ sudo chown nobody:nogroup /var/nfs/general -R</div></pre></td></tr></table></figure>
 <a id="more"></a>
-<h1 id="3-配置服务端NFS-exports"><a href="#3-配置服务端NFS-exports" class="headerlink" title="3.配置服务端NFS exports"></a>3.配置服务端NFS exports</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">server$ sudo vim /etc/exports</div><div class="line">directory_to_share    client(share_option1,...,share_optionN)</div><div class="line"></div><div class="line">eg:</div><div class="line">/var/nfs/general    10.96.23.109(rw,sync,no_subtree_check)</div><div class="line">/var/nfs/general    10.96.23.0/24(rw,sync,no_subtree_check) # 同一网段</div><div class="line">/home               10.96.23.109(rw,sync,no_root_squash,no_subtree_check)</div></pre></td></tr></table></figure>
+<h1 id="3-配置服务端NFS-exports"><a href="#3-配置服务端NFS-exports" class="headerlink" title="3.配置服务端NFS exports"></a>3.配置服务端NFS exports</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">server$ sudo vim /etc/exports</div><div class="line">directory_to_share    client(share_option1,...,share_optionN)</div><div class="line"></div><div class="line">eg:</div><div class="line">/var/nfs/general    10.96.23.109(rw,sync,no_subtree_check)</div><div class="line">/var/nfs/general    10.96.23.0/24(rw,sync,no_subtree_check) <span class="comment"># 同一网段</span></div><div class="line">/home               10.96.23.109(rw,sync,no_root_squash,no_subtree_check)</div></pre></td></tr></table></figure>
 <h2 id="NFS主要有3类选项"><a href="#NFS主要有3类选项" class="headerlink" title="NFS主要有3类选项:"></a>NFS主要有3类选项:</h2><h3 id="访问权限选项"><a href="#访问权限选项" class="headerlink" title="访问权限选项"></a>访问权限选项</h3><ul>
 <li>设置输出目录只读: ro</li>
 <li>设置输出目录读写: rw</li>
@@ -430,11 +430,11 @@ Client1client$ sudo apt-get update &amp;amp;&amp;amp; apt-get install nfs-common
 <li><p>no_subtree: 即使输出目录是一个子目录，nfs服务器也不检查其父目录的权限，这样可以提高效率</p>
 </li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">server$ sudo service nfs-kernel-server restart</div></pre></td></tr></table></figure>
-<h1 id="4-服务端防火墙设置"><a href="#4-服务端防火墙设置" class="headerlink" title="4.服务端防火墙设置"></a>4.服务端防火墙设置</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># 查看防火墙状态</div><div class="line">server$ sudo ufw status</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"># 服务端开启2049端口,防火墙允许访问</div><div class="line">server$ sudo ufw allow from 10.96.23.109 to any port nfs</div></pre></td></tr></table></figure>
-<h1 id="5-客户端创建挂载点"><a href="#5-客户端创建挂载点" class="headerlink" title="5.客户端创建挂载点"></a>5.客户端创建挂载点</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">client$ sudo mkdir -p /nfs/general</div></pre></td></tr></table></figure>
-<h1 id="6-在客户端上挂载服务端共享目录"><a href="#6-在客户端上挂载服务端共享目录" class="headerlink" title="6.在客户端上挂载服务端共享目录"></a>6.在客户端上挂载服务端共享目录</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">client$ sudo mount 10.96.23.109:/var/nfs/general /nfs/general</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">server$ sudo service nfs-kernel-server restart</div></pre></td></tr></table></figure>
+<h1 id="4-服务端防火墙设置"><a href="#4-服务端防火墙设置" class="headerlink" title="4.服务端防火墙设置"></a>4.服务端防火墙设置</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 查看防火墙状态</span></div><div class="line">server$ sudo ufw status</div></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 服务端开启2049端口,防火墙允许访问</span></div><div class="line">server$ sudo ufw allow from 10.96.23.109 to any port nfs</div></pre></td></tr></table></figure>
+<h1 id="5-客户端创建挂载点"><a href="#5-客户端创建挂载点" class="headerlink" title="5.客户端创建挂载点"></a>5.客户端创建挂载点</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">client$ sudo mkdir -p /nfs/general</div></pre></td></tr></table></figure>
+<h1 id="6-在客户端上挂载服务端共享目录"><a href="#6-在客户端上挂载服务端共享目录" class="headerlink" title="6.在客户端上挂载服务端共享目录"></a>6.在客户端上挂载服务端共享目录</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">client$ sudo mount 10.96.23.109:/var/nfs/general /nfs/general</div></pre></td></tr></table></figure>
 <h2 id="客户端常用的指定方式"><a href="#客户端常用的指定方式" class="headerlink" title="客户端常用的指定方式"></a>客户端常用的指定方式</h2><ul>
 <li><p>指定ip地址的主机: 10.96.23.120</p>
 </li>
@@ -450,8 +450,8 @@ Client1client$ sudo apt-get update &amp;amp;&amp;amp; apt-get install nfs-common
 <h1 id="7-测试NFS权限"><a href="#7-测试NFS权限" class="headerlink" title="7.测试NFS权限"></a>7.测试NFS权限</h1><ul>
 <li>创建一个文件,看所属组是否和服务端当初设置的一样</li>
 </ul>
-<h1 id="8-客户端开启启动-挂载远程NFS目录"><a href="#8-客户端开启启动-挂载远程NFS目录" class="headerlink" title="8.客户端开启启动,挂载远程NFS目录"></a>8.客户端开启启动,挂载远程NFS目录</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">server$ sudo vim /etc/fstab</div><div class="line"></div><div class="line">eg:</div><div class="line">10.96.23.109:/var/nfs/general    /nfs/general   nfs auto,nofail,noatime,nolock,intr,tcp,actimeo=1800 0 0</div><div class="line">10.96.23.109:/home              /nfs/home       nfs auto,nofail,noatime,nolock,intr,tcp,actimeo=1800 0 0</div></pre></td></tr></table></figure>
-<h1 id="9-卸载NFS远程共享"><a href="#9-卸载NFS远程共享" class="headerlink" title="9.卸载NFS远程共享"></a>9.卸载NFS远程共享</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">client$ sudo umount /nfs/home</div><div class="line">client$ sudo umount /nfs/general</div></pre></td></tr></table></figure>
+<h1 id="8-客户端开启启动-挂载远程NFS目录"><a href="#8-客户端开启启动-挂载远程NFS目录" class="headerlink" title="8.客户端开启启动,挂载远程NFS目录"></a>8.客户端开启启动,挂载远程NFS目录</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">server$ sudo vim /etc/fstab</div><div class="line"></div><div class="line">eg:</div><div class="line">10.96.23.109:/var/nfs/general    /nfs/general   nfs auto,nofail,noatime,nolock,intr,tcp,actimeo=1800 0 0</div><div class="line">10.96.23.109:/home              /nfs/home       nfs auto,nofail,noatime,nolock,intr,tcp,actimeo=1800 0 0</div></pre></td></tr></table></figure>
+<h1 id="9-卸载NFS远程共享"><a href="#9-卸载NFS远程共享" class="headerlink" title="9.卸载NFS远程共享"></a>9.卸载NFS远程共享</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">client$ sudo umount /nfs/home</div><div class="line">client$ sudo umount /nfs/general</div></pre></td></tr></table></figure>
 <p>参考链接:</p>
 <ul>
 <li><a href="https://en.wikipedia.org/wiki/Network_File_System" target="_blank" rel="external">https://en.wikipedia.org/wiki/Network_File_System</a></li>
