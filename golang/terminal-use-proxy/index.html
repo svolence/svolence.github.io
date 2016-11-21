@@ -110,7 +110,8 @@
 2. ss的账号和密">
 <meta property="og:image" content="https://svolence.github.io/images/ss.png">
 <meta property="og:image" content="https://svolence.github.io/images/proxy-set.png">
-<meta property="og:updated_time" content="2016-11-16T12:49:18.003Z">
+<meta property="og:image" content="https://svolence.github.io/images/proxy-set-http.png">
+<meta property="og:updated_time" content="2016-11-21T06:32:38.910Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="终端使用Privoxy将socks5代理转为http代理">
 <meta name="twitter:description" content="在终端go get的一些包的时候，偶尔需要一些翻墙操作，在次记录一下使用Pvivoxy将socks5代理转为http代理
@@ -327,8 +328,8 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-check-o"></i>
             </span>
-            <time title="Post modified" itemprop="dateModified" datetime="2016-11-16T20:49:18+08:00">
-              2016-11-16
+            <time title="Post modified" itemprop="dateModified" datetime="2016-11-21T14:32:38+08:00">
+              2016-11-21
             </time>
             
           </span>
@@ -398,7 +399,7 @@
 <h1 id="1-首先需要安装ss"><a href="#1-首先需要安装ss" class="headerlink" title="1. 首先需要安装ss"></a>1. 首先需要安装ss</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:hzwhuang/ss-qt5</div><div class="line">sudo apt-get update</div><div class="line">sudo apt-get install shadowsocks-qt5</div></pre></td></tr></table></figure>
 <p>详细步奏可以参考这里的<a href="https://github.com/shadowsocks/shadowsocks-qt5/wiki/%E5%AE%89%E8%A3%85%E6%8C%87%E5%8D%97" target="_blank" rel="external">安装指南</a></p>
 <h1 id="2-ss的账号和密码"><a href="#2-ss的账号和密码" class="headerlink" title="2. ss的账号和密码"></a>2. ss的账号和密码</h1><p><img src="/images/ss.png" alt="ss"></p>
-<h1 id="3-SwitchyOmega配置"><a href="#3-SwitchyOmega配置" class="headerlink" title="3. SwitchyOmega配置"></a>3. SwitchyOmega配置</h1><p><img src="/images/proxy-set.png" alt="proxy-set"></p>
+<h1 id="3-SwitchyOmega配置"><a href="#3-SwitchyOmega配置" class="headerlink" title="3. SwitchyOmega配置"></a>3. SwitchyOmega配置</h1><p><img src="/images/proxy-set.png" alt="proxy-set"><br><img src="/images/proxy-set-http.png" alt="proxy-set-http"></p>
 <p>正常情况下，走到这里网页翻墙应该没有什么问题了</p>
 <h1 id="4-Privoxy安装"><a href="#4-Privoxy安装" class="headerlink" title="4. Privoxy安装"></a>4. Privoxy安装</h1><p>下载<a href="https://www.privoxy.org/sf-download-mirror/" target="_blank" rel="external">deb包</a>进行安装</p>
 <h1 id="5-privoxy配置"><a href="#5-privoxy配置" class="headerlink" title="5. privoxy配置"></a>5. privoxy配置</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># vim /etc/privoxy/config</span></div><div class="line"></div><div class="line">末尾添加这行`forward-socks5 / 127.0.0.1:1080 .`(注意后面有一个点)</div><div class="line"></div><div class="line">sudo service privoxy restart</div></pre></td></tr></table></figure>
