@@ -1,0 +1,918 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="DRBD,Gitlab,keepalived,NFS," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="Gitlab cluster deployment related services1.Gitlab server
+System:　ubuntu 14.04 x86_64
+Gitlab master:　10.100.136.62　
+Gitlab slave:　10.100.136.63　
+Gitlab version:　GitLab Community Edition 8.13.5
+Locatio">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Gitlab+DRBD+KEEPALIVED+NFS">
+<meta property="og:url" content="https://svolence.github.io/DRBD/Gitlab+DRBD+KEEPALIVED+NFS/index.html">
+<meta property="og:site_name" content="Svolence's Blog">
+<meta property="og:description" content="Gitlab cluster deployment related services1.Gitlab server
+System:　ubuntu 14.04 x86_64
+Gitlab master:　10.100.136.62　
+Gitlab slave:　10.100.136.63　
+Gitlab version:　GitLab Community Edition 8.13.5
+Locatio">
+<meta property="og:updated_time" content="2016-12-07T07:56:06.037Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Gitlab+DRBD+KEEPALIVED+NFS">
+<meta name="twitter:description" content="Gitlab cluster deployment related services1.Gitlab server
+System:　ubuntu 14.04 x86_64
+Gitlab master:　10.100.136.62　
+Gitlab slave:　10.100.136.63　
+Gitlab version:　GitLab Community Edition 8.13.5
+Locatio">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '6342375249689970000',
+      author: 'Svolence'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://svolence.github.io/DRBD/Gitlab+DRBD+KEEPALIVED+NFS/"/>
+
+
+
+
+
+  <title> Gitlab+DRBD+KEEPALIVED+NFS | Svolence's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Svolence's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://svolence.github.io/DRBD/Gitlab+DRBD+KEEPALIVED+NFS/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Svolence">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Svolence's Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Svolence's Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Gitlab+DRBD+KEEPALIVED+NFS
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <!-- <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-12-07T15:30:04+08:00">
+              2016-12-07
+            </time> -->
+
+            &nbsp;|&nbsp;
+
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-check-o"></i>
+            </span>
+            <time title="Post modified" itemprop="dateModified" datetime="2016-12-07T15:56:06+08:00">
+              2016-12-07
+            </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Gitlab/" itemprop="url" rel="index">
+                    <span itemprop="name">Gitlab</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/DRBD/Gitlab+DRBD+KEEPALIVED+NFS/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="DRBD/Gitlab+DRBD+KEEPALIVED+NFS/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/DRBD/Gitlab+DRBD+KEEPALIVED+NFS/" class="leancloud_visitors" data-flag-title="Gitlab+DRBD+KEEPALIVED+NFS">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">Visitors </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Gitlab-cluster-deployment-related-services"><a href="#Gitlab-cluster-deployment-related-services" class="headerlink" title="Gitlab cluster deployment related services"></a>Gitlab cluster deployment related services</h1><h2 id="1-Gitlab-server"><a href="#1-Gitlab-server" class="headerlink" title="1.Gitlab server"></a>1.Gitlab server</h2><ul>
+<li>System:　<code>ubuntu 14.04 x86_64</code></li>
+<li>Gitlab master:　<code>10.100.136.62</code>　</li>
+<li>Gitlab slave:　<code>10.100.136.63</code>　</li>
+<li>Gitlab version:　<code>GitLab Community Edition 8.13.5</code></li>
+<li>Location:　<code>/var/opt/gitlab</code></li>
+</ul>
+<h2 id="2-redis-pgsql"><a href="#2-redis-pgsql" class="headerlink" title="2.redis/pgsql"></a>2.redis/pgsql</h2><ul>
+<li>System:　<code>centos 6.8 x86_64</code></li>
+<li>Redis:　<code>10.100.17.25:6380</code>　</li>
+<li>Pgsql:　<code>10.100.17.25:5432</code>　</li>
+<li>Version:　<code>redis:2.8，pgsql:9.6</code></li>
+<li>Location:　<code>/data/redis，/var/lib/pgsql/9.6</code></li>
+</ul>
+<h2 id="3-DRBD-amp-keepalived-amp-nfs"><a href="#3-DRBD-amp-keepalived-amp-nfs" class="headerlink" title="3.DRBD &amp; keepalived &amp; nfs"></a>3.DRBD &amp; keepalived &amp; nfs</h2><ul>
+<li>System:　<code>centos 6.8 x86_64</code></li>
+<li>DRBD master:　<code>10.100.17.31</code>　</li>
+<li>DRBD slave:　<code>10.100.17.32</code>　</li>
+<li>Version:　<code>8.9.6</code></li>
+<li>Location:<ul>
+<li><code>/usr/loca/etc/drbd</code></li>
+<li><code>/keepalived</code></li>
+<li><code>/etc/exports</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="4-gitlab-cluser-config"><a href="#4-gitlab-cluser-config" class="headerlink" title="4.gitlab cluser config"></a>4.gitlab cluser config</h2><ul>
+<li>MASTER<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># vi /etc/gitlab/gitlab.rb</span></div><div class="line"></div><div class="line"><span class="comment"># Disable the built-in Postgres</span></div><div class="line">postgresql[<span class="string">'enable'</span>] = <span class="literal">false</span></div><div class="line"></div><div class="line"><span class="comment"># Fill in the values for database.yml</span></div><div class="line">gitlab_rails[<span class="string">'db_adapter'</span>] = <span class="string">"postgresql"</span></div><div class="line">gitlab_rails[<span class="string">'db_encoding'</span>] = <span class="string">"unicode"</span></div><div class="line">gitlab_rails[<span class="string">'db_database'</span>] = <span class="string">"gitlabhq_production"</span></div><div class="line">gitlab_rails[<span class="string">'db_host'</span>] = <span class="string">'10.100.17.25'</span></div><div class="line">gitlab_rails[<span class="string">'db_port'</span>] = <span class="string">'5432'</span></div><div class="line">gitlab_rails[<span class="string">'db_username'</span>] = <span class="string">'gitlab'</span></div><div class="line">gitlab_rails[<span class="string">'db_password'</span>] = <span class="string">'123456'</span></div><div class="line"></div><div class="line"><span class="comment"># Redis connection details</span></div><div class="line"></div><div class="line">redis[<span class="string">'enable'</span>] = <span class="literal">false</span></div><div class="line">gitlab_rails[<span class="string">'redis_port'</span>] = <span class="string">'6380'</span></div><div class="line">gitlab_rails[<span class="string">'redis_host'</span>] = <span class="string">'10.100.17.25'</span></div><div class="line"><span class="comment">#gitlab_rails['redis_password'] = '123456'</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+<a id="more"></a>
+<ul>
+<li>SLAVE<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># vi /etc/gitlab/gitlab.rb</span></div><div class="line"><span class="comment"># Disable the built-in Postgres</span></div><div class="line">postgresql[<span class="string">'enable'</span>] = <span class="literal">false</span></div><div class="line"></div><div class="line"><span class="comment"># Fill in the values for database.yml</span></div><div class="line">gitlab_rails[<span class="string">'db_adapter'</span>] = <span class="string">"postgresql"</span></div><div class="line">gitlab_rails[<span class="string">'db_encoding'</span>] = <span class="string">"unicode"</span></div><div class="line">gitlab_rails[<span class="string">'db_database'</span>] = <span class="string">"gitlabhq_production"</span></div><div class="line">gitlab_rails[<span class="string">'db_host'</span>] = <span class="string">'10.100.17.25'</span></div><div class="line">gitlab_rails[<span class="string">'db_port'</span>] = <span class="string">'5432'</span></div><div class="line">gitlab_rails[<span class="string">'db_username'</span>] = <span class="string">'gitlab'</span></div><div class="line">gitlab_rails[<span class="string">'db_password'</span>] = <span class="string">'123456'</span></div><div class="line"></div><div class="line"><span class="comment"># Redis connection details</span></div><div class="line"></div><div class="line">redis[<span class="string">'enable'</span>] = <span class="literal">false</span></div><div class="line">gitlab_rails[<span class="string">'redis_port'</span>] = <span class="string">'6380'</span></div><div class="line">gitlab_rails[<span class="string">'redis_host'</span>] = <span class="string">'10.100.17.25'</span></div><div class="line"><span class="comment">#gitlab_rails['redis_password'] = '123456'</span></div><div class="line"></div><div class="line">gitlab_shell[<span class="string">'secret_token'</span>] = <span class="string">'4f008660152b2b649352ddf41f1d2d8098f98b1f5c23a0cb48a5ffbb3f065a9d8a11f8c7f70459f08a028d2048bab1ad3b370fcda732e315ed2b08a6ae707c87'</span></div><div class="line"></div><div class="line">gitlab_rails[<span class="string">'otp_key_base'</span>] = <span class="string">'89d90e3f7a9cc257f6ec8f88b78d0f072c5795154398387dbb5cbee90c1ccded855d8df03f1d5ea5b5dbec488f13bd02643b9c44c084331aa0184cf80a527f3d'</span></div><div class="line"></div><div class="line">gitlab_rails[<span class="string">'secret_key_base'</span>] = <span class="string">'370fb2996bbef6b13e11694f50d25b2cd2d3213697fe53afee5e6b154e364a9ab52f5f78a701903a858f975b6c51eb541f8d97bd0996813d30ab9ec0d0858fba'</span></div><div class="line"></div><div class="line">gitlab_rails[<span class="string">'db_key_base'</span>] = <span class="string">'7c58a519b10b167496364100f0cc12f188cd8823aaef915656626f29a7132defda3135c220fef449ae4d7dd3e49780de4b33dde77eda05855ef843a58467126d'</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">touch /etc/gitlab/skip-auto-migrations <span class="comment">#skip auto migrations</span></div></pre></td></tr></table></figure>
+<ul>
+<li>COMMAND<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo gitlab-ctl status/stop/restart</div><div class="line"></div><div class="line">sudo gitlab-ctl tail <span class="comment"># view log</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="5-keepalived-amp-DRBD-config"><a href="#5-keepalived-amp-DRBD-config" class="headerlink" title="5.keepalived &amp; DRBD config"></a>5.keepalived &amp; DRBD config</h2><ul>
+<li><p>MASTER</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line">! Configuration File <span class="keyword">for</span> keepalived</div><div class="line"></div><div class="line">global_defs &#123;</div><div class="line">   notification_email &#123;</div><div class="line">     heyatao@imooc.com</div><div class="line">   &#125;</div><div class="line">   notification_email_from op@imooc.com</div><div class="line">   smtp_server 127.0.0.1</div><div class="line">   smtp_connect_timeout 30</div><div class="line">   router_id nfs_drbd0</div><div class="line">   vrrp_skip_check_adv_addr</div><div class="line">   vrrp_strict</div><div class="line">   vrrp_garp_interval 0</div><div class="line">   vrrp_gna_interval 0</div><div class="line">&#125;</div><div class="line"></div><div class="line">vrrp_script check_nfs &#123;</div><div class="line">    script <span class="string">"/keepalived/script/check_nfs.sh"</span></div><div class="line">    interval 2</div><div class="line">    weight -60</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line">vrrp_instance nfs_drbd0 &#123;</div><div class="line">    state MASTER</div><div class="line">    interface eth1</div><div class="line">    virtual_router_id 222</div><div class="line">    priority 100</div><div class="line">    advert_int 1</div><div class="line">    authentication &#123;</div><div class="line">        auth_type PASS</div><div class="line">        auth_pass Nfs_DrBd</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    track_script &#123;</div><div class="line">        check_nfs</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    virtual_ipaddress &#123;</div><div class="line">        10.100.17.9</div><div class="line">    &#125;</div><div class="line">   </div><div class="line">  notify_stop <span class="string">"/keepalived/script/nfs_stop.sh"</span></div><div class="line">  notify_master <span class="string">"/keepalived/script/change_drbd_to_primary.sh"</span></div><div class="line">  notify_backup <span class="string">"/keepalived/script/change_drbd_to_secondary.sh"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>SLAVE</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line">! Configuration File <span class="keyword">for</span> keepalived</div><div class="line"></div><div class="line">global_defs &#123;</div><div class="line">   notification_email &#123;</div><div class="line">     heyatao@imooc.com</div><div class="line">   &#125;</div><div class="line">   notification_email_from op@imooc.com</div><div class="line">   smtp_server 127.0.0.1</div><div class="line">   smtp_connect_timeout 30</div><div class="line">   router_id nfs_drbd0</div><div class="line">   vrrp_skip_check_adv_addr</div><div class="line">   vrrp_strict</div><div class="line">   vrrp_garp_interval 0</div><div class="line">   vrrp_gna_interval 0</div><div class="line">&#125;</div><div class="line"></div><div class="line">vrrp_script check_nfs &#123;</div><div class="line">    script <span class="string">"/keepalived/script/check_nfs.sh"</span></div><div class="line">    interval 2</div><div class="line">    weight -60</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line">vrrp_instance nfs_drbd0 &#123;</div><div class="line">    state BACKUP</div><div class="line">    interface eth2</div><div class="line">    virtual_router_id 222</div><div class="line">    priority 50</div><div class="line">    advert_int 1</div><div class="line">    authentication &#123;</div><div class="line">        auth_type PASS</div><div class="line">        auth_pass Nfs_DrBd</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    track_script &#123;</div><div class="line">        check_nfs</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    virtual_ipaddress &#123;</div><div class="line">        10.100.17.9</div><div class="line">    &#125;</div><div class="line">   </div><div class="line">  notify_stop <span class="string">"/keepalived/script/nfs_stop.sh"</span></div><div class="line">  notify_master <span class="string">"/keepalived/script/change_drbd_to_primary.sh"</span></div><div class="line">  notify_backup <span class="string">"/keepalived/script/change_drbd_to_secondary.sh"</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<blockquote>
+<p><code>master priority &gt; slave priority</code><br><code>one or more vip address，virtual_router_id should be different</code></p>
+</blockquote>
+<ul>
+<li><p>NFS FAILOVER</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#!/bin/bash</span></div><div class="line"></div><div class="line">log_name=<span class="string">'check_nfs'</span></div><div class="line">log_dir=<span class="string">'/keepalived/log'</span></div><div class="line">nfs_flag=<span class="string">"nfsd"</span></div><div class="line">VIP=<span class="string">"10.100.17.9"</span></div><div class="line">flag_exists=$(ps -ef | grep <span class="string">"<span class="variable">$&#123;nfs_flag&#125;</span>"</span> | grep -v grep | wc <span class="_">-l</span>)</div><div class="line">drbd_role=$(drbdsetup status |head -1 | awk -F<span class="string">':'</span> <span class="string">'&#123;print $2&#125;'</span>)</div><div class="line">time=` date <span class="string">"+%F  %H:%M:%S"</span>`</div><div class="line"><span class="built_in">echo</span> <span class="_">-e</span> <span class="string">"----------<span class="variable">$&#123;time&#125;</span>  check nfs start ------------\n"</span> &gt;&gt; <span class="variable">$&#123;log_dir&#125;</span>/<span class="variable">$&#123;log_name&#125;</span>.log</div><div class="line"></div><div class="line"><span class="keyword">if</span> [ <span class="string">"<span class="variable">$&#123;flag_exists&#125;</span>"</span> <span class="_">-eq</span> 0 ];</div><div class="line"><span class="keyword">then</span></div><div class="line">    <span class="comment"># Try to reboot once</span></div><div class="line">    <span class="built_in">echo</span> <span class="_">-e</span> <span class="string">"----------<span class="variable">$&#123;time&#125;</span>  restart nfs ------------\n"</span> &gt;&gt; <span class="variable">$&#123;log_dir&#125;</span>/<span class="variable">$&#123;log_name&#125;</span>.log</div><div class="line">    /sbin/service nfs restart &amp;&gt;&gt; <span class="variable">$&#123;log_dir&#125;</span>/<span class="variable">$&#123;log_name&#125;</span>.log</div><div class="line"></div><div class="line">    flag_exists=$(ps -ef | grep <span class="string">"<span class="variable">$&#123;nfs_flag&#125;</span>"</span> | grep -v grep | wc <span class="_">-l</span>)</div><div class="line">    <span class="keyword">if</span> [ <span class="string">"<span class="variable">$&#123;flag_exists&#125;</span>"</span> <span class="_">-eq</span> 0 ];</div><div class="line">    <span class="keyword">then</span></div><div class="line">        <span class="keyword">if</span> [ <span class="string">"<span class="variable">$&#123;drbd_role&#125;</span>"</span> == <span class="string">"Primary"</span> ];</div><div class="line">        <span class="keyword">then</span></div><div class="line">           <span class="built_in">echo</span> <span class="_">-e</span> <span class="string">"----------<span class="variable">$&#123;time&#125;</span>  <span class="variable">$&#123;log_name&#125;</span> ------------\n"</span> &gt;&gt; <span class="variable">$&#123;log_dir&#125;</span>/<span class="variable">$&#123;log_name&#125;</span>.log</div><div class="line">           <span class="built_in">cd</span> /keepalived/script/ &amp;&amp; bash change_drbd_to_secondary.sh &amp;&gt;&gt; <span class="variable">$&#123;log_dir&#125;</span>/<span class="variable">$&#123;log_name&#125;</span>.log</div><div class="line">           <span class="built_in">cd</span> /keepalived &amp;&amp; bash load_keepalived.sh stop   &amp;&gt;&gt; <span class="variable">$&#123;log_dir&#125;</span>/<span class="variable">$&#123;log_name&#125;</span>.log</div><div class="line">           <span class="built_in">echo</span> <span class="_">-e</span> <span class="string">"----------The End--------------------------\n"</span> &gt;&gt; <span class="variable">$&#123;log_dir&#125;</span>/<span class="variable">$&#123;log_name&#125;</span>.log</div><div class="line">        <span class="keyword">fi</span></div><div class="line">    <span class="keyword">fi</span></div><div class="line"><span class="keyword">fi</span></div><div class="line"><span class="built_in">echo</span> <span class="_">-e</span> <span class="string">"----------<span class="variable">$&#123;time&#125;</span>  check nfs end ------------\n"</span> &gt;&gt; <span class="variable">$&#123;log_dir&#125;</span>/<span class="variable">$&#123;log_name&#125;</span>.log</div></pre></td></tr></table></figure>
+</li>
+<li><p>COMMAND</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">drbdadm status drbd_disk0</div><div class="line"></div><div class="line">drbdadm up/down drbd_disk0</div><div class="line"></div><div class="line">drbdadm --force primary drbd_disk0</div><div class="line"></div><div class="line">service nfs restart/start/stop</div></pre></td></tr></table></figure>
+</li>
+<li><p>Manual sovled split brain</p>
+<ul>
+<li><code>drdbadm disconnect resource</code></li>
+<li><code>drbdadm secondary resource</code></li>
+<li><p><code>drbdadm connect --discard-my-data resource</code></p>
+</li>
+<li><p>On the other node (the split brain survivor), if its connection state is also StandAlone, you would enter:</p>
+</li>
+<li><p><code>drbdadm disconnect resource</code></p>
+</li>
+<li><code>drbdadm connect resource</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="6-NFS-mount"><a href="#6-NFS-mount" class="headerlink" title="6.NFS mount"></a>6.NFS mount</h2><ul>
+<li><p>Server</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/nfs_disk0 10.100.*(rw,no_root_squash)</div></pre></td></tr></table></figure>
+</li>
+<li><p>Client</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">10.100.17.9:/nfs_disk0/gitlab/git-data/repositories /var/opt/gitlab/git-data/repositories nfs4 defaults 0 0</div></pre></td></tr></table></figure></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/DRBD/" rel="tag"># DRBD</a>
+          
+            <a href="/tags/Gitlab/" rel="tag"># Gitlab</a>
+          
+            <a href="/tags/keepalived/" rel="tag"># keepalived</a>
+          
+            <a href="/tags/NFS/" rel="tag"># NFS</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/golang/terminal-use-proxy/" rel="next" title="终端使用Privoxy将socks5代理转为http代理">
+                <i class="fa fa-chevron-left"></i> 终端使用Privoxy将socks5代理转为http代理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="DRBD/Gitlab+DRBD+KEEPALIVED+NFS/"
+           data-title="Gitlab+DRBD+KEEPALIVED+NFS" data-url="https://svolence.github.io/DRBD/Gitlab+DRBD+KEEPALIVED+NFS/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Svolence" />
+          <p class="site-author-name" itemprop="name">Svolence</p>
+          <p class="site-description motion-element" itemprop="description">Talk is cheap, show me the code!!!</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Gitlab-cluster-deployment-related-services"><span class="nav-number">1.</span> <span class="nav-text">Gitlab cluster deployment related services</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Gitlab-server"><span class="nav-number">1.1.</span> <span class="nav-text">1.Gitlab server</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-redis-pgsql"><span class="nav-number">1.2.</span> <span class="nav-text">2.redis/pgsql</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-DRBD-amp-keepalived-amp-nfs"><span class="nav-number">1.3.</span> <span class="nav-text">3.DRBD & keepalived & nfs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-gitlab-cluser-config"><span class="nav-number">1.4.</span> <span class="nav-text">4.gitlab cluser config</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-keepalived-amp-DRBD-config"><span class="nav-number">1.5.</span> <span class="nav-text">5.keepalived & DRBD config</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-NFS-mount"><span class="nav-number">1.6.</span> <span class="nav-text">6.NFS mount</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Svolence</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"svolence"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("gg4V2cN69UAJQ53rO4JwVmaL-gzGzoHsz", "uYSk8wzlMAMgisyaGCA2yWFq");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+</body>
+</html>

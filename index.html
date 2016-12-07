@@ -271,6 +271,195 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://svolence.github.io/DRBD/Gitlab+DRBD+KEEPALIVED+NFS/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Svolence">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Svolence's Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Svolence's Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/DRBD/Gitlab+DRBD+KEEPALIVED+NFS/" itemprop="url">
+                  Gitlab+DRBD+KEEPALIVED+NFS
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <!-- <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-12-07T15:30:04+08:00">
+              2016-12-07
+            </time> -->
+
+            &nbsp;|&nbsp;
+
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-check-o"></i>
+            </span>
+            <time title="Post modified" itemprop="dateModified" datetime="2016-12-07T15:56:06+08:00">
+              2016-12-07
+            </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Gitlab/" itemprop="url" rel="index">
+                    <span itemprop="name">Gitlab</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/DRBD/Gitlab+DRBD+KEEPALIVED+NFS/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="DRBD/Gitlab+DRBD+KEEPALIVED+NFS/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/DRBD/Gitlab+DRBD+KEEPALIVED+NFS/" class="leancloud_visitors" data-flag-title="Gitlab+DRBD+KEEPALIVED+NFS">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">Visitors </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="Gitlab-cluster-deployment-related-services"><a href="#Gitlab-cluster-deployment-related-services" class="headerlink" title="Gitlab cluster deployment related services"></a>Gitlab cluster deployment related services</h1><h2 id="1-Gitlab-server"><a href="#1-Gitlab-server" class="headerlink" title="1.Gitlab server"></a>1.Gitlab server</h2><ul>
+<li>System:　<code>ubuntu 14.04 x86_64</code></li>
+<li>Gitlab master:　<code>10.100.136.62</code>　</li>
+<li>Gitlab slave:　<code>10.100.136.63</code>　</li>
+<li>Gitlab version:　<code>GitLab Community Edition 8.13.5</code></li>
+<li>Location:　<code>/var/opt/gitlab</code></li>
+</ul>
+<h2 id="2-redis-pgsql"><a href="#2-redis-pgsql" class="headerlink" title="2.redis/pgsql"></a>2.redis/pgsql</h2><ul>
+<li>System:　<code>centos 6.8 x86_64</code></li>
+<li>Redis:　<code>10.100.17.25:6380</code>　</li>
+<li>Pgsql:　<code>10.100.17.25:5432</code>　</li>
+<li>Version:　<code>redis:2.8，pgsql:9.6</code></li>
+<li>Location:　<code>/data/redis，/var/lib/pgsql/9.6</code></li>
+</ul>
+<h2 id="3-DRBD-amp-keepalived-amp-nfs"><a href="#3-DRBD-amp-keepalived-amp-nfs" class="headerlink" title="3.DRBD &amp; keepalived &amp; nfs"></a>3.DRBD &amp; keepalived &amp; nfs</h2><ul>
+<li>System:　<code>centos 6.8 x86_64</code></li>
+<li>DRBD master:　<code>10.100.17.31</code>　</li>
+<li>DRBD slave:　<code>10.100.17.32</code>　</li>
+<li>Version:　<code>8.9.6</code></li>
+<li>Location:<ul>
+<li><code>/usr/loca/etc/drbd</code></li>
+<li><code>/keepalived</code></li>
+<li><code>/etc/exports</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="4-gitlab-cluser-config"><a href="#4-gitlab-cluser-config" class="headerlink" title="4.gitlab cluser config"></a>4.gitlab cluser config</h2><ul>
+<li>MASTER<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># vi /etc/gitlab/gitlab.rb</span></div><div class="line"></div><div class="line"><span class="comment"># Disable the built-in Postgres</span></div><div class="line">postgresql[<span class="string">'enable'</span>] = <span class="literal">false</span></div><div class="line"></div><div class="line"><span class="comment"># Fill in the values for database.yml</span></div><div class="line">gitlab_rails[<span class="string">'db_adapter'</span>] = <span class="string">"postgresql"</span></div><div class="line">gitlab_rails[<span class="string">'db_encoding'</span>] = <span class="string">"unicode"</span></div><div class="line">gitlab_rails[<span class="string">'db_database'</span>] = <span class="string">"gitlabhq_production"</span></div><div class="line">gitlab_rails[<span class="string">'db_host'</span>] = <span class="string">'10.100.17.25'</span></div><div class="line">gitlab_rails[<span class="string">'db_port'</span>] = <span class="string">'5432'</span></div><div class="line">gitlab_rails[<span class="string">'db_username'</span>] = <span class="string">'gitlab'</span></div><div class="line">gitlab_rails[<span class="string">'db_password'</span>] = <span class="string">'123456'</span></div><div class="line"></div><div class="line"><span class="comment"># Redis connection details</span></div><div class="line"></div><div class="line">redis[<span class="string">'enable'</span>] = <span class="literal">false</span></div><div class="line">gitlab_rails[<span class="string">'redis_port'</span>] = <span class="string">'6380'</span></div><div class="line">gitlab_rails[<span class="string">'redis_host'</span>] = <span class="string">'10.100.17.25'</span></div><div class="line"><span class="comment">#gitlab_rails['redis_password'] = '123456'</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+          <!--noindex-->
+          <div class="post-more-link text-center">
+            <a class="btn" href="/DRBD/Gitlab+DRBD+KEEPALIVED+NFS/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
   <link itemprop="mainEntityOfPage" href="https://svolence.github.io/golang/terminal-use-proxy/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -942,187 +1131,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://svolence.github.io/docker/docker-ubuntu/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Svolence">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.gif">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="Svolence's Blog">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="Svolence's Blog" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/docker/docker-ubuntu/" itemprop="url">
-                  Install docker on ubuntu
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <!-- <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-10-12T12:39:04+08:00">
-              2016-10-12
-            </time> -->
-
-            &nbsp;|&nbsp;
-
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-check-o"></i>
-            </span>
-            <time title="Post modified" itemprop="dateModified" datetime="2016-11-21T14:27:25+08:00">
-              2016-11-21
-            </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/docker/" itemprop="url" rel="index">
-                    <span itemprop="name">docker</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/docker/docker-ubuntu/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="docker/docker-ubuntu/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/docker/docker-ubuntu/" class="leancloud_visitors" data-flag-title="Install docker on ubuntu">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">Visitors </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="下载ubuntu镜像"><a href="#下载ubuntu镜像" class="headerlink" title="下载ubuntu镜像"></a>下载ubuntu镜像</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo docker pull ubuntu:16.04</div></pre></td></tr></table></figure>
-<h1 id="创建一个容器-运行bash"><a href="#创建一个容器-运行bash" class="headerlink" title="创建一个容器,运行bash"></a>创建一个容器,运行bash</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">sudo docker run -it ubuntu:16.04 /bin/bash</div><div class="line"><span class="comment"># 参数：</span></div><div class="line"><span class="comment"># -i：表示以“交互模式”运行容器，-i 则让容器的标准输入保持打开</span></div><div class="line"><span class="comment"># -t：表示容器启动后会进入其命令行，-t 选项让Docker分配一个伪终端（pseudo-tty）并绑定到容器的标准输入上</span></div><div class="line"><span class="comment"># -v：表示需要将本地哪个目录挂载到容器中，格式：-v &lt;宿主机目录&gt;:&lt;容器目录&gt;，-v 标记来创建一个数据卷并挂载到容器里。在一次 run 中多次使用可以挂载多个数据卷。</span></div><div class="line"><span class="comment"># -p：指定对外80端口</span></div><div class="line"><span class="comment"># 不一定要使用“镜像 ID”，也可以使用“仓库名:标签名”</span></div></pre></td></tr></table></figure>
-<h1 id="保存docker中的修改"><a href="#保存docker中的修改" class="headerlink" title="保存docker中的修改"></a>保存docker中的修改</h1><ul>
-<li><p>列出所有容器</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo docker ps</div></pre></td></tr></table></figure>
-</li>
-<li><p>提交修改</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo docker commit &#123;containerId&#125;</div><div class="line"><span class="comment"># 会返回一个id</span></div><div class="line">sudo docker tag &#123;id&#125; oceanwen/<span class="built_in">test</span>:1.0</div></pre></td></tr></table></figure>
-</li>
-<li><p>杀死所有正在运行的容器</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker <span class="built_in">kill</span> $(docker ps <span class="_">-a</span> -q)</div></pre></td></tr></table></figure>
-</li>
-<li><p>删除所有已经停止的容器</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker rm $(docker ps <span class="_">-a</span> -q)</div></pre></td></tr></table></figure>
-</li>
-<li><p>删除所有镜像</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker rmi $(docker ps <span class="_">-a</span> -q)</div></pre></td></tr></table></figure>
-</li>
-<li><p>查看容器信息</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker inspect &#123;containerId&#125;</div></pre></td></tr></table></figure>
-</li>
-</ul>
-          <!--noindex-->
-          <div class="post-more-link text-center">
-            <a class="btn" href="/docker/docker-ubuntu/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1176,7 +1184,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">categories</span>
               </a>
             </div>
@@ -1185,7 +1193,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>

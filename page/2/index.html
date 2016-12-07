@@ -271,7 +271,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://svolence.github.io/DRBD/config/">
+  <link itemprop="mainEntityOfPage" href="https://svolence.github.io/docker/docker-ubuntu/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="Svolence">
@@ -296,8 +296,8 @@
             
               
                 
-                <a class="post-title-link" href="/DRBD/config/" itemprop="url">
-                  DRBD basic config
+                <a class="post-title-link" href="/docker/docker-ubuntu/" itemprop="url">
+                  Install docker on ubuntu
                 </a>
               
             
@@ -310,8 +310,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">Posted on</span>
-            <!-- <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-09-22T20:30:04+08:00">
-              2016-09-22
+            <!-- <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-10-12T12:39:04+08:00">
+              2016-10-12
             </time> -->
 
             &nbsp;|&nbsp;
@@ -319,7 +319,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-check-o"></i>
             </span>
-            <time title="Post modified" itemprop="dateModified" datetime="2016-11-21T14:26:18+08:00">
+            <time title="Post modified" itemprop="dateModified" datetime="2016-11-21T14:27:25+08:00">
               2016-11-21
             </time>
             
@@ -334,8 +334,8 @@
               <span class="post-meta-item-text">In</span>
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/DRBD/" itemprop="url" rel="index">
-                    <span itemprop="name">DRBD</span>
+                  <a href="/categories/docker/" itemprop="url" rel="index">
+                    <span itemprop="name">docker</span>
                   </a>
                 </span>
 
@@ -350,8 +350,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/DRBD/config/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="DRBD/config/" itemprop="commentCount"></span>
+                <a href="/docker/docker-ubuntu/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="docker/docker-ubuntu/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -361,7 +361,7 @@
 
           
           
-             <span id="/DRBD/config/" class="leancloud_visitors" data-flag-title="DRBD basic config">
+             <span id="/docker/docker-ubuntu/" class="leancloud_visitors" data-flag-title="Install docker on ubuntu">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -387,9 +387,35 @@
 
       
         
-          
-            <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">resource r0 &#123;</div><div class="line">        protocol C;</div><div class="line">        startup &#123;</div><div class="line">                wfc-timeout  15;</div><div class="line">                degr-wfc-timeout 60;</div><div class="line">        &#125;</div><div class="line">        net &#123;</div><div class="line">                cram-hmac-alg sha1;</div><div class="line">                shared-secret <span class="string">"secret"</span>;</div><div class="line">        &#125;</div><div class="line">        on drbd1 &#123;</div><div class="line">                device /dev/drbd0;</div><div class="line">                disk /dev/sda7;</div><div class="line">                address 10.96.23.120:7788;</div><div class="line">                meta-disk internal;</div><div class="line">        &#125;</div><div class="line">        on drbd2 &#123;</div><div class="line">                device /dev/drbd0;</div><div class="line">                disk /dev/sda7;</div><div class="line">                address 10.96.23.121:7788;</div><div class="line">                meta-disk internal;</div><div class="line">        &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-          
+          <h1 id="下载ubuntu镜像"><a href="#下载ubuntu镜像" class="headerlink" title="下载ubuntu镜像"></a>下载ubuntu镜像</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo docker pull ubuntu:16.04</div></pre></td></tr></table></figure>
+<h1 id="创建一个容器-运行bash"><a href="#创建一个容器-运行bash" class="headerlink" title="创建一个容器,运行bash"></a>创建一个容器,运行bash</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">sudo docker run -it ubuntu:16.04 /bin/bash</div><div class="line"><span class="comment"># 参数：</span></div><div class="line"><span class="comment"># -i：表示以“交互模式”运行容器，-i 则让容器的标准输入保持打开</span></div><div class="line"><span class="comment"># -t：表示容器启动后会进入其命令行，-t 选项让Docker分配一个伪终端（pseudo-tty）并绑定到容器的标准输入上</span></div><div class="line"><span class="comment"># -v：表示需要将本地哪个目录挂载到容器中，格式：-v &lt;宿主机目录&gt;:&lt;容器目录&gt;，-v 标记来创建一个数据卷并挂载到容器里。在一次 run 中多次使用可以挂载多个数据卷。</span></div><div class="line"><span class="comment"># -p：指定对外80端口</span></div><div class="line"><span class="comment"># 不一定要使用“镜像 ID”，也可以使用“仓库名:标签名”</span></div></pre></td></tr></table></figure>
+<h1 id="保存docker中的修改"><a href="#保存docker中的修改" class="headerlink" title="保存docker中的修改"></a>保存docker中的修改</h1><ul>
+<li><p>列出所有容器</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo docker ps</div></pre></td></tr></table></figure>
+</li>
+<li><p>提交修改</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo docker commit &#123;containerId&#125;</div><div class="line"><span class="comment"># 会返回一个id</span></div><div class="line">sudo docker tag &#123;id&#125; oceanwen/<span class="built_in">test</span>:1.0</div></pre></td></tr></table></figure>
+</li>
+<li><p>杀死所有正在运行的容器</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker <span class="built_in">kill</span> $(docker ps <span class="_">-a</span> -q)</div></pre></td></tr></table></figure>
+</li>
+<li><p>删除所有已经停止的容器</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker rm $(docker ps <span class="_">-a</span> -q)</div></pre></td></tr></table></figure>
+</li>
+<li><p>删除所有镜像</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker rmi $(docker ps <span class="_">-a</span> -q)</div></pre></td></tr></table></figure>
+</li>
+<li><p>查看容器信息</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker inspect &#123;containerId&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+          <!--noindex-->
+          <div class="post-more-link text-center">
+            <a class="btn" href="/docker/docker-ubuntu/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1128,7 +1154,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">categories</span>
               </a>
             </div>
@@ -1137,7 +1163,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>
