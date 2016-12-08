@@ -271,6 +271,203 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://svolence.github.io/influxdb/Telegraf+Influxdb+Grafana/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Svolence">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Svolence's Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Svolence's Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/influxdb/Telegraf+Influxdb+Grafana/" itemprop="url">
+                  Telegraf+influxdb+Grafana (一)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <!-- <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-12-08T21:30:04+08:00">
+              2016-12-08
+            </time> -->
+
+            &nbsp;|&nbsp;
+
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-check-o"></i>
+            </span>
+            <time title="Post modified" itemprop="dateModified" datetime="2016-12-08T20:48:12+08:00">
+              2016-12-08
+            </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/influxdb/" itemprop="url" rel="index">
+                    <span itemprop="name">influxdb</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/influxdb/Telegraf+Influxdb+Grafana/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="influxdb/Telegraf+Influxdb+Grafana/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/influxdb/Telegraf+Influxdb+Grafana/" class="leancloud_visitors" data-flag-title="Telegraf+influxdb+Grafana (一)">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">Visitors </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="Telegraf-InfluxDB-Grafana初探"><a href="#Telegraf-InfluxDB-Grafana初探" class="headerlink" title="Telegraf+InfluxDB+Grafana初探"></a>Telegraf+InfluxDB+Grafana初探</h1><h2 id="1-Configuration-information"><a href="#1-Configuration-information" class="headerlink" title="1.Configuration information"></a>1.Configuration information</h2><ul>
+<li><p><code>system info</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">unbuntu 16.04 x86_64</div></pre></td></tr></table></figure>
+</li>
+<li><p><code>InfluxDB v1.1.1 install</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">wget https://dl.influxdata.com/influxdb/releases/influxdb_1.1.1_amd64.deb</div><div class="line">sudo dpkg -i influxdb_1.1.1_amd64.deb</div></pre></td></tr></table></figure>
+</li>
+<li><p><code>Telegraf v1.1.1 install</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">wget https://dl.influxdata.com/telegraf/releases/telegraf_1.1.1_amd64.deb</div><div class="line">sudo dpkg -i telegraf_1.1.1_amd64.deb</div></pre></td></tr></table></figure>
+</li>
+<li><p><code>Chronograf v1.1.0~beta1 install</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">wget https://dl.influxdata.com/chronograf/releases/chronograf_1.1.0~beta1_amd64.deb</div><div class="line">sudo dpkg -i chronograf_1.1.0~beta1_amd64.deb</div></pre></td></tr></table></figure>
+</li>
+<li><p><code>Kapacitor v1.1.1 install</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">wget https://dl.influxdata.com/kapacitor/releases/kapacitor_1.1.1_amd64.deb</div><div class="line">sudo dpkg -i kapacitor_1.1.1_amd64.deb</div></pre></td></tr></table></figure>
+</li>
+<li><p><code>grafana_4.0.1 install</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">wget https://grafanarel.s3.amazonaws.com/builds/grafana_4.0.1-1480694114_amd64.deb</div><div class="line">sudo apt-get install -y adduser libfontconfig</div><div class="line">sudo dpkg -i grafana_4.0.1-1480694114_amd64.deb</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="2-Telegraf-抓取本机信息"><a href="#2-Telegraf-抓取本机信息" class="headerlink" title="2.Telegraf 抓取本机信息"></a>2.Telegraf 抓取本机信息</h2><ul>
+<li>自动生成telegraf.conf<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">telegraf config &gt; telegraf.conf</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<blockquote>
+<p>Note: Telegraf will start automatically using the default configuration when installed from a deb package.</p>
+</blockquote>
+<p><strong>通过deb安装的话，Telegraf默认启动的配置文件在<code>/etc/telegraf/telegraf.conf</code></strong></p>
+<p>手动生成一个简单的配置<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">telegraf -sample-config -input-filter cpu:mem -output-filter influxdb &gt; telegraf.conf</div><div class="line"></div><div class="line">root@<span class="built_in">test</span>:/etc/telegraf<span class="comment"># cat test.conf </span></div><div class="line">[agent]</div><div class="line">    interval = <span class="string">"1s"</span></div><div class="line"></div><div class="line">[outputs]</div><div class="line"></div><div class="line"><span class="comment"># Configuration to send data to InfluxDB.</span></div><div class="line">[outputs.influxdb]</div><div class="line">    urls = [<span class="string">"http://localhost:8086"</span>]</div><div class="line">    database = <span class="string">"kapacitor_example"</span></div><div class="line">    user_agent = <span class="string">"telegraf"</span></div><div class="line"></div><div class="line"><span class="comment"># Collect metrics about cpu usage</span></div><div class="line">[cpu]</div><div class="line">    percpu = <span class="literal">false</span></div><div class="line">    totalcpu = <span class="literal">true</span></div><div class="line">    drop = [<span class="string">"cpu_time"</span>]</div><div class="line"></div><div class="line">root@<span class="built_in">test</span>:/etc/telegraf<span class="comment">#</span></div></pre></td></tr></table></figure></p>
+<p>InfluxDB中查看抓取信息</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">root@<span class="built_in">test</span>:/etc/telegraf<span class="comment"># influx</span></div><div class="line">Visit https://enterprise.influxdata.com to register <span class="keyword">for</span> updates, InfluxDB server management, and monitoring.</div><div class="line">Connected to http://localhost:8086 version 1.1.0</div><div class="line">InfluxDB shell version: 1.1.0</div><div class="line">&gt; show databases;</div><div class="line">name: databases</div><div class="line">name</div><div class="line">----</div><div class="line">telegraf</div><div class="line">_internal</div><div class="line">kapacitor_example</div><div class="line">test_log</div><div class="line">error_log</div><div class="line"></div><div class="line">&gt; use telegraf</div><div class="line">Using database telegraf</div><div class="line">&gt; show measurements;</div><div class="line">name: measurements</div><div class="line">name</div><div class="line">----</div><div class="line">cpu</div><div class="line">disk</div><div class="line">diskio</div><div class="line">kernel</div><div class="line">mem</div><div class="line">processes</div><div class="line">swap</div><div class="line">system</div><div class="line">&gt;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>To enable the Admin UI, edit the configuration file to set enabled = true in the [admin] section.<br>You must restart the process for any configuration changes to take effect. </p>
+<p>Once enabled, the Admin UI is available by default at port 8083, i.e. <a href="http://localhost:8083" target="_blank" rel="external">http://localhost:8083</a>.<br>You can control the port in the InfluxDB config file using the port option in the [admin] section.</p>
+</blockquote>
+<p>InfluxDB v1.1之前默认开启后台管理界面，直接访问：<code>http://localhost:8083</code>，新的版本默认关闭，开启的话需要在<br><code>/etc/influxdb/influxdb.conf</code>下[admin]选项下开启</p>
+<h2 id="3-Chronograf-可视化展示"><a href="#3-Chronograf-可视化展示" class="headerlink" title="3.Chronograf 可视化展示"></a>3.Chronograf 可视化展示</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">influxd <span class="comment"># 启动influxdb</span></div></pre></td></tr></table></figure>
+<p>访问<a href="http://localhost:10000" target="_blank" rel="external">http://localhost:10000</a>,会看到如下界面<br><img src="/images/chronograf-view.png" alt="可视化界面"></p>
+<p>参考链接:</p>
+<ul>
+<li><a href="https://docs.influxdata.com/" target="_blank" rel="external">https://docs.influxdata.com/</a></li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
   <link itemprop="mainEntityOfPage" href="https://svolence.github.io/DRBD/Gitlab+DRBD+KEEPALIVED+NFS/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -970,172 +1167,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://svolence.github.io/DRBD/README/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Svolence">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.gif">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="Svolence's Blog">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="Svolence's Blog" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/DRBD/README/" itemprop="url">
-                  How to install DRBD & config on ubuntu
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <!-- <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-10-18T15:59:04+08:00">
-              2016-10-18
-            </time> -->
-
-            &nbsp;|&nbsp;
-
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-check-o"></i>
-            </span>
-            <time title="Post modified" itemprop="dateModified" datetime="2016-11-21T14:26:47+08:00">
-              2016-11-21
-            </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/DRBD/" itemprop="url" rel="index">
-                    <span itemprop="name">DRBD</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/DRBD/README/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="DRBD/README/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/DRBD/README/" class="leancloud_visitors" data-flag-title="How to install DRBD & config on ubuntu">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">Visitors </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="Installation"><a href="#Installation" class="headerlink" title="Installation"></a>Installation</h1><h2 id="CentOS"><a href="#CentOS" class="headerlink" title="CentOS"></a>CentOS</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">yum install drbd kmod-drbd</div></pre></td></tr></table></figure>
-<h2 id="Ubuntu"><a href="#Ubuntu" class="headerlink" title="Ubuntu"></a>Ubuntu</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:linbit/linbit-drbd9-stack</div><div class="line">sudo apt-get update</div><div class="line"></div><div class="line">sudo apt-get install drbd-utils python-drbdmanage drbd-dkms</div></pre></td></tr></table></figure>
-          <!--noindex-->
-          <div class="post-more-link text-center">
-            <a class="btn" href="/DRBD/README/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1176,7 +1212,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-count">11</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
@@ -1184,7 +1220,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">categories</span>
               </a>
             </div>
@@ -1193,7 +1229,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>
