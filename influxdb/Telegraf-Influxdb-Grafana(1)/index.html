@@ -80,7 +80,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="docker,ubuntu," />
+  <meta name="keywords" content="TICK/Grafana," />
 
 
 
@@ -96,19 +96,33 @@
 
 
 
-<meta name="description" content="下载ubuntu镜像1sudo docker pull ubuntu:16.04
-创建一个容器,运行bash1234567sudo docker run -it ubuntu:16.04 /bin/bash# 参数：# -i：表示以“交互模式”运行容器，-i 则让容器的标准输入保持打开# -t：表示容器启动后会进入其命令行，-t 选项让Docker分配一个伪终端（pseudo-tty）并绑定到容器">
+<meta name="description" content="Telegraf+InfluxDB+Grafana初探1.Configuration information
+system info
+1unbuntu 16.04 x86_64
+
+InfluxDB v1.1.1 install
+12wget https://dl.influxdata.com/influxdb/releases/influxdb_1.1.1_amd64.debsudo dpkg -">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Install docker on ubuntu">
-<meta property="og:url" content="https://svolence.github.io/docker/docker-ubuntu/index.html">
+<meta property="og:title" content="Telegraf+Influxdb+Grafana (1)">
+<meta property="og:url" content="https://svolence.github.io/influxdb/Telegraf-Influxdb-Grafana(1)/index.html">
 <meta property="og:site_name" content="Svolence's Blog">
-<meta property="og:description" content="下载ubuntu镜像1sudo docker pull ubuntu:16.04
-创建一个容器,运行bash1234567sudo docker run -it ubuntu:16.04 /bin/bash# 参数：# -i：表示以“交互模式”运行容器，-i 则让容器的标准输入保持打开# -t：表示容器启动后会进入其命令行，-t 选项让Docker分配一个伪终端（pseudo-tty）并绑定到容器">
-<meta property="og:updated_time" content="2016-11-21T06:27:25.844Z">
+<meta property="og:description" content="Telegraf+InfluxDB+Grafana初探1.Configuration information
+system info
+1unbuntu 16.04 x86_64
+
+InfluxDB v1.1.1 install
+12wget https://dl.influxdata.com/influxdb/releases/influxdb_1.1.1_amd64.debsudo dpkg -">
+<meta property="og:image" content="https://svolence.github.io/images/chronograf-view.png">
+<meta property="og:updated_time" content="2016-12-09T07:51:23.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Install docker on ubuntu">
-<meta name="twitter:description" content="下载ubuntu镜像1sudo docker pull ubuntu:16.04
-创建一个容器,运行bash1234567sudo docker run -it ubuntu:16.04 /bin/bash# 参数：# -i：表示以“交互模式”运行容器，-i 则让容器的标准输入保持打开# -t：表示容器启动后会进入其命令行，-t 选项让Docker分配一个伪终端（pseudo-tty）并绑定到容器">
+<meta name="twitter:title" content="Telegraf+Influxdb+Grafana (1)">
+<meta name="twitter:description" content="Telegraf+InfluxDB+Grafana初探1.Configuration information
+system info
+1unbuntu 16.04 x86_64
+
+InfluxDB v1.1.1 install
+12wget https://dl.influxdata.com/influxdb/releases/influxdb_1.1.1_amd64.debsudo dpkg -">
+<meta name="twitter:image" content="https://svolence.github.io/images/chronograf-view.png">
 
 
 
@@ -136,13 +150,13 @@
 
 
 
-  <link rel="canonical" href="https://svolence.github.io/docker/docker-ubuntu/"/>
+  <link rel="canonical" href="https://svolence.github.io/influxdb/Telegraf-Influxdb-Grafana(1)/"/>
 
 
 
 
 
-  <title> Install docker on ubuntu | Svolence's Blog </title>
+  <title> Telegraf+Influxdb+Grafana (1) | Svolence's Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="en">
@@ -273,7 +287,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://svolence.github.io/docker/docker-ubuntu/">
+  <link itemprop="mainEntityOfPage" href="https://svolence.github.io/influxdb/Telegraf-Influxdb-Grafana(1)/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="Svolence">
@@ -297,7 +311,7 @@
             
             
               
-                Install docker on ubuntu
+                Telegraf+Influxdb+Grafana (1)
               
             
           </h1>
@@ -309,8 +323,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">Posted on</span>
-            <!-- <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-10-12T12:39:04+08:00">
-              2016-10-12
+            <!-- <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-12-08T21:30:04+08:00">
+              2016-12-08
             </time> -->
 
             &nbsp;|&nbsp;
@@ -318,8 +332,8 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-check-o"></i>
             </span>
-            <time title="Post modified" itemprop="dateModified" datetime="2016-11-21T14:27:25+08:00">
-              2016-11-21
+            <time title="Post modified" itemprop="dateModified" datetime="2016-12-09T15:51:23+08:00">
+              2016-12-09
             </time>
             
           </span>
@@ -333,8 +347,8 @@
               <span class="post-meta-item-text">In</span>
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/docker/" itemprop="url" rel="index">
-                    <span itemprop="name">docker</span>
+                  <a href="/categories/influxdb/" itemprop="url" rel="index">
+                    <span itemprop="name">influxdb</span>
                   </a>
                 </span>
 
@@ -349,8 +363,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/docker/docker-ubuntu/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="docker/docker-ubuntu/" itemprop="commentCount"></span>
+                <a href="/influxdb/Telegraf-Influxdb-Grafana(1)/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="influxdb/Telegraf-Influxdb-Grafana(1)/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -360,7 +374,7 @@
 
           
           
-             <span id="/docker/docker-ubuntu/" class="leancloud_visitors" data-flag-title="Install docker on ubuntu">
+             <span id="/influxdb/Telegraf-Influxdb-Grafana(1)/" class="leancloud_visitors" data-flag-title="Telegraf+Influxdb+Grafana (1)">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -385,51 +399,49 @@
       
 
       
-        <h1 id="下载ubuntu镜像"><a href="#下载ubuntu镜像" class="headerlink" title="下载ubuntu镜像"></a>下载ubuntu镜像</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo docker pull ubuntu:16.04</div></pre></td></tr></table></figure>
-<h1 id="创建一个容器-运行bash"><a href="#创建一个容器-运行bash" class="headerlink" title="创建一个容器,运行bash"></a>创建一个容器,运行bash</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">sudo docker run -it ubuntu:16.04 /bin/bash</div><div class="line"><span class="comment"># 参数：</span></div><div class="line"><span class="comment"># -i：表示以“交互模式”运行容器，-i 则让容器的标准输入保持打开</span></div><div class="line"><span class="comment"># -t：表示容器启动后会进入其命令行，-t 选项让Docker分配一个伪终端（pseudo-tty）并绑定到容器的标准输入上</span></div><div class="line"><span class="comment"># -v：表示需要将本地哪个目录挂载到容器中，格式：-v &lt;宿主机目录&gt;:&lt;容器目录&gt;，-v 标记来创建一个数据卷并挂载到容器里。在一次 run 中多次使用可以挂载多个数据卷。</span></div><div class="line"><span class="comment"># -p：指定对外80端口</span></div><div class="line"><span class="comment"># 不一定要使用“镜像 ID”，也可以使用“仓库名:标签名”</span></div></pre></td></tr></table></figure>
-<h1 id="保存docker中的修改"><a href="#保存docker中的修改" class="headerlink" title="保存docker中的修改"></a>保存docker中的修改</h1><ul>
-<li><p>列出所有容器</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo docker ps</div></pre></td></tr></table></figure>
+        <h1 id="Telegraf-InfluxDB-Grafana初探"><a href="#Telegraf-InfluxDB-Grafana初探" class="headerlink" title="Telegraf+InfluxDB+Grafana初探"></a>Telegraf+InfluxDB+Grafana初探</h1><h2 id="1-Configuration-information"><a href="#1-Configuration-information" class="headerlink" title="1.Configuration information"></a>1.Configuration information</h2><ul>
+<li><p><code>system info</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">unbuntu 16.04 x86_64</div></pre></td></tr></table></figure>
 </li>
-<li><p>提交修改</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo docker commit &#123;containerId&#125;</div><div class="line"><span class="comment"># 会返回一个id</span></div><div class="line">sudo docker tag &#123;id&#125; oceanwen/<span class="built_in">test</span>:1.0</div></pre></td></tr></table></figure>
+<li><p><code>InfluxDB v1.1.1 install</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">wget https://dl.influxdata.com/influxdb/releases/influxdb_1.1.1_amd64.deb</div><div class="line">sudo dpkg -i influxdb_1.1.1_amd64.deb</div></pre></td></tr></table></figure>
 </li>
-<li><p>杀死所有正在运行的容器</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker <span class="built_in">kill</span> $(docker ps <span class="_">-a</span> -q)</div></pre></td></tr></table></figure>
+<li><p><code>Telegraf v1.1.1 install</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">wget https://dl.influxdata.com/telegraf/releases/telegraf_1.1.1_amd64.deb</div><div class="line">sudo dpkg -i telegraf_1.1.1_amd64.deb</div></pre></td></tr></table></figure>
 </li>
-<li><p>删除所有已经停止的容器</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker rm $(docker ps <span class="_">-a</span> -q)</div></pre></td></tr></table></figure>
+<li><p><code>Chronograf v1.1.0~beta1 install</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">wget https://dl.influxdata.com/chronograf/releases/chronograf_1.1.0~beta1_amd64.deb</div><div class="line">sudo dpkg -i chronograf_1.1.0~beta1_amd64.deb</div></pre></td></tr></table></figure>
 </li>
-<li><p>删除所有镜像</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker rmi $(docker ps <span class="_">-a</span> -q)</div></pre></td></tr></table></figure>
+<li><p><code>Kapacitor v1.1.1 install</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">wget https://dl.influxdata.com/kapacitor/releases/kapacitor_1.1.1_amd64.deb</div><div class="line">sudo dpkg -i kapacitor_1.1.1_amd64.deb</div></pre></td></tr></table></figure>
 </li>
-<li><p>查看容器信息</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker inspect &#123;containerId&#125;</div></pre></td></tr></table></figure>
+<li><p><code>grafana_4.0.1 install</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">wget https://grafanarel.s3.amazonaws.com/builds/grafana_4.0.1-1480694114_amd64.deb</div><div class="line">sudo apt-get install -y adduser libfontconfig</div><div class="line">sudo dpkg -i grafana_4.0.1-1480694114_amd64.deb</div></pre></td></tr></table></figure>
 </li>
 </ul>
-<a id="more"></a>
-<h1 id="创建自己的docker镜像"><a href="#创建自己的docker镜像" class="headerlink" title="创建自己的docker镜像"></a>创建自己的docker镜像</h1><h2 id="使用docker-commit-命令来创建镜像"><a href="#使用docker-commit-命令来创建镜像" class="headerlink" title="使用docker commit 命令来创建镜像"></a>使用docker commit 命令来创建镜像</h2><pre><code>1.通过docker run命令启动容器
-2.修改docker镜像内容
-3.docker commit提交修改的镜像
-4.docker run新的镜像
-</code></pre><h2 id="使用-DockerFile-来创建镜像"><a href="#使用-DockerFile-来创建镜像" class="headerlink" title="使用 DockerFile 来创建镜像"></a>使用 DockerFile 来创建镜像</h2><p>使用 docker commit 来扩展一个镜像比较简单,但是不方便在一个团队中分享.我们可以使用 docker build 来创建一个新的镜像.为此,首先需要创建一个 DockerFile,包含一些如何创建镜像的指令.</p>
-<h2 id="生成镜像"><a href="#生成镜像" class="headerlink" title="生成镜像"></a>生成镜像</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sudo docker build -t = <span class="string">"oceanwen/test:v1"</span> .</div><div class="line"><span class="comment"># 参数：</span></div><div class="line"><span class="comment"># -t 标记来添加 tag,指定新的镜像的用户和镜像名称信息。</span></div><div class="line"><span class="comment"># "." 是 Dockerfile 所在的路径（当前目录）,也可以替换为一个具体的 Dockerfile 的路径。</span></div></pre></td></tr></table></figure>
-<h1 id="安装GitLab"><a href="#安装GitLab" class="headerlink" title="安装GitLab"></a>安装GitLab</h1><ul>
-<li>安装依赖</li>
+<h2 id="2-Telegraf-抓取本机信息"><a href="#2-Telegraf-抓取本机信息" class="headerlink" title="2.Telegraf 抓取本机信息"></a>2.Telegraf 抓取本机信息</h2><ul>
+<li>自动生成telegraf.conf<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">telegraf config &gt; telegraf.conf</div></pre></td></tr></table></figure>
+</li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install curl openssh-server ca-certificates postfix</div></pre></td></tr></table></figure>
+<blockquote>
+<p>Note: Telegraf will start automatically using the default configuration when installed from a deb package.</p>
+</blockquote>
+<p><strong>通过deb安装的话，Telegraf默认启动的配置文件在<code>/etc/telegraf/telegraf.conf</code></strong></p>
+<p>手动生成一个简单的配置<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">telegraf -sample-config -input-filter cpu:mem -output-filter influxdb &gt; telegraf.conf</div><div class="line"></div><div class="line">root@<span class="built_in">test</span>:/etc/telegraf<span class="comment"># cat test.conf </span></div><div class="line">[agent]</div><div class="line">    interval = <span class="string">"1s"</span></div><div class="line"></div><div class="line">[outputs]</div><div class="line"></div><div class="line"><span class="comment"># Configuration to send data to InfluxDB.</span></div><div class="line">[outputs.influxdb]</div><div class="line">    urls = [<span class="string">"http://localhost:8086"</span>]</div><div class="line">    database = <span class="string">"kapacitor_example"</span></div><div class="line">    user_agent = <span class="string">"telegraf"</span></div><div class="line"></div><div class="line"><span class="comment"># Collect metrics about cpu usage</span></div><div class="line">[cpu]</div><div class="line">    percpu = <span class="literal">false</span></div><div class="line">    totalcpu = <span class="literal">true</span></div><div class="line">    drop = [<span class="string">"cpu_time"</span>]</div><div class="line"></div><div class="line">root@<span class="built_in">test</span>:/etc/telegraf<span class="comment">#</span></div></pre></td></tr></table></figure></p>
+<p>InfluxDB中查看抓取信息</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">root@<span class="built_in">test</span>:/etc/telegraf<span class="comment"># influx</span></div><div class="line">Visit https://enterprise.influxdata.com to register <span class="keyword">for</span> updates, InfluxDB server management, and monitoring.</div><div class="line">Connected to http://localhost:8086 version 1.1.0</div><div class="line">InfluxDB shell version: 1.1.0</div><div class="line">&gt; show databases;</div><div class="line">name: databases</div><div class="line">name</div><div class="line">----</div><div class="line">telegraf</div><div class="line">_internal</div><div class="line">kapacitor_example</div><div class="line">test_log</div><div class="line">error_log</div><div class="line"></div><div class="line">&gt; use telegraf</div><div class="line">Using database telegraf</div><div class="line">&gt; show measurements;</div><div class="line">name: measurements</div><div class="line">name</div><div class="line">----</div><div class="line">cpu</div><div class="line">disk</div><div class="line">diskio</div><div class="line">kernel</div><div class="line">mem</div><div class="line">processes</div><div class="line">swap</div><div class="line">system</div><div class="line">&gt;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>To enable the Admin UI, edit the configuration file to set enabled = true in the [admin] section.<br>You must restart the process for any configuration changes to take effect. </p>
+<p>Once enabled, the Admin UI is available by default at port 8083, i.e. <a href="http://localhost:8083" target="_blank" rel="external">http://localhost:8083</a>.<br>You can control the port in the InfluxDB config file using the port option in the [admin] section.</p>
+</blockquote>
+<p>InfluxDB v1.1之前默认开启后台管理界面，直接访问：<code>http://localhost:8083</code>，新的版本默认关闭，开启的话需要在<br><code>/etc/influxdb/influxdb.conf</code>下[admin]选项下开启</p>
+<h2 id="3-Chronograf-可视化展示"><a href="#3-Chronograf-可视化展示" class="headerlink" title="3.Chronograf 可视化展示"></a>3.Chronograf 可视化展示</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">influxd <span class="comment"># 启动influxdb</span></div></pre></td></tr></table></figure>
+<p>访问<a href="http://localhost:10000" target="_blank" rel="external">http://localhost:10000</a>,会看到如下界面<br><img src="/images/chronograf-view.png" alt="可视化界面"></p>
+<p>参考链接:</p>
 <ul>
-<li>安装GitLab</li>
+<li><a href="https://docs.influxdata.com/" target="_blank" rel="external">https://docs.influxdata.com/</a></li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">curl <span class="_">-s</span>S https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/script.deb.sh | sudo bash</div><div class="line">sudo apt-get install gitlab-ce</div></pre></td></tr></table></figure>
-<ul>
-<li>安装ZSH</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install zsh</div><div class="line">chsh <span class="_">-s</span> /bin/zsh //设置当前用户使用zsh</div></pre></td></tr></table></figure>
-<ul>
-<li>安装oh my zsh</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install git</div><div class="line">wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh</div></pre></td></tr></table></figure>
+
       
     </div>
 
@@ -452,9 +464,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/docker/" rel="tag"># docker</a>
-          
-            <a href="/tags/ubuntu/" rel="tag"># ubuntu</a>
+            <a href="/tags/TICK-Grafana/" rel="tag"># TICK/Grafana</a>
           
         </div>
       
@@ -463,8 +473,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/gitlab/question/" rel="next" title="gitlab Troubleshoting">
-                <i class="fa fa-chevron-left"></i> gitlab Troubleshoting
+              <a href="/DRBD/Gitlab+DRBD+KEEPALIVED+NFS/" rel="next" title="Gitlab+DRBD+KEEPALIVED+NFS">
+                <i class="fa fa-chevron-left"></i> Gitlab+DRBD+KEEPALIVED+NFS
               </a>
             
           </div>
@@ -473,8 +483,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/DRBD/README/" rel="prev" title="How to install DRBD & config on ubuntu">
-                How to install DRBD & config on ubuntu <i class="fa fa-chevron-right"></i>
+              <a href="/influxdb/Telegraf-Influxdb-Grafana(2)/" rel="prev" title="Telegraf+Influxdb+Grafana (2)">
+                Telegraf+Influxdb+Grafana (2) <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -501,8 +511,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="docker/docker-ubuntu/"
-           data-title="Install docker on ubuntu" data-url="https://svolence.github.io/docker/docker-ubuntu/">
+      <div class="ds-thread" data-thread-key="influxdb/Telegraf-Influxdb-Grafana(1)/"
+           data-title="Telegraf+Influxdb+Grafana (1)" data-url="https://svolence.github.io/influxdb/Telegraf-Influxdb-Grafana(1)/">
       </div>
     
   </div>
@@ -599,7 +609,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#下载ubuntu镜像"><span class="nav-number">1.</span> <span class="nav-text">下载ubuntu镜像</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#创建一个容器-运行bash"><span class="nav-number">2.</span> <span class="nav-text">创建一个容器,运行bash</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#保存docker中的修改"><span class="nav-number">3.</span> <span class="nav-text">保存docker中的修改</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#创建自己的docker镜像"><span class="nav-number">4.</span> <span class="nav-text">创建自己的docker镜像</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用docker-commit-命令来创建镜像"><span class="nav-number">4.1.</span> <span class="nav-text">使用docker commit 命令来创建镜像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-DockerFile-来创建镜像"><span class="nav-number">4.2.</span> <span class="nav-text">使用 DockerFile 来创建镜像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生成镜像"><span class="nav-number">4.3.</span> <span class="nav-text">生成镜像</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装GitLab"><span class="nav-number">5.</span> <span class="nav-text">安装GitLab</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Telegraf-InfluxDB-Grafana初探"><span class="nav-number">1.</span> <span class="nav-text">Telegraf+InfluxDB+Grafana初探</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Configuration-information"><span class="nav-number">1.1.</span> <span class="nav-text">1.Configuration information</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Telegraf-抓取本机信息"><span class="nav-number">1.2.</span> <span class="nav-text">2.Telegraf 抓取本机信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Chronograf-可视化展示"><span class="nav-number">1.3.</span> <span class="nav-text">3.Chronograf 可视化展示</span></a></li></ol></li></ol></div>
             
 
           </div>
