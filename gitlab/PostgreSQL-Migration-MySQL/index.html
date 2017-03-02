@@ -1,0 +1,1002 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="pgsql," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="Gitlab PostgreSQL Migration MySQL
+1. Packages / Dependencies12sudo apt-get updatesudo apt-get upgrade
+
+During this installation some files will need to be edited manually. If you are familiar with vim">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Gitlab PostgreSQL Migration MySQL">
+<meta property="og:url" content="https://svolence.github.io/gitlab/PostgreSQL-Migration-MySQL/index.html">
+<meta property="og:site_name" content="Svolence's Blog">
+<meta property="og:description" content="Gitlab PostgreSQL Migration MySQL
+1. Packages / Dependencies12sudo apt-get updatesudo apt-get upgrade
+
+During this installation some files will need to be edited manually. If you are familiar with vim">
+<meta property="og:image" content="https://svolence.github.io/images/env-ifno.png">
+<meta property="og:image" content="https://svolence.github.io/images/redis-sock-fail.png">
+<meta property="og:image" content="https://svolence.github.io/images/redis-bind.png">
+<meta property="og:image" content="https://svolence.github.io/images/nokogiri-failed.png">
+<meta property="og:image" content="https://svolence.github.io/images/cmake-failed.png">
+<meta property="og:image" content="https://svolence.github.io/images/g-failed.png">
+<meta property="og:image" content="https://svolence.github.io/iamges/mysql-connect-failed.png">
+<meta property="og:image" content="https://svolence.github.io/images/mysql-config.png">
+<meta property="og:image" content="https://svolence.github.io/images/redis-config.png">
+<meta property="og:updated_time" content="2017-03-02T11:35:47.795Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Gitlab PostgreSQL Migration MySQL">
+<meta name="twitter:description" content="Gitlab PostgreSQL Migration MySQL
+1. Packages / Dependencies12sudo apt-get updatesudo apt-get upgrade
+
+During this installation some files will need to be edited manually. If you are familiar with vim">
+<meta name="twitter:image" content="https://svolence.github.io/images/env-ifno.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '6342375249689970000',
+      author: 'Svolence'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://svolence.github.io/gitlab/PostgreSQL-Migration-MySQL/"/>
+
+
+
+
+
+  <title> Gitlab PostgreSQL Migration MySQL | Svolence's Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Svolence's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://svolence.github.io/gitlab/PostgreSQL-Migration-MySQL/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Svolence">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Svolence's Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Svolence's Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Gitlab PostgreSQL Migration MySQL
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <!-- <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-02T18:59:04+08:00">
+              2017-03-02
+            </time> -->
+
+            &nbsp;|&nbsp;
+
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-check-o"></i>
+            </span>
+            <time title="Post modified" itemprop="dateModified" datetime="2017-03-02T19:35:47+08:00">
+              2017-03-02
+            </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/gitlab/" itemprop="url" rel="index">
+                    <span itemprop="name">gitlab</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/gitlab/PostgreSQL-Migration-MySQL/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="gitlab/PostgreSQL-Migration-MySQL/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/gitlab/PostgreSQL-Migration-MySQL/" class="leancloud_visitors" data-flag-title="Gitlab PostgreSQL Migration MySQL">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">Visitors </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="Gitlab-PostgreSQL-Migration-MySQL"><a href="#Gitlab-PostgreSQL-Migration-MySQL" class="headerlink" title="Gitlab PostgreSQL Migration MySQL"></a>Gitlab PostgreSQL Migration MySQL</h1><hr>
+<h1 id="1-Packages-Dependencies"><a href="#1-Packages-Dependencies" class="headerlink" title="1. Packages / Dependencies"></a>1. Packages / Dependencies</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo apt-get update</div><div class="line">sudo apt-get upgrade</div></pre></td></tr></table></figure>
+<blockquote>
+<p>During this installation some files will need to be edited manually. If you are familiar with vim set it as default editor with the commands below. If you are not familiar with vim please skip this and keep using the default editor.</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"># Install vim and set as default editor</div><div class="line">sudo apt-get install vim</div><div class="line">sudo update-alternatives --set editor /usr/bin/vim.basic</div></pre></td></tr></table></figure>
+<p>Install the required packages (needed to compile Ruby and native extensions to Ruby gems):<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install build-essential zlib1g-dev libyaml-dev libssl-dev libgdbm-dev libreadline-dev libncurses5-dev libffi-dev curl openssh-server checkinstall libxml2-dev libxslt-dev libcurl4-openssl-dev libicu-dev logrotate python-docutils pkg-config cmake</div></pre></td></tr></table></figure></p>
+<p>Make sure you have the right version of Git installed<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"># Install Git</div><div class="line">sudo apt-get install  git</div><div class="line"></div><div class="line"># Make sure Git is version 2.8.4 or higher</div><div class="line">git --version</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>In order to receive mail notifications, make sure to install a mail server. By default, Debian is shipped with exim4 but this has problems while Ubuntu does not ship with one. The recommended mail server is postfix and you can install it with</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install postfix</div></pre></td></tr></table></figure>
+<p>Then select ‘Internet Site’ and press enter to confirm the hostname</p>
+<h1 id="2-Ruby"><a href="#2-Ruby" class="headerlink" title="2. Ruby"></a>2. Ruby</h1><blockquote>
+<p>The current supported Ruby versions are 2.1.x and 2.3.x. 2.3.x is preferred, and support for 2.1.x will be dropped in the future.</p>
+<p>The use of Ruby version managers such as RVM, rbenv or chruby with GitLab in production, frequently leads to hard to diagnose problems. For example, GitLab Shell is called from OpenSSH, and having a version manager can prevent pushing and pulling over SSH. Version managers are not supported and we strongly advise everyone to follow the instructions below to use a system Ruby.</p>
+</blockquote>
+<p>Remove the old Ruby 1.8 if present:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get remove ruby1.8</div></pre></td></tr></table></figure></p>
+<p>Download Ruby and compile it:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">mkdir /tmp/ruby &amp;&amp; cd /tmp/ruby</div><div class="line">curl --remote-name --progress https://cache.ruby-lang.org/pub/ruby/x.x.x/ruby-x.x.x.tar.gz</div><div class="line">tar xzf ruby-x.x.x.tar.gz</div><div class="line">cd ruby-x.x.x</div><div class="line">./configure --disable-install-rdoc</div><div class="line">make</div><div class="line">sudo make install</div></pre></td></tr></table></figure></p>
+<p>Install the Bundler Gem:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo gem install bundler --no-ri --no-rdoc</div></pre></td></tr></table></figure></p>
+<h1 id="3-Go"><a href="#3-Go" class="headerlink" title="3. Go"></a>3. Go</h1><blockquote>
+<p>Since GitLab 8.0, Git HTTP requests are handled by gitlab-workhorse (formerly gitlab-git-http-server). This is a small daemon written in Go. To install gitlab-workhorse we need a Go compiler. The instructions below assume you use 64-bit Linux. You can find downloads for other platforms at the Go download page.</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"># Remove former Go installation folder</div><div class="line">sudo rm -rf /usr/local/go</div><div class="line"></div><div class="line">curl --remote-name --progress https://storage.googleapis.com/golang/go1.x.x.linux-amd64.tar.gz</div><div class="line">sudo tar -C /usr/local -xzf go1.x.x.linux-amd64.tar.gz</div><div class="line">sudo ln -sf /usr/local/go/bin/&#123;go,godoc,gofmt&#125; /usr/local/bin/</div><div class="line"></div><div class="line">rm go1.x.3.linux-amd64.tar.gz</div></pre></td></tr></table></figure>
+<a id="more"></a>
+<h1 id="4-Node"><a href="#4-Node" class="headerlink" title="4. Node"></a>4. Node</h1><blockquote>
+<p>Since GitLab 8.17, GitLab requires the use of node &gt;= v4.3.0 to compile javascript assets, and starting in GitLab 9.0, <code>yarn</code> &gt;= v0.17.0 is required to manage javascript dependencies. In many distros the versions provided by the official package repositories are out of date, so we’ll need to install through the following commands:</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"># install node v7.x</div><div class="line">curl --location https://deb.nodesource.com/setup_7.x | bash -</div><div class="line">sudo apt-get install nodejs</div><div class="line"></div><div class="line"># install yarn</div><div class="line">curl --location https://yarnpkg.com/install.sh | bash -</div></pre></td></tr></table></figure>
+<h1 id="5-System-Users"><a href="#5-System-Users" class="headerlink" title="5. System Users"></a>5. System Users</h1><p>Create a git user for GitLab:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo adduser --disabled-login --gecos &apos;GitLab&apos; git</div></pre></td></tr></table></figure></p>
+<h1 id="6-Database"><a href="#6-Database" class="headerlink" title="6. Database"></a>6. Database</h1><h3 id="Initial-database-setup"><a href="#Initial-database-setup" class="headerlink" title="Initial database setup"></a>Initial database setup</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line"># Install the database packages</div><div class="line">sudo apt-get install -y mysql-server mysql-client libmysqlclient-dev</div><div class="line"></div><div class="line"># Ensure you have MySQL version 5.5.14 or later</div><div class="line">mysql --version</div><div class="line"></div><div class="line"># Pick a MySQL root password (can be anything), type it and press enter</div><div class="line"># Retype the MySQL root password and press enter</div><div class="line"></div><div class="line"># Secure your installation</div><div class="line">sudo mysql_secure_installation</div><div class="line"></div><div class="line"># Login to MySQL</div><div class="line">mysql -u root -p</div><div class="line"></div><div class="line"># Type the MySQL root password</div><div class="line"></div><div class="line"># Create a user for GitLab</div><div class="line"># do not type the &apos;mysql&gt;&apos;, this is part of the prompt</div><div class="line"># change $password in the command below to a real password you pick</div><div class="line">mysql&gt; CREATE USER &apos;git&apos;@&apos;localhost&apos; IDENTIFIED BY &apos;$password&apos;;</div><div class="line"></div><div class="line"># Ensure you can use the InnoDB engine which is necessary to support long indexes</div><div class="line"># If this fails, check your MySQL config files (e.g. `/etc/mysql/*.cnf`, `/etc/mysql/conf.d/*`) for the setting &quot;innodb = off&quot;</div><div class="line">mysql&gt; SET storage_engine=INNODB;</div><div class="line"></div><div class="line"># If you have MySQL &lt; 5.7.7 and want to enable utf8mb4 character set support with your GitLab install, you must set the following NOW:</div><div class="line">mysql&gt; SET GLOBAL innodb_file_per_table=1, innodb_file_format=Barracuda, innodb_large_prefix=1;</div><div class="line"></div><div class="line"># Create the GitLab production database</div><div class="line">mysql&gt; CREATE DATABASE IF NOT EXISTS `gitlabhq_production` DEFAULT CHARACTER SET `utf8` COLLATE `utf8_general_ci`;</div><div class="line"></div><div class="line"># Grant the GitLab user necessary permissions on the database</div><div class="line">mysql&gt; GRANT SELECT, INSERT, UPDATE, DELETE, CREATE, CREATE TEMPORARY TABLES, DROP, INDEX, ALTER, LOCK TABLES, REFERENCES ON `gitlabhq_production`.* TO &apos;git&apos;@&apos;localhost&apos;;</div><div class="line"></div><div class="line"># Quit the database session</div><div class="line">mysql&gt; \q</div><div class="line"></div><div class="line"># Try connecting to the new database with the new user</div><div class="line">sudo -u git -H mysql -u git -p -D gitlabhq_production</div><div class="line"></div><div class="line"># Type the password you replaced $password with earlier</div><div class="line"></div><div class="line"># You should now see a &apos;mysql&gt;&apos; prompt</div><div class="line"></div><div class="line"># Quit the database session</div><div class="line">mysql&gt; \q</div></pre></td></tr></table></figure>
+<hr>
+<p><strong><code>You are done installing the database for now and can go back to the rest of the installation. Please proceed to the rest of the  installation before running through the utf8mb4 support section</code></strong></p>
+<hr>
+<h3 id="MySQL-utf8mb4-support"><a href="#MySQL-utf8mb4-support" class="headerlink" title="MySQL utf8mb4 support"></a>MySQL utf8mb4 support</h3><p>After installation or upgrade, remember to <a href="https://docs.gitlab.com/ce/install/database_mysql.html#convert" target="_blank" rel="external">convert any new tables</a> to <code>utf8mb4</code>/<code>utf8mb4_general_ci</code></p>
+<hr>
+<h4 id="We-are-about-to-do-the-following"><a href="#We-are-about-to-do-the-following" class="headerlink" title="We are about to do the following:"></a>We are about to do the following:</h4><ul>
+<li>Ensure you can enable <code>utf8mb4</code> encoding and <code>utf8mb4_general_ci</code> collation for your GitLab DB, tables and data</li>
+<li>Convert your GitLab tables and data from <code>utf8</code>/<code>utf8_general_ci</code> to <code>utf8mb4</code>/<code>utf8mb4_general_ci</code></li>
+</ul>
+<h3 id="Check-for-utf8mb4-support"><a href="#Check-for-utf8mb4-support" class="headerlink" title="Check for utf8mb4 support"></a>Check for utf8mb4 support</h3><hr>
+<h4 id="Check-for-InnoDB-File-Per-Table-Tablespaces"><a href="#Check-for-InnoDB-File-Per-Table-Tablespaces" class="headerlink" title="Check for InnoDB File-Per-Table Tablespaces"></a>Check for InnoDB File-Per-Table Tablespaces</h4><hr>
+<p>We need to check, enable and maybe convert your existing GitLab DB tables to the <a href="https://dev.mysql.com/doc/refman/5.7/en/innodb-multiple-tablespaces.html" target="_blank" rel="external">InnoDB File-Per-Table Tablespaces</a> as a prerequise for supporting <code>utfb8mb4 with long indexes</code> required by recent GitLab databases</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"># Login to MySQL</div><div class="line">mysql -u root -p</div><div class="line"></div><div class="line"># Type the MySQL root password</div><div class="line">mysql &gt; use gitlabhq_production;</div><div class="line"></div><div class="line"># Check your MySQL version is &gt;= 5.5.3 (GitLab requires 5.5.14+)</div><div class="line">mysql &gt; SHOW VARIABLES LIKE &apos;version&apos;;</div><div class="line">+---------------+-----------------+</div><div class="line">| Variable_name | Value           |</div><div class="line">+---------------+-----------------+</div><div class="line">| version       | 5.5.53-0+deb8u1 |</div><div class="line">+---------------+-----------------+</div><div class="line"></div><div class="line"># Note where is your MySQL data dir for later:</div><div class="line">mysql &gt; select @@datadir;</div><div class="line">+----------------+</div><div class="line">| @@datadir      |</div><div class="line">+----------------+</div><div class="line">| /var/lib/mysql |</div><div class="line">+----------------+</div><div class="line"></div><div class="line"># Note whether your MySQL server runs with innodb_file_per_table ON or OFF:</div><div class="line">mysql&gt; SELECT @@innodb_file_per_table;</div><div class="line">+-------------------------+</div><div class="line">| @@innodb_file_per_table |</div><div class="line">+-------------------------+</div><div class="line">|                       1 |</div><div class="line">+-------------------------+</div><div class="line"></div><div class="line"># You can now quit the database session</div><div class="line">mysql&gt; \q</div></pre></td></tr></table></figure>
+<blockquote>
+<p>You need MySQL 5.5.3 or later to perform this update</p>
+</blockquote>
+<p>Whatever the results of your checks above, we now need to check if your GitLab database has been created using <a href="https://dev.mysql.com/doc/refman/5.7/en/innodb-multiple-tablespaces.html" target="_blank" rel="external">InnoDB File-Per-Table Tablespaces</a> (i.e. <code>innodb_file_per_table</code> was set to 1 at initial setup time)</p>
+<blockquote>
+<p>Note: This setting is <a href="https://dev.mysql.com/doc/refman/5.7/en/innodb-parameters.html#sysvar_innodb_file_per_table" target="_blank" rel="external">enabled by default</a> since MySQL 5.6.6.</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"># Run this command with root privileges, replace the data dir if different:</div><div class="line">sudo ls -lh /var/lib/mysql/gitlabhq_production/*.ibd | wc -l</div><div class="line"></div><div class="line"># Run this command with root privileges, replace the data dir if different:</div><div class="line">sudo ls -lh /var/lib/mysql/gitlabhq_production/*.frm | wc -l</div></pre></td></tr></table></figure>
+<ul>
+<li><strong>Case 1: a result &gt; 0 for both commands</strong></li>
+</ul>
+<p>Congrats, your GitLab database uses the right InnoDB tablespace format.</p>
+<p>However, you must still ensure that any future tables created by GitLab will still use the right format:</p>
+<ul>
+<li><p>If <code>SELECT @@innodb_file_per_table</code> returned <strong>1</strong> previously, your server is running correctly</p>
+<blockquote>
+<p>It’s however a requirement to check now that this setting is indeed persisted in your <a href="https://dev.mysql.com/doc/refman/5.7/en/tablespace-enabling.html" target="_blank" rel="external">my.cnf</a> file!</p>
+</blockquote>
+</li>
+<li><p>If <code>SELECT @@innodb_file_per_table</code> returned <strong>0</strong> previously, your server is not running correctly</p>
+</li>
+</ul>
+<blockquote>
+<p><a href="https://dev.mysql.com/doc/refman/5.7/en/tablespace-enabling.html" target="_blank" rel="external">Enable innodb_file_per_table</a> by running in a MySQL session as root the command <code>SET GLOBAL innodb_file_per_table=1, innodb_file_format=Barracuda;</code>and persist the two settings in your <a href="https://dev.mysql.com/doc/refman/5.7/en/tablespace-enabling.html" target="_blank" rel="external">my.cnf</a> file</p>
+</blockquote>
+<p>Now, if you have a <strong>different result</strong> returned by the 2 commands above, it means you have a mix of tables format uses in your GitLab database. This can happen if your MySQL server had different values for <code>innodb_file_per_table</code> in its life and you updated GitLab at different moments with those inconsistent values. So keep reading.</p>
+<ul>
+<li><strong>Case 2: a result equals to “0” OR not the same result for both commands </strong></li>
+</ul>
+<p>Unfortunately, none or only some of your GitLab database tables use the GitLab requirement of <a href="https://dev.mysql.com/doc/refman/5.7/en/innodb-multiple-tablespaces.html" target="_blank" rel="external">InnoDB File-Per-Table Tablespaces</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"># Login to MySQL</div><div class="line">mysql -u root -p</div><div class="line"></div><div class="line"># Type the MySQL root password</div><div class="line"></div><div class="line"># Enable innodb_file_per_table and set innodb_file_format on the running server:</div><div class="line">mysql &gt; SET GLOBAL innodb_file_per_table=1, innodb_file_format=Barracuda;</div><div class="line"></div><div class="line"># You can now quit the database session</div><div class="line">mysql&gt; \q</div></pre></td></tr></table></figure>
+<blockquote>
+<p>Now, persist <a href="https://dev.mysql.com/doc/refman/5.6/en/tablespace-enabling.html" target="_blank" rel="external">innodb_file_per_table</a> and <a href="https://dev.mysql.com/doc/refman/5.6/en/innodb-file-format-enabling.html" target="_blank" rel="external">innodb_file_format</a> in your <code>my.cnf</code> file</p>
+</blockquote>
+<p>Ensure at this stage that your GitLab instance is indeed stopped.<br>Now, let’s convert all the GitLab database tables to the new tablespace format:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"># Login to MySQL</div><div class="line">mysql -u root -p</div><div class="line"></div><div class="line"># Type the MySQL root password</div><div class="line">mysql &gt; use gitlabhq_production;</div><div class="line"></div><div class="line"># Safety check: you should still have those values set as follow:</div><div class="line">mysql&gt; SELECT @@innodb_file_per_table, @@innodb_file_format;</div><div class="line">+-------------------------+----------------------+</div><div class="line">| @@innodb_file_per_table | @@innodb_file_format |</div><div class="line">+-------------------------+----------------------+</div><div class="line">|                       1 | Barracuda            |</div><div class="line">+-------------------------+----------------------+</div><div class="line"></div><div class="line">mysql &gt; SELECT CONCAT(&apos;ALTER TABLE `&apos;, TABLE_NAME,&apos;` ENGINE=InnoDB;&apos;) AS &apos;Copy &amp; run these SQL statements:&apos; FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA=&quot;gitlabhq_production&quot; AND TABLE_TYPE=&quot;BASE TABLE&quot;;</div><div class="line"></div><div class="line"># If previous query returned results, copy &amp; run all shown SQL statements</div><div class="line"></div><div class="line"># You can now quit the database session</div><div class="line">mysql&gt; \q</div></pre></td></tr></table></figure>
+<h4 id="Check-for-proper-InnoDB-File-Format-Row-Format-Large-Prefix-and-tables-conversion"><a href="#Check-for-proper-InnoDB-File-Format-Row-Format-Large-Prefix-and-tables-conversion" class="headerlink" title="Check for proper InnoDB File Format, Row Format, Large Prefix and tables conversion"></a>Check for proper InnoDB File Format, Row Format, Large Prefix and tables conversion</h4><hr>
+<p>We need to check, enable and probably convert your existing GitLab DB tables to use the <a href="https://dev.mysql.com/doc/refman/5.6/en/innodb-file-format.html" target="_blank" rel="external">Barracuda InnoDB file format</a>, the <a href="https://dev.mysql.com/doc/refman/5.6/en/glossary.html#glos_dynamic_row_format" target="_blank" rel="external">DYNAMIC row format</a> and <a href="https://dev.mysql.com/doc/refman/5.7/en/innodb-parameters.html#sysvar_innodb_large_prefix" target="_blank" rel="external">innodb_large_prefix</a> as a second prerequisite for supporting <code>utfb8mb4 with long indexes</code> used by recent GitLab databases</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"># Login to MySQL</div><div class="line">mysql -u root -p</div><div class="line"></div><div class="line"># Type the MySQL root password</div><div class="line">mysql &gt; use gitlabhq_production;</div><div class="line"></div><div class="line"># Set innodb_file_format and innodb_large_prefix on the running server:</div><div class="line"># Note: These are the default settings only for MySQL 5.7.7 and later.</div><div class="line"></div><div class="line">mysql &gt; SET GLOBAL innodb_file_format=Barracuda, innodb_large_prefix=1;</div><div class="line"></div><div class="line"># Your DB must be (still) using utf8/utf8_general_ci as default encoding and collation.</div><div class="line"># We will NOT change the default encoding and collation on the DB in order to support future GitLab migrations creating tables</div><div class="line"># that require &quot;long indexes support&quot; on installations using MySQL &lt;= 5.7.9.</div><div class="line"># However, when such migrations occur, you will have to follow this guide again to convert the newly created tables to the proper encoding/collation.</div><div class="line"></div><div class="line"># This should return the following:</div><div class="line">mysql&gt; SELECT @@character_set_database, @@collation_database;</div><div class="line">+--------------------------+----------------------+</div><div class="line">| @@character_set_database | @@collation_database |</div><div class="line">+--------------------------+----------------------+</div><div class="line">| utf8                     | utf8_general_ci      |</div><div class="line">+--------------------------+----------------------+</div></pre></td></tr></table></figure>
+<blockquote>
+<p>Now, ensure that <a href="https://dev.mysql.com/doc/refman/5.6/en/tablespace-enabling.html" target="_blank" rel="external">innodb_file_format</a> and <a href="https://dev.mysql.com/doc/refman/5.7/en/innodb-parameters.html#sysvar_innodb_large_prefix" target="_blank" rel="external">innodb_large_prefix</a> are persisted in your <code>my.cnf</code> file</p>
+</blockquote>
+<h4 id="Tables-and-data-conversion-to-utf8mb4"><a href="#Tables-and-data-conversion-to-utf8mb4" class="headerlink" title="Tables and data conversion to utf8mb4"></a>Tables and data conversion to utf8mb4</h4><p>Now that you have a persistent MySQL setup, you can safely upgrade tables after setup or upgrade time:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"># Convert tables not using ROW_FORMAT DYNAMIC:</div><div class="line"></div><div class="line">mysql&gt; SELECT CONCAT(&apos;ALTER TABLE `&apos;, TABLE_NAME,&apos;` ROW_FORMAT=DYNAMIC;&apos;) AS &apos;Copy &amp; run these SQL statements:&apos; FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA=&quot;gitlabhq_production&quot; AND TABLE_TYPE=&quot;BASE TABLE&quot; AND ROW_FORMAT!=&quot;Dynamic&quot;;</div><div class="line"></div><div class="line"># !! If previous query returned results, copy &amp; run all shown SQL statements</div><div class="line"></div><div class="line"># Convert tables/columns not using utf8mb4/utf8mb4_general_ci as encoding/collation:</div><div class="line"></div><div class="line">mysql &gt; SET foreign_key_checks = 0;</div><div class="line"></div><div class="line">mysql &gt; SELECT CONCAT(&apos;ALTER TABLE `&apos;, TABLE_NAME,&apos;` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;&apos;) AS &apos;Copy &amp; run these SQL statements:&apos; FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA=&quot;gitlabhq_production&quot; AND TABLE_COLLATION != &quot;utf8mb4_general_ci&quot; AND TABLE_TYPE=&quot;BASE TABLE&quot;;</div><div class="line"></div><div class="line"># !! If previous query returned results, copy &amp; run all shown SQL statements</div><div class="line"></div><div class="line"># Turn foreign key checks back on</div><div class="line">mysql &gt; SET foreign_key_checks = 1;</div><div class="line"></div><div class="line"># You can now quit the database session</div><div class="line">mysql&gt; \q</div></pre></td></tr></table></figure></p>
+<p>Ensure your GitLab database configuration file uses a proper connection encoding and collation:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"># sudo -u git -H editor config/database.yml</div><div class="line"></div><div class="line">production:</div><div class="line">  adapter: mysql2</div><div class="line">  encoding: utf8mb4</div><div class="line">  collation: utf8mb4_general_ci</div></pre></td></tr></table></figure>
+<p><a href="https://docs.gitlab.com/ce/administration/restart_gitlab.html" target="_blank" rel="external">Restart your GitLab instance</a></p>
+<h3 id="MySQL-strings-limits"><a href="#MySQL-strings-limits" class="headerlink" title="MySQL strings limits"></a>MySQL strings limits</h3><p>After installation or upgrade, remember to run the <code>add_limits_mysql</code> Rake task</p>
+<h4 id="Omnibus-GitLab-installations"><a href="#Omnibus-GitLab-installations" class="headerlink" title="Omnibus GitLab installations"></a>Omnibus GitLab installations</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo gitlab-rake add_limits_mysql</div></pre></td></tr></table></figure>
+<h4 id="Installations-from-source"><a href="#Installations-from-source" class="headerlink" title="Installations from source"></a>Installations from source</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">bundle exec rake add_limits_mysql RAILS_ENV=production</div></pre></td></tr></table></figure>
+<p>The <code>text</code> type in MySQL has a different size limit than the <code>text</code> type in PostgreSQL. In MySQL <code>text</code> columns are limited to ~65kB, whereas in PostgreSQL <code>text</code> columns are limited up to ~1GB!</p>
+<p>The <code>add_limits_mysql</code> Rake task converts some important <code>text</code> columns in the GitLab database to <code>longtext</code> columns, which can persist values of up to 4GB (sometimes less if the value contains multibyte characters)</p>
+<h1 id="7-Redis"><a href="#7-Redis" class="headerlink" title="7. Redis"></a>7. Redis</h1><blockquote>
+<p>GitLab requires at least Redis 2.8.</p>
+<p>If you are using Debian 8 or Ubuntu 14.04 and up, then you can simply install Redis 2.8 with:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install redis-server</div></pre></td></tr></table></figure></p>
+</blockquote>
+<h1 id="8-GitLab"><a href="#8-GitLab" class="headerlink" title="8. GitLab"></a>8. GitLab</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">cd /data/</div><div class="line"></div><div class="line"># Clone GitLab repository</div><div class="line">sudo -u git -H git clone https://gitlab.com/gitlab-org/gitlab-ce.git -b 8-17-stable gitlab</div></pre></td></tr></table></figure>
+<h3 id="Configure-It"><a href="#Configure-It" class="headerlink" title="Configure It"></a>Configure It</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div></pre></td><td class="code"><pre><div class="line"># Go to GitLab installation folder</div><div class="line">cd /data/gitlab</div><div class="line"></div><div class="line"># Copy the example GitLab config</div><div class="line">sudo -u git -H cp config/gitlab.yml.example config/gitlab.yml</div><div class="line"></div><div class="line"># Update GitLab config file, follow the directions at top of file</div><div class="line">sudo -u git -H editor config/gitlab.yml</div><div class="line"></div><div class="line"># Copy the example secrets file</div><div class="line">sudo -u git -H cp config/secrets.yml.example config/secrets.yml</div><div class="line">sudo -u git -H chmod 0600 config/secrets.yml</div><div class="line"></div><div class="line"># Make sure GitLab can write to the log/ and tmp/ directories</div><div class="line">sudo chown -R git log/</div><div class="line">sudo chown -R git tmp/</div><div class="line">sudo chmod -R u+rwX,go-w log/</div><div class="line">sudo chmod -R u+rwX tmp/</div><div class="line"></div><div class="line"># Make sure GitLab can write to the tmp/pids/ and tmp/sockets/ directories</div><div class="line">sudo chmod -R u+rwX tmp/pids/</div><div class="line">sudo chmod -R u+rwX tmp/sockets/</div><div class="line"></div><div class="line"># Create the public/uploads/ directory</div><div class="line">sudo -u git -H mkdir public/uploads/</div><div class="line"></div><div class="line"># Make sure only the GitLab user has access to the public/uploads/ directory</div><div class="line"># now that files in public/uploads are served by gitlab-workhorse</div><div class="line">sudo chmod 0700 public/uploads</div><div class="line"></div><div class="line"># Change the permissions of the directory where CI job traces are stored</div><div class="line">sudo chmod -R u+rwX builds/</div><div class="line"></div><div class="line"># Change the permissions of the directory where CI artifacts are stored</div><div class="line">sudo chmod -R u+rwX shared/artifacts/</div><div class="line"></div><div class="line"># Change the permissions of the directory where GitLab Pages are stored</div><div class="line">sudo chmod -R ug+rwX shared/pages/</div><div class="line"></div><div class="line"># Copy the example Unicorn config</div><div class="line">sudo -u git -H cp config/unicorn.rb.example config/unicorn.rb</div><div class="line"></div><div class="line"># Find number of cores</div><div class="line">nproc</div><div class="line"></div><div class="line"># Enable cluster mode if you expect to have a high load instance</div><div class="line"># Set the number of workers to at least the number of cores</div><div class="line"># Ex. change amount of workers to 3 for 2GB RAM server</div><div class="line">sudo -u git -H editor config/unicorn.rb</div><div class="line"></div><div class="line"># Copy the example Rack attack config</div><div class="line">sudo -u git -H cp config/initializers/rack_attack.rb.example config/initializers/rack_attack.rb</div><div class="line"></div><div class="line"># Configure Git global settings for git user</div><div class="line"># &apos;autocrlf&apos; is needed for the web editor</div><div class="line">sudo -u git -H git config --global core.autocrlf input</div><div class="line"></div><div class="line"># Disable &apos;git gc --auto&apos; because GitLab already runs &apos;git gc&apos; when needed</div><div class="line">sudo -u git -H git config --global gc.auto 0</div><div class="line"></div><div class="line"># Enable packfile bitmaps</div><div class="line">sudo -u git -H git config --global repack.writeBitmaps true</div><div class="line"></div><div class="line"># Configure Redis connection settings</div><div class="line">sudo -u git -H cp config/resque.yml.example config/resque.yml</div><div class="line"></div><div class="line"># Change the Redis socket path if you are not using the default Debian / Ubuntu configuration</div><div class="line">sudo -u git -H editor config/resque.yml</div></pre></td></tr></table></figure>
+<h3 id="Configure-GitLab-DB-Settings"><a href="#Configure-GitLab-DB-Settings" class="headerlink" title="Configure GitLab DB Settings"></a>Configure GitLab DB Settings</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"># PostgreSQL only:</div><div class="line">sudo -u git cp config/database.yml.postgresql config/database.yml</div><div class="line"></div><div class="line"># MySQL only:</div><div class="line">sudo -u git cp config/database.yml.mysql config/database.yml</div><div class="line"></div><div class="line"># MySQL and remote PostgreSQL only:</div><div class="line"># Update username/password in config/database.yml.</div><div class="line"># You only need to adapt the production settings (first part).</div><div class="line"># If you followed the database guide then please do as follows:</div><div class="line"># Change &apos;secure password&apos; with the value you have given to $password</div><div class="line"># You can keep the double quotes around the password</div><div class="line">sudo -u git -H editor config/database.yml</div><div class="line"></div><div class="line"># PostgreSQL and MySQL:</div><div class="line"># Make config/database.yml readable to git only</div><div class="line">sudo -u git -H chmod o-rwx config/database.yml</div></pre></td></tr></table></figure>
+<h3 id="Install-Gems"><a href="#Install-Gems" class="headerlink" title="Install Gems"></a>Install Gems</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"># For PostgreSQL (note, the option says &quot;without ... mysql&quot;)</div><div class="line">sudo -u git -H bundle install --deployment --without development test mysql aws kerberos</div><div class="line"></div><div class="line"># Or if you use MySQL (note, the option says &quot;without ... postgres&quot;)</div><div class="line">sudo -u git -H bundle install --deployment --without development test postgres aws kerberos</div></pre></td></tr></table></figure>
+<h3 id="Install-GitLab-Shell"><a href="#Install-GitLab-Shell" class="headerlink" title="Install GitLab Shell"></a>Install GitLab Shell</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"># Run the installation task for gitlab-shell (replace `REDIS_URL` if needed):</div><div class="line">sudo -u git -H bundle exec rake gitlab:shell:install REDIS_URL=unix:/var/run/redis/redis.sock RAILS_ENV=production SKIP_STORAGE_VALIDATION=true</div><div class="line"></div><div class="line"># By default, the gitlab-shell config is generated from your main GitLab config.</div><div class="line"># You can review (and modify) the gitlab-shell config as follows:</div><div class="line">sudo -u git -H editor /home/git/gitlab-shell/config.yml</div></pre></td></tr></table></figure>
+<h3 id="Install-gitlab-workhorse"><a href="#Install-gitlab-workhorse" class="headerlink" title="Install gitlab-workhorse"></a>Install gitlab-workhorse</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo -u git -H bundle exec rake &quot;gitlab:workhorse:install[/home/git/gitlab-workhorse]&quot; RAILS_ENV=production</div></pre></td></tr></table></figure>
+<h3 id="Initialize-Database-and-Activate-Advanced-Features"><a href="#Initialize-Database-and-Activate-Advanced-Features" class="headerlink" title="Initialize Database and Activate Advanced Features"></a>Initialize Database and Activate Advanced Features</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">sudo -u git -H bundle exec rake gitlab:setup RAILS_ENV=production</div><div class="line"></div><div class="line"># Type &apos;yes&apos; to create the database tables.</div><div class="line"></div><div class="line"># When done you see &apos;Administrator account created:&apos;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>You can set the Administrator/root password and e-mail by supplying them in environmental variables, <code>GITLAB_ROOT_PASSWORD</code> and <code>GITLAB_ROOT_EMAIL</code> respectively, as seen below. If you don’t set the password (and it is set to the default one) please wait with exposing GitLab to the public internet until the installation is done and you’ve logged into the server the first time. During the first login you’ll be forced to change the default password.</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo -u git -H bundle exec rake gitlab:setup RAILS_ENV=production GITLAB_ROOT_PASSWORD=yourpassword GITLAB_ROOT_EMAIL=youremail</div></pre></td></tr></table></figure>
+<h3 id="Install-Init-Script"><a href="#Install-Init-Script" class="headerlink" title="Install Init Script"></a>Install Init Script</h3><p>Download the init script (will be /etc/init.d/gitlab):<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo cp lib/support/init.d/gitlab /etc/init.d/gitlab</div></pre></td></tr></table></figure></p>
+<p>And if you are installing with a non-default folder or user copy and edit the defaults file:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo cp lib/support/init.d/gitlab.default.example /etc/default/gitlab</div></pre></td></tr></table></figure></p>
+<p>If you installed GitLab in another directory or as a user other than the default you should change these settings in <code>/etc/default/gitlab</code>. Do not edit <code>/etc/init.d/gitlab</code> as it will be changed on upgrade.</p>
+<p>Make GitLab start on boot:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo update-rc.d gitlab defaults 21</div></pre></td></tr></table></figure></p>
+<h3 id="Setup-Logrotate"><a href="#Setup-Logrotate" class="headerlink" title="Setup Logrotate"></a>Setup Logrotate</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo cp lib/support/logrotate/gitlab /etc/logrotate.d/gitlab</div></pre></td></tr></table></figure>
+<h3 id="Check-Application-Status"><a href="#Check-Application-Status" class="headerlink" title="Check Application Status"></a>Check Application Status</h3><p>Check if GitLab and its environment are configured correctly:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo -u git -H bundle exec rake gitlab:env:info RAILS_ENV=production</div></pre></td></tr></table></figure></p>
+<h3 id="Compile-Assets"><a href="#Compile-Assets" class="headerlink" title="Compile Assets"></a>Compile Assets</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo -u git -H yarn install --production --pure-lockfile</div><div class="line">sudo -u git -H bundle exec rake gitlab:assets:compile RAILS_ENV=production NODE_ENV=production</div></pre></td></tr></table></figure>
+<h3 id="Start-Your-GitLab-Instance"><a href="#Start-Your-GitLab-Instance" class="headerlink" title="Start Your GitLab Instance"></a>Start Your GitLab Instance</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo service gitlab start</div><div class="line"># or</div><div class="line">sudo /etc/init.d/gitlab restart</div></pre></td></tr></table></figure>
+<h1 id="9-Nginx"><a href="#9-Nginx" class="headerlink" title="9. Nginx"></a>9. Nginx</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install nginx</div></pre></td></tr></table></figure>
+<h3 id="Site-Configuration"><a href="#Site-Configuration" class="headerlink" title="Site Configuration"></a>Site Configuration</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sudo cp lib/support/nginx/gitlab /etc/nginx/sites-available/gitlab</div><div class="line">sudo ln -s /etc/nginx/sites-available/gitlab /etc/nginx/sites-enabled/gitlab</div></pre></td></tr></table></figure>
+<h3 id="Double-check-Application-Status"><a href="#Double-check-Application-Status" class="headerlink" title="Double-check Application Status"></a>Double-check Application Status</h3><p>To make sure you didn’t miss anything run a more thorough check with:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo -u git -H bundle exec rake gitlab:check RAILS_ENV=production</div></pre></td></tr></table></figure></p>
+<p><img src="/images/env-ifno.png" alt="Alt text"></p>
+<h3 id="Initial-Login"><a href="#Initial-Login" class="headerlink" title="Initial Login"></a>Initial Login</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo service gitlab start/stop/restart</div></pre></td></tr></table></figure>
+<h1 id="10-Troubleshooting"><a href="#10-Troubleshooting" class="headerlink" title="10. Troubleshooting"></a>10. Troubleshooting</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">cc1: warning: unrecognized command line option &quot;-Wno-self-assign&quot; [enabled by default]</div><div class="line">cc1: warning: unrecognized command line option &quot;-Wno-constant-logical-operand&quot; [enabled by default]</div><div class="line">cc1: warning: unrecognized command line option &quot;-Wno-parentheses-equality&quot; [enabled by default]</div><div class="line">cc1: warning: unrecognized command line option &quot;-Wno-tautological-compare&quot; [enabled by default]</div><div class="line"></div><div class="line">Make sure that `gem install json -v &apos;1.8.3&apos;` succeeds before bundling.</div></pre></td></tr></table></figure>
+<ul>
+<li>We do not support Ruby 2.4.0 yet. Please stay tuned!  <a href="https://gitlab.com/gitlab-org/gitlab-ce/issues/26084" target="_blank" rel="external">详细介绍</a></li>
+</ul>
+<hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/usr/bin/env: node: No such file or directory</div></pre></td></tr></table></figure>
+<ul>
+<li>Problem is that Ubuntu calls it’s node binary nodejs. Bad move, as this install script is unable to find it.<br>Fixed that by setting a temporary alias: alias node=nodejs</li>
+</ul>
+<hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">wen@test:/home/git/gitlab$ sudo -u git -H yarn install --production --pure-lockfile</div><div class="line">yarn install v0.20.3</div><div class="line">info No lockfile found.</div><div class="line">[1/4] Resolving packages...</div><div class="line">[2/4] Fetching packages...</div><div class="line">error webpack-dev-server@2.4.1: The engine &quot;node&quot; is incompatible with this module. Expected version &quot;&gt;=4.7&quot;.</div><div class="line">error Found incompatible module</div><div class="line">info Visit https://yarnpkg.com/en/docs/cli/install for documentation about this command.</div><div class="line">wen@test:/home/git/gitlab$ node -v</div><div class="line">The program &apos;node&apos; is currently not installed. You can install it by typing:</div><div class="line">sudo apt install nodejs-legacy</div><div class="line">wen@test:/home/git/gitlab$ nodejs -v</div><div class="line">v4.2.6</div><div class="line">wen@test:/home/git/gitlab$ sudo apt-get install nod</div><div class="line">Display all 336 possibilities? (y or n)</div><div class="line">wen@test:/home/git/gitlab$ sudo apt-get install nodejs</div><div class="line">Reading package lists... Done</div><div class="line">Building dependency tree</div><div class="line">Reading state information... Done</div><div class="line">The following package was automatically installed and is no longer required:</div><div class="line">  libuv1</div><div class="line">Use &apos;sudo apt autoremove&apos; to remove it.</div><div class="line">The following packages will be upgraded:</div><div class="line">  nodejs</div><div class="line">1 upgraded, 0 newly installed, 0 to remove and 272 not upgraded.</div><div class="line">Need to get 11.0 MB of archives.</div><div class="line">After this operation, 41.6 MB of additional disk space will be used.</div><div class="line">Get:1 https://deb.nodesource.com/node_7.x xenial/main amd64 nodejs amd64 7.6.0-1nodesource1~xenial1 [11.0 MB]</div><div class="line">Fetched 11.0 MB in 34s (325 kB/s)</div><div class="line">(Reading database ... 256411 files and directories currently installed.)</div><div class="line">Preparing to unpack .../nodejs_7.6.0-1nodesource1~xenial1_amd64.deb ...</div><div class="line">Unpacking nodejs (7.6.0-1nodesource1~xenial1) over (4.2.6~dfsg-1ubuntu4.1) ...</div><div class="line">Processing triggers for man-db (2.7.5-1) ...</div><div class="line">Processing triggers for doc-base (0.10.7) ...</div><div class="line">Processing 1 removed doc-base file...</div><div class="line">Setting up nodejs (7.6.0-1nodesource1~xenial1) ...</div><div class="line">wen@test:/home/git/gitlab$ nodejs -v</div><div class="line">v7.6.0</div></pre></td></tr></table></figure>
+<hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">wen@test:/home/git/gitlab$ sudo -u git -H yarn install --production --pure-lockfile</div><div class="line">sudo: yarn: command not found</div><div class="line"></div><div class="line">wen@test:/home/git/gitlab$ curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -</div><div class="line">OK</div><div class="line">wen@test:/home/git/gitlab$ echo &quot;deb https://dl.yarnpkg.com/debian/ stable main&quot; | sudo tee /etc/apt/sources.list.d/yarn.list</div><div class="line">deb https://dl.yarnpkg.com/debian/ stable main</div><div class="line"></div><div class="line">sudo apt-get update &amp;&amp; sudo apt-get install yarn</div></pre></td></tr></table></figure>
+<hr>
+<p><img src="/images/redis-sock-fail.png" alt="Alt text"><br><img src="/images/redis-bind.png" alt="Alt text"></p>
+<ul>
+<li>uncomment <code>unixsocket /var/run/redis/redis.sock</code>,<code>unixsocketperm 700</code>,change <code>700</code> to <code>777</code></li>
+</ul>
+<hr>
+<p><img src="/images/nokogiri-failed.png" alt="Alt text"></p>
+<ul>
+<li>bundle install 时会进入rubygems.org找最新的gem目录，而依据官方文档安装之后gemfile.lock里的<code>nokogiri 1.6.8</code>已过时，需要修改gemfile.lock里的<code>nokogiri 1.6.8</code>为最新的<code>nokogiri 1.6.8.1</code></li>
+</ul>
+<hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ERROR: While executing gem ... (Gem::Exception)</div><div class="line">Unable to require openssl, install OpenSSL and rebuild ruby (preferred) or use non-HTTPS sources</div></pre></td></tr></table></figure>
+<p><img src="/images/cmake-failed.png" alt="Alt text"></p>
+<p><img src="/images/g-failed.png" alt="Alt text"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install libssl-dev libreadline-dev libgdbm-dev cmake g++</div></pre></td></tr></table></figure>
+<hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">root@vmlin5682:/home/git/gitlab# gem install rake --version 10.5.0</div><div class="line">Fetching: rake-10.5.0.gem (100%)</div><div class="line">ERROR:  While executing gem ... (TypeError)</div><div class="line">    no implicit conversion of nil into String</div><div class="line"></div><div class="line"># gem update --system</div></pre></td></tr></table></figure>
+<ul>
+<li>sudo: bundle: command not found，sudo gem command not found，sudo: yarn: command not found</li>
+</ul>
+<blockquote>
+<p>系统中都已经安装了ruby,bundle,gem，为何在执行<code>sudo -u git -H</code>相关命令的时候，频繁提示command not found</p>
+<p>Check if the PATH has the same values both with and without sudo. Apparently it cannot find bundle just because it is not listed in PATH<br><a href="http://stackoverflow.com/questions/22456998/why-is-sudo-bundle-command-not-found" target="_blank" rel="external">http://stackoverflow.com/questions/22456998/why-is-sudo-bundle-command-not-found</a><br><a href="http://stackoverflow.com/questions/3914694/bundle-command-not-found" target="_blank" rel="external">http://stackoverflow.com/questions/3914694/bundle-command-not-found</a></p>
+</blockquote>
+<ul>
+<li>MySQL,Redis HA</li>
+</ul>
+<p><img src="/iamges/mysql-connect-failed.png" alt="Alt text"><br><img src="/images/mysql-config.png" alt="Alt text"><br><img src="/images/redis-config.png" alt="Alt text"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">GRANT ALL PRIVILEGES ON *.* TO &apos;git&apos;@&apos;%&apos; IDENTIFIED BY &apos;password&apos; WITH GRANT OPTION;</div><div class="line"> FLUSH PRIVILEGES;</div><div class="line"></div><div class="line"># bind-address = 127.0.0.1(/etc/mysql/my.cnf)</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/pgsql/" rel="tag"># pgsql</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/influxdb/Telegraf-Influxdb-Grafana(2)/" rel="next" title="Telegraf+Influxdb+Grafana (2)">
+                <i class="fa fa-chevron-left"></i> Telegraf+Influxdb+Grafana (2)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="gitlab/PostgreSQL-Migration-MySQL/"
+           data-title="Gitlab PostgreSQL Migration MySQL" data-url="https://svolence.github.io/gitlab/PostgreSQL-Migration-MySQL/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Svolence" />
+          <p class="site-author-name" itemprop="name">Svolence</p>
+          <p class="site-description motion-element" itemprop="description">Talk is cheap, show me the code!!!</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">13</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Gitlab-PostgreSQL-Migration-MySQL"><span class="nav-number">1.</span> <span class="nav-text">Gitlab PostgreSQL Migration MySQL</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1-Packages-Dependencies"><span class="nav-number">2.</span> <span class="nav-text">1. Packages / Dependencies</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-Ruby"><span class="nav-number">3.</span> <span class="nav-text">2. Ruby</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-Go"><span class="nav-number">4.</span> <span class="nav-text">3. Go</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-Node"><span class="nav-number">5.</span> <span class="nav-text">4. Node</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-System-Users"><span class="nav-number">6.</span> <span class="nav-text">5. System Users</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-Database"><span class="nav-number">7.</span> <span class="nav-text">6. Database</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Initial-database-setup"><span class="nav-number">7.0.1.</span> <span class="nav-text">Initial database setup</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MySQL-utf8mb4-support"><span class="nav-number">7.0.2.</span> <span class="nav-text">MySQL utf8mb4 support</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#We-are-about-to-do-the-following"><span class="nav-number">7.0.2.1.</span> <span class="nav-text">We are about to do the following:</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Check-for-utf8mb4-support"><span class="nav-number">7.0.3.</span> <span class="nav-text">Check for utf8mb4 support</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Check-for-InnoDB-File-Per-Table-Tablespaces"><span class="nav-number">7.0.3.1.</span> <span class="nav-text">Check for InnoDB File-Per-Table Tablespaces</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Check-for-proper-InnoDB-File-Format-Row-Format-Large-Prefix-and-tables-conversion"><span class="nav-number">7.0.3.2.</span> <span class="nav-text">Check for proper InnoDB File Format, Row Format, Large Prefix and tables conversion</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Tables-and-data-conversion-to-utf8mb4"><span class="nav-number">7.0.3.3.</span> <span class="nav-text">Tables and data conversion to utf8mb4</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MySQL-strings-limits"><span class="nav-number">7.0.4.</span> <span class="nav-text">MySQL strings limits</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Omnibus-GitLab-installations"><span class="nav-number">7.0.4.1.</span> <span class="nav-text">Omnibus GitLab installations</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Installations-from-source"><span class="nav-number">7.0.4.2.</span> <span class="nav-text">Installations from source</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#7-Redis"><span class="nav-number">8.</span> <span class="nav-text">7. Redis</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#8-GitLab"><span class="nav-number">9.</span> <span class="nav-text">8. GitLab</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Configure-It"><span class="nav-number">9.0.1.</span> <span class="nav-text">Configure It</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Configure-GitLab-DB-Settings"><span class="nav-number">9.0.2.</span> <span class="nav-text">Configure GitLab DB Settings</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Install-Gems"><span class="nav-number">9.0.3.</span> <span class="nav-text">Install Gems</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Install-GitLab-Shell"><span class="nav-number">9.0.4.</span> <span class="nav-text">Install GitLab Shell</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Install-gitlab-workhorse"><span class="nav-number">9.0.5.</span> <span class="nav-text">Install gitlab-workhorse</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Initialize-Database-and-Activate-Advanced-Features"><span class="nav-number">9.0.6.</span> <span class="nav-text">Initialize Database and Activate Advanced Features</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Install-Init-Script"><span class="nav-number">9.0.7.</span> <span class="nav-text">Install Init Script</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Setup-Logrotate"><span class="nav-number">9.0.8.</span> <span class="nav-text">Setup Logrotate</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Check-Application-Status"><span class="nav-number">9.0.9.</span> <span class="nav-text">Check Application Status</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Compile-Assets"><span class="nav-number">9.0.10.</span> <span class="nav-text">Compile Assets</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Start-Your-GitLab-Instance"><span class="nav-number">9.0.11.</span> <span class="nav-text">Start Your GitLab Instance</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#9-Nginx"><span class="nav-number">10.</span> <span class="nav-text">9. Nginx</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Site-Configuration"><span class="nav-number">10.0.1.</span> <span class="nav-text">Site Configuration</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Double-check-Application-Status"><span class="nav-number">10.0.2.</span> <span class="nav-text">Double-check Application Status</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Initial-Login"><span class="nav-number">10.0.3.</span> <span class="nav-text">Initial Login</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#10-Troubleshooting"><span class="nav-number">11.</span> <span class="nav-text">10. Troubleshooting</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Svolence</span>
+</div>
+
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"svolence"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("gg4V2cN69UAJQ53rO4JwVmaL-gzGzoHsz", "uYSk8wzlMAMgisyaGCA2yWFq");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+</body>
+</html>
