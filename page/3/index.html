@@ -271,6 +271,175 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://svolence.github.io/gitlab/question/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Svolence">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Svolence's Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Svolence's Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/gitlab/question/" itemprop="url">
+                  gitlab Troubleshoting
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <!-- <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-09-18T18:49:04+08:00">
+              2016-09-18
+            </time> -->
+
+            &nbsp;|&nbsp;
+
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-check-o"></i>
+            </span>
+            <time title="Post modified" itemprop="dateModified" datetime="2016-11-21T14:26:05+08:00">
+              2016-11-21
+            </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/gitlab/" itemprop="url" rel="index">
+                    <span itemprop="name">gitlab</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/gitlab/question/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="gitlab/question/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/gitlab/question/" class="leancloud_visitors" data-flag-title="gitlab Troubleshoting">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">Visitors </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="GitLab-碰到的问题"><a href="#GitLab-碰到的问题" class="headerlink" title="GitLab 碰到的问题"></a>GitLab 碰到的问题</h1><blockquote>
+<p>502 Whoops, GitLab is taking too much time to respond.</p>
+</blockquote>
+<p>1.查看8080端口是否被占用</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">netstat -plnt | grep 8080</div></pre></td></tr></table></figure>
+<blockquote>
+<p>==&gt; /var/log/gitlab/unicorn/unicorn_stderr.log &lt;==<br> Errno::EADDRINUSE: Address already in use - bind(2) for 127.0.0.1:8080</p>
+</blockquote>
+<p>编辑<code>/etc/gitlab/gitlab.rb</code> L439 <code>unicorn[&#39;port&#39;] = 1234</code></p>
+<p>2.<code>sudo gitlab-ctl tail</code> 查看相关错误日志发现:</p>
+<blockquote>
+<p>error: proxyRoundTripper: GET “/“ failed with:<br>“dial unix /var/opt/gitlab/gitlab-rails/sockets/gitlab.socket: connect: connection refused”</p>
+</blockquote>
+<p>GitLab安装对服务器硬件有一定的<a href="https://docs.gitlab.com/ce/install/requirements.html" target="_blank" rel="external">要求</a></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
   <link itemprop="mainEntityOfPage" href="https://svolence.github.io/gitlab/NFS/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -394,6 +563,167 @@
           <!--noindex-->
           <div class="post-more-link text-center">
             <a class="btn" href="/gitlab/NFS/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://svolence.github.io/gitlab/postgresql/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Svolence">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Svolence's Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Svolence's Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/gitlab/postgresql/" itemprop="url">
+                  pgsql basic usage
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <!-- <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-09-15T15:59:04+08:00">
+              2016-09-15
+            </time> -->
+
+            &nbsp;|&nbsp;
+
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-check-o"></i>
+            </span>
+            <time title="Post modified" itemprop="dateModified" datetime="2016-11-21T14:26:02+08:00">
+              2016-11-21
+            </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/gitlab/" itemprop="url" rel="index">
+                    <span itemprop="name">gitlab</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/gitlab/postgresql/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="gitlab/postgresql/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/gitlab/postgresql/" class="leancloud_visitors" data-flag-title="pgsql basic usage">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">Visitors </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="postgresql-使用"><a href="#postgresql-使用" class="headerlink" title="postgresql 使用"></a>postgresql 使用</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> /var/opt/gitlab/postgresql/data</div><div class="line"></div><div class="line">vim pg_hba.conf</div><div class="line"></div><div class="line">host all all 0.0.0.0/0 md5  <span class="comment">#0.0.0.0为地址段,0为多少二进制位</span></div><div class="line"></div><div class="line">host    all    all  10.96.23.0/24  trust    添加这行:10.96.23.0/24这个段的ip地址不需要密码可以连接</div><div class="line">host    all    all  10.96.23.0/24  md5      添加这行:10.96.23.0/24这个段的ip链接需要密码</div><div class="line"></div><div class="line">vim postgresql.conf</div><div class="line"></div><div class="line">listen_addresses = <span class="string">'10.96.23.104'</span>      修改监听地址为ip</div><div class="line"></div><div class="line">gitlab-ctl restart postgresql</div><div class="line"></div><div class="line"><span class="built_in">cd</span> /opt/gitlab/embedded/</div><div class="line"></div><div class="line">bin/psql -U gitlab <span class="_">-d</span> gitlabhq_production -h 10.96.23.102             不用输入密码就可进来</div><div class="line"></div><div class="line">psql (9.2.18)</div><div class="line">Type <span class="string">"help"</span> <span class="keyword">for</span> help.</div></pre></td></tr></table></figure>
+<h2 id="命令行登陆数据库"><a href="#命令行登陆数据库" class="headerlink" title="命令行登陆数据库"></a>命令行登陆数据库</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">psql -U gitlab <span class="_">-d</span> gitlabhq_production -h 10.96.23.104</div></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-more-link text-center">
+            <a class="btn" href="/gitlab/postgresql/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -590,167 +920,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://svolence.github.io/gitlab/postgresql/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Svolence">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.gif">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="Svolence's Blog">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="Svolence's Blog" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/gitlab/postgresql/" itemprop="url">
-                  pgsql basic usage
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <!-- <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-09-15T15:59:04+08:00">
-              2016-09-15
-            </time> -->
-
-            &nbsp;|&nbsp;
-
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-check-o"></i>
-            </span>
-            <time title="Post modified" itemprop="dateModified" datetime="2016-11-21T14:26:02+08:00">
-              2016-11-21
-            </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/gitlab/" itemprop="url" rel="index">
-                    <span itemprop="name">gitlab</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/gitlab/postgresql/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="gitlab/postgresql/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/gitlab/postgresql/" class="leancloud_visitors" data-flag-title="pgsql basic usage">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">Visitors </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="postgresql-使用"><a href="#postgresql-使用" class="headerlink" title="postgresql 使用"></a>postgresql 使用</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> /var/opt/gitlab/postgresql/data</div><div class="line"></div><div class="line">vim pg_hba.conf</div><div class="line"></div><div class="line">host all all 0.0.0.0/0 md5  <span class="comment">#0.0.0.0为地址段,0为多少二进制位</span></div><div class="line"></div><div class="line">host    all    all  10.96.23.0/24  trust    添加这行:10.96.23.0/24这个段的ip地址不需要密码可以连接</div><div class="line">host    all    all  10.96.23.0/24  md5      添加这行:10.96.23.0/24这个段的ip链接需要密码</div><div class="line"></div><div class="line">vim postgresql.conf</div><div class="line"></div><div class="line">listen_addresses = <span class="string">'10.96.23.104'</span>      修改监听地址为ip</div><div class="line"></div><div class="line">gitlab-ctl restart postgresql</div><div class="line"></div><div class="line"><span class="built_in">cd</span> /opt/gitlab/embedded/</div><div class="line"></div><div class="line">bin/psql -U gitlab <span class="_">-d</span> gitlabhq_production -h 10.96.23.102             不用输入密码就可进来</div><div class="line"></div><div class="line">psql (9.2.18)</div><div class="line">Type <span class="string">"help"</span> <span class="keyword">for</span> help.</div></pre></td></tr></table></figure>
-<h2 id="命令行登陆数据库"><a href="#命令行登陆数据库" class="headerlink" title="命令行登陆数据库"></a>命令行登陆数据库</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">psql -U gitlab <span class="_">-d</span> gitlabhq_production -h 10.96.23.104</div></pre></td></tr></table></figure>
-          <!--noindex-->
-          <div class="post-more-link text-center">
-            <a class="btn" href="/gitlab/postgresql/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -796,7 +965,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">13</span>
+              <span class="site-state-item-count">14</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
@@ -804,7 +973,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-count">8</span>
                 <span class="site-state-item-name">categories</span>
               </a>
             </div>
@@ -813,7 +982,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-count">15</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>

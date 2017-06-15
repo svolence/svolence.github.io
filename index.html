@@ -271,6 +271,192 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://svolence.github.io/kong/introduce/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Svolence">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Svolence's Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Svolence's Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/kong/introduce/" itemprop="url">
+                  kong introduce
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <!-- <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-15T11:35:54+08:00">
+              2017-06-15
+            </time> -->
+
+            &nbsp;|&nbsp;
+
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-check-o"></i>
+            </span>
+            <time title="Post modified" itemprop="dateModified" datetime="2017-06-15T14:14:09+08:00">
+              2017-06-15
+            </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/kong/" itemprop="url" rel="index">
+                    <span itemprop="name">kong</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/kong/introduce/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="kong/introduce/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/kong/introduce/" class="leancloud_visitors" data-flag-title="kong introduce">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">Visitors </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h1 id="Kong-初探-一"><a href="#Kong-初探-一" class="headerlink" title="Kong 初探(一)"></a>Kong 初探(一)</h1><h2 id="Kong-安装"><a href="#Kong-安装" class="headerlink" title="Kong 安装"></a>Kong 安装</h2><ul>
+<li>可参照<a href="https://getkong.org">官网</a><code>https://getkong.org</code>进行有选择性的安装</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">wget https://github.com/Mashape/kong/releases/download/0.10.3/kong-0.10.3.trusty_all.deb</div><div class="line"></div><div class="line">sudo apt-get update</div><div class="line">sudo apt-get install openssl libpcre3 procps perl</div><div class="line">sudo dpkg -i kong-0.10.3.trusty_all.deb</div></pre></td></tr></table></figure>
+<ul>
+<li>Kong 支持两种数据库<code>postgres</code> 和 <code>cassandra</code>,默认<code>postgres</code></li>
+</ul>
+<h2 id="安装postgresql"><a href="#安装postgresql" class="headerlink" title="安装postgresql"></a>安装postgresql</h2><ul>
+<li>添加postgresql源：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">sudo touch /etc/apt/sources.list.d/pgdb.list</div><div class="line">sudo vim /etc/apt/sources.list.d/pgdb.list</div><div class="line"></div><div class="line"># 把下面这行数据添加到pgdb.list文件中：</div><div class="line">deb https://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main</div></pre></td></tr></table></figure>
+<ul>
+<li>执行下面的命令添加postgresql安装包的秘钥：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">sudo wget --quiet -O - https://postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add - </div><div class="line"></div><div class="line">sudo apt-get update</div><div class="line">sudo apt-get install postgresql-9.6</div><div class="line"></div><div class="line"># 重启 postgresql</div><div class="line">sudo service postgresql restart</div></pre></td></tr></table></figure>
+<h2 id="Kong-数据库配置"><a href="#Kong-数据库配置" class="headerlink" title="Kong 数据库配置"></a>Kong 数据库配置</h2><ul>
+<li>创建用户、数据库</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">➜  wenyue sudo -i -u postgres          </div><div class="line">postgres@vmlin0310:~$ CREATE USER kong; CREATE DATABASE kong OWNER kong;</div><div class="line">CREATE: command not found</div><div class="line">CREATE: command not found</div><div class="line">postgres@vmlin0310:~$ psql</div><div class="line">psql (9.6.3)</div><div class="line">Type &quot;help&quot; for help.</div><div class="line"></div><div class="line">postgres=# CREATE USER kong; CREATE DATABASE kong OWNER kong;</div><div class="line">CREATE ROLE</div><div class="line">CREATE DATABASE</div><div class="line">postgres=#</div></pre></td></tr></table></figure>
+<ul>
+<li>修改密码</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">➜  wenyue sudo su postgres</div><div class="line">postgres@vmlin0310:/home/wenyue$ psql</div><div class="line">psql (9.6.3)</div><div class="line">Type &quot;help&quot; for help.</div><div class="line"></div><div class="line">postgres=# \password kong</div><div class="line">Enter new password: </div><div class="line">Enter it again: </div><div class="line">postgres=# exit</div><div class="line">postgres-# \q</div><div class="line">postgres@vmlin0310:/home/wenyue$ exit</div><div class="line">exit</div></pre></td></tr></table></figure>
+<ul>
+<li>验证</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">➜  wenyue psql -U kong -d kong -h 127.0.0.1</div><div class="line">Password for user kong: </div><div class="line">psql (9.6.3)</div><div class="line">SSL connection (protocol: TLSv1.2, cipher: ECDHE-RSA-AES256-GCM-SHA384, bits: 256, compression: off)</div><div class="line">Type &quot;help&quot; for help.</div><div class="line"></div><div class="line">kong=&gt; \l</div><div class="line">                                  List of databases</div><div class="line">   Name    |  Owner   | Encoding |   Collate   |    Ctype    |   Access privileges   </div><div class="line">-----------+----------+----------+-------------+-------------+-----------------------</div><div class="line"> kong      | kong     | UTF8     | en_US.UTF-8 | en_US.UTF-8 | </div><div class="line"> postgres  | postgres | UTF8     | en_US.UTF-8 | en_US.UTF-8 | </div><div class="line"> template0 | postgres | UTF8     | en_US.UTF-8 | en_US.UTF-8 | =c/postgres          +</div><div class="line">           |          |          |             |             | postgres=CTc/postgres</div><div class="line"> template1 | postgres | UTF8     | en_US.UTF-8 | en_US.UTF-8 | =c/postgres          +</div><div class="line">           |          |          |             |             | postgres=CTc/postgres</div><div class="line">(4 rows)</div><div class="line"></div><div class="line">kong=&gt;</div></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-more-link text-center">
+            <a class="btn" href="/kong/introduce/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
   <link itemprop="mainEntityOfPage" href="https://svolence.github.io/gitlab/PostgreSQL-Migration-MySQL/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1038,169 +1224,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://svolence.github.io/golang/terminal-use-proxy/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Svolence">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.gif">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="Svolence's Blog">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="Svolence's Blog" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/golang/terminal-use-proxy/" itemprop="url">
-                  终端使用Privoxy将socks5代理转为http代理
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <!-- <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-11-16T19:59:04+08:00">
-              2016-11-16
-            </time> -->
-
-            &nbsp;|&nbsp;
-
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-check-o"></i>
-            </span>
-            <time title="Post modified" itemprop="dateModified" datetime="2016-11-21T14:32:38+08:00">
-              2016-11-21
-            </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/golang/" itemprop="url" rel="index">
-                    <span itemprop="name">golang</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/golang/terminal-use-proxy/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="golang/terminal-use-proxy/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/golang/terminal-use-proxy/" class="leancloud_visitors" data-flag-title="终端使用Privoxy将socks5代理转为http代理">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">Visitors </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>在终端go get的一些包的时候，偶尔需要一些翻墙操作，在次记录一下使用Pvivoxy将socks5代理转为http代理</p>
-<h1 id="1-首先需要安装ss"><a href="#1-首先需要安装ss" class="headerlink" title="1. 首先需要安装ss"></a>1. 首先需要安装ss</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:hzwhuang/ss-qt5</div><div class="line">sudo apt-get update</div><div class="line">sudo apt-get install shadowsocks-qt5</div></pre></td></tr></table></figure>
-<p>详细步奏可以参考这里的<a href="https://github.com/shadowsocks/shadowsocks-qt5/wiki/%E5%AE%89%E8%A3%85%E6%8C%87%E5%8D%97" target="_blank" rel="external">安装指南</a></p>
-<h1 id="2-ss的账号和密码"><a href="#2-ss的账号和密码" class="headerlink" title="2. ss的账号和密码"></a>2. ss的账号和密码</h1><p><img src="/images/ss.png" alt="ss"></p>
-<h1 id="3-SwitchyOmega配置"><a href="#3-SwitchyOmega配置" class="headerlink" title="3. SwitchyOmega配置"></a>3. SwitchyOmega配置</h1><p><img src="/images/proxy-set.png" alt="proxy-set"><br><img src="/images/proxy-set-http.png" alt="proxy-set-http"></p>
-<p>正常情况下，走到这里网页翻墙应该没有什么问题了</p>
-<h1 id="4-Privoxy安装"><a href="#4-Privoxy安装" class="headerlink" title="4. Privoxy安装"></a>4. Privoxy安装</h1><p>下载<a href="https://www.privoxy.org/sf-download-mirror/" target="_blank" rel="external">deb包</a>进行安装</p>
-<h1 id="5-privoxy配置"><a href="#5-privoxy配置" class="headerlink" title="5. privoxy配置"></a>5. privoxy配置</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># vim /etc/privoxy/config</span></div><div class="line"></div><div class="line">末尾添加这行`forward-socks5 / 127.0.0.1:1080 .`(注意后面有一个点)</div><div class="line"></div><div class="line">sudo service privoxy restart</div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1246,7 +1269,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">13</span>
+              <span class="site-state-item-count">14</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
@@ -1254,7 +1277,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-count">8</span>
                 <span class="site-state-item-name">categories</span>
               </a>
             </div>
@@ -1263,7 +1286,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-count">15</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>

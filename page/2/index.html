@@ -271,6 +271,169 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://svolence.github.io/golang/terminal-use-proxy/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Svolence">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Svolence's Blog">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Svolence's Blog" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/golang/terminal-use-proxy/" itemprop="url">
+                  终端使用Privoxy将socks5代理转为http代理
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <!-- <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-11-16T19:59:04+08:00">
+              2016-11-16
+            </time> -->
+
+            &nbsp;|&nbsp;
+
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-check-o"></i>
+            </span>
+            <time title="Post modified" itemprop="dateModified" datetime="2016-11-21T14:32:38+08:00">
+              2016-11-21
+            </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/golang/" itemprop="url" rel="index">
+                    <span itemprop="name">golang</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/golang/terminal-use-proxy/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="golang/terminal-use-proxy/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/golang/terminal-use-proxy/" class="leancloud_visitors" data-flag-title="终端使用Privoxy将socks5代理转为http代理">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">Visitors </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>在终端go get的一些包的时候，偶尔需要一些翻墙操作，在次记录一下使用Pvivoxy将socks5代理转为http代理</p>
+<h1 id="1-首先需要安装ss"><a href="#1-首先需要安装ss" class="headerlink" title="1. 首先需要安装ss"></a>1. 首先需要安装ss</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">sudo add-apt-repository ppa:hzwhuang/ss-qt5</div><div class="line">sudo apt-get update</div><div class="line">sudo apt-get install shadowsocks-qt5</div></pre></td></tr></table></figure>
+<p>详细步奏可以参考这里的<a href="https://github.com/shadowsocks/shadowsocks-qt5/wiki/%E5%AE%89%E8%A3%85%E6%8C%87%E5%8D%97" target="_blank" rel="external">安装指南</a></p>
+<h1 id="2-ss的账号和密码"><a href="#2-ss的账号和密码" class="headerlink" title="2. ss的账号和密码"></a>2. ss的账号和密码</h1><p><img src="/images/ss.png" alt="ss"></p>
+<h1 id="3-SwitchyOmega配置"><a href="#3-SwitchyOmega配置" class="headerlink" title="3. SwitchyOmega配置"></a>3. SwitchyOmega配置</h1><p><img src="/images/proxy-set.png" alt="proxy-set"><br><img src="/images/proxy-set-http.png" alt="proxy-set-http"></p>
+<p>正常情况下，走到这里网页翻墙应该没有什么问题了</p>
+<h1 id="4-Privoxy安装"><a href="#4-Privoxy安装" class="headerlink" title="4. Privoxy安装"></a>4. Privoxy安装</h1><p>下载<a href="https://www.privoxy.org/sf-download-mirror/" target="_blank" rel="external">deb包</a>进行安装</p>
+<h1 id="5-privoxy配置"><a href="#5-privoxy配置" class="headerlink" title="5. privoxy配置"></a>5. privoxy配置</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># vim /etc/privoxy/config</span></div><div class="line"></div><div class="line">末尾添加这行`forward-socks5 / 127.0.0.1:1080 .`(注意后面有一个点)</div><div class="line"></div><div class="line">sudo service privoxy restart</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
   <link itemprop="mainEntityOfPage" href="https://svolence.github.io/linux/lsyncd-in-ubuntu/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -960,175 +1123,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://svolence.github.io/gitlab/question/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Svolence">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.gif">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="Svolence's Blog">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="Svolence's Blog" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/gitlab/question/" itemprop="url">
-                  gitlab Troubleshoting
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <!-- <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-09-18T18:49:04+08:00">
-              2016-09-18
-            </time> -->
-
-            &nbsp;|&nbsp;
-
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-check-o"></i>
-            </span>
-            <time title="Post modified" itemprop="dateModified" datetime="2016-11-21T14:26:05+08:00">
-              2016-11-21
-            </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/gitlab/" itemprop="url" rel="index">
-                    <span itemprop="name">gitlab</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/gitlab/question/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="gitlab/question/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/gitlab/question/" class="leancloud_visitors" data-flag-title="gitlab Troubleshoting">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">Visitors </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="GitLab-碰到的问题"><a href="#GitLab-碰到的问题" class="headerlink" title="GitLab 碰到的问题"></a>GitLab 碰到的问题</h1><blockquote>
-<p>502 Whoops, GitLab is taking too much time to respond.</p>
-</blockquote>
-<p>1.查看8080端口是否被占用</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">netstat -plnt | grep 8080</div></pre></td></tr></table></figure>
-<blockquote>
-<p>==&gt; /var/log/gitlab/unicorn/unicorn_stderr.log &lt;==<br> Errno::EADDRINUSE: Address already in use - bind(2) for 127.0.0.1:8080</p>
-</blockquote>
-<p>编辑<code>/etc/gitlab/gitlab.rb</code> L439 <code>unicorn[&#39;port&#39;] = 1234</code></p>
-<p>2.<code>sudo gitlab-ctl tail</code> 查看相关错误日志发现:</p>
-<blockquote>
-<p>error: proxyRoundTripper: GET “/“ failed with:<br>“dial unix /var/opt/gitlab/gitlab-rails/sockets/gitlab.socket: connect: connection refused”</p>
-</blockquote>
-<p>GitLab安装对服务器硬件有一定的<a href="https://docs.gitlab.com/ce/install/requirements.html" target="_blank" rel="external">要求</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1174,7 +1168,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">13</span>
+              <span class="site-state-item-count">14</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
@@ -1182,7 +1176,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-count">8</span>
                 <span class="site-state-item-name">categories</span>
               </a>
             </div>
@@ -1191,7 +1185,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-count">15</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>
