@@ -104,7 +104,7 @@
 <meta property="og:site_name" content="Svolence">
 <meta property="og:description" content="centos sendmail配置安装123456yum install -y sendmailyum install -y sendmail-cf[root@vmlin5282 mail]# rpm -qa | grep sendmailsendmail-cf-8.14.4-9.el6_8.1.noarchsendmail-8.14.4-9.el6_8.1.x86_64
 配置1)备份配置文件12">
-<meta property="og:updated_time" content="2017-11-15T03:31:15.902Z">
+<meta property="og:updated_time" content="2017-11-15T03:34:00.209Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="centos sendmail">
 <meta name="twitter:description" content="centos sendmail配置安装123456yum install -y sendmailyum install -y sendmail-cf[root@vmlin5282 mail]# rpm -qa | grep sendmailsendmail-cf-8.14.4-9.el6_8.1.noarchsendmail-8.14.4-9.el6_8.1.x86_64
@@ -318,7 +318,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-check-o"></i>
             </span>
-            <time title="Post modified" itemprop="dateModified" datetime="2017-11-15T11:31:15+08:00">
+            <time title="Post modified" itemprop="dateModified" datetime="2017-11-15T11:34:00+08:00">
               2017-11-15
             </time>
             
@@ -400,6 +400,7 @@
 <p><strong>TRUST_AUTH_MECH</strong>的作用是使<code>sendmail</code>不管<code>access</code>文件中如何设置，都能<code>relay</code>那些通过<code>EXTERNAL</code>, <code>LOGIN</code>, <code>PLAIN</code>, <code>CRAM-MD5</code>或<code>DIGEST-MD5</code>等方式验证的邮件，注意这里是对需要<code>relay</code>的邮件进行验证，只有这样通过验证的邮件才会被<code>relay</code>以防止<code>sendmail</code>服务器被滥用。</p>
 <p> <strong>confAUTH_MECHANISMS</strong>的作用是确定系统的认证方式</p>
 </blockquote>
+<a id="more"></a>
 <p>5)<br>安全认证<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">[root@vmlin5282 mail]# rpm -qa | grep sasl</div><div class="line">cyrus-sasl-lib-2.1.23-15.el6_6.2.x86_64</div><div class="line">cyrus-sasl-plain-2.1.23-15.el6_6.2.x86_64</div><div class="line">cyrus-sasl-md5-2.1.23-15.el6_6.2.x86_64</div><div class="line">cyrus-sasl-2.1.23-15.el6_6.2.x86_64</div><div class="line">cyrus-sasl-devel-2.1.23-15.el6_6.2.x86_64</div><div class="line">cyrus-sasl-gssapi-2.1.23-15.el6_6.2.x86_64</div><div class="line"></div><div class="line"># yum install</div><div class="line">		cyrus-sasl-gssapi\</div><div class="line">        cyrus-sasl-md5\</div><div class="line">        cyrus-sasl\</div><div class="line">        cyrus-sasl-plain\</div><div class="line">        cyrus-sasl-devel</div></pre></td></tr></table></figure></p>
 <p>6)<br><code>m4</code>重新生成<code>sendmail.cf</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">m4 /etc/mail/sendmail.mc &gt; /etc/mail/sendmail.cf</div></pre></td></tr></table></figure></p>
 <p>7)<br>重启<code>sendmail、saslauthd</code>服务<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">[root@vmlin5282 mail]# service saslauthd restart</div><div class="line">Stopping saslauthd:                                        [  OK  ]</div><div class="line">Starting saslauthd:                                        [  OK  ]</div><div class="line">[root@vmlin5282 mail]# service sendmail restart</div><div class="line">Shutting down sm-client:                                   [  OK  ]</div><div class="line">Shutting down sendmail:                                    [  OK  ]</div><div class="line">Starting sendmail:                                         [  OK  ]</div><div class="line">Starting sm-client:                                        [  OK  ]</div></pre></td></tr></table></figure></p>
