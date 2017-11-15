@@ -271,6 +271,190 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="https://svolence.github.io/linux/centos-sendmail/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Svolence">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Svolence">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Svolence" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/linux/centos-sendmail/" itemprop="url">
+                  centos sendmail
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <!-- <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-11-15T11:25:34+08:00">
+              2017-11-15
+            </time> -->
+
+            &nbsp;|&nbsp;
+
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-check-o"></i>
+            </span>
+            <time title="Post modified" itemprop="dateModified" datetime="2017-11-15T11:31:15+08:00">
+              2017-11-15
+            </time>
+            
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/sendmail/" itemprop="url" rel="index">
+                    <span itemprop="name">sendmail</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/linux/centos-sendmail/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="linux/centos-sendmail/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/linux/centos-sendmail/" class="leancloud_visitors" data-flag-title="centos sendmail">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">Visitors </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="centos-sendmail配置"><a href="#centos-sendmail配置" class="headerlink" title="centos sendmail配置"></a>centos sendmail配置</h1><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">yum install -y sendmail</div><div class="line">yum install -y sendmail-cf</div><div class="line"></div><div class="line">[root@vmlin5282 mail]# rpm -qa | grep sendmail</div><div class="line">sendmail-cf-8.14.4-9.el6_8.1.noarch</div><div class="line">sendmail-8.14.4-9.el6_8.1.x86_64</div></pre></td></tr></table></figure>
+<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>1)<br>备份配置文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">cp /etc/mail/sendmail.mc /etc/mail/sendmail.mc.bak</div><div class="line"></div><div class="line">cp /etc/mail/sendmail.cf /etc/mail/sendmail.cf.bak</div></pre></td></tr></table></figure></p>
+<p>2)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vim /etc/mail/sendmail.mc</div></pre></td></tr></table></figure></p>
+<p>默认监听本机，这里需要注释掉，添加<code>dnl</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">dnl DAEMON_OPTIONS(`Port=smtp,Addr=127.0.0.1, Name=MTA&apos;)dnl</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p><code>Sendmail</code>服务的网络访问权限，如果仅仅是本机使用，就不用配置，如果是允许外部机器访问，可以进行限制</p>
+<p>将<code>127.0.0.1</code>改为<code>0.0.0.0</code>或者注释掉，意思是任何主机都可以访问<code>Sendmail</code>服务。如果仅让某一个网段能够访问到<code>Sendmail</code>服务，将<code>127.0.0.1</code>改为形如<code>192.168.1.0/24</code>的一个特定网段地址</p>
+</blockquote>
+<p>3)<br>信息伪装(可选配置，可在PHPMailer中代码中自定义)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">//此句去掉注释，修改为：MASQUERADE_AS(&apos;yourdomain.com&apos;)dnl</div><div class="line">dnl MASQUERADE_AS(&apos;mydomain.com&apos;)dnl //是否对信息作伪装</div><div class="line"></div><div class="line">//去掉注释</div><div class="line">dnl FEATURE(masquerade_envelope)dnl //是否对整个域（包括子域）做伪装</div><div class="line"></div><div class="line">//去掉注释</div><div class="line">dnl FEATURE(masquerade_entire_domain)dnl</div><div class="line"></div><div class="line">//去掉注释</div><div class="line">dnl MASQUERADE_DOMAIN(localhost)dnl //对localhost域做伪装</div><div class="line"></div><div class="line">//去掉注释</div><div class="line">dnl MASQUERADE_DOMAIN(localhost.localdomain)dnl //将locahost.com域伪装成yourdomain.com</div></pre></td></tr></table></figure></p>
+<p>4)<br>开启<code>SMTPAuth</code>认证<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">dnl TRUST_AUTH_MECH(`EXTERNAL DIGEST-MD5 CRAM-MD5 LOGIN PLAIN&apos;)dnl</div><div class="line"></div><div class="line">dnl define(`confAUTH_MECHANISMS&apos;, `EXTERNAL GSSAPI DIGEST-MD5 CRAM-MD5 LOGIN PLAIN&apos;)dnl</div></pre></td></tr></table></figure></p>
+<p>将其改为如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">TRUST_AUTH_MECH(`EXTERNAL DIGEST-MD5 CRAM-MD5 LOGIN PLAIN&apos;)dnl</div><div class="line"></div><div class="line">define(`confAUTH_MECHANISMS&apos;, `EXTERNAL GSSAPI DIGEST-MD5 CRAM-MD5 LOGIN PLAIN&apos;)dnl</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p><strong>TRUST_AUTH_MECH</strong>的作用是使<code>sendmail</code>不管<code>access</code>文件中如何设置，都能<code>relay</code>那些通过<code>EXTERNAL</code>, <code>LOGIN</code>, <code>PLAIN</code>, <code>CRAM-MD5</code>或<code>DIGEST-MD5</code>等方式验证的邮件，注意这里是对需要<code>relay</code>的邮件进行验证，只有这样通过验证的邮件才会被<code>relay</code>以防止<code>sendmail</code>服务器被滥用。</p>
+<p> <strong>confAUTH_MECHANISMS</strong>的作用是确定系统的认证方式</p>
+</blockquote>
+<p>5)<br>安全认证<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">[root@vmlin5282 mail]# rpm -qa | grep sasl</div><div class="line">cyrus-sasl-lib-2.1.23-15.el6_6.2.x86_64</div><div class="line">cyrus-sasl-plain-2.1.23-15.el6_6.2.x86_64</div><div class="line">cyrus-sasl-md5-2.1.23-15.el6_6.2.x86_64</div><div class="line">cyrus-sasl-2.1.23-15.el6_6.2.x86_64</div><div class="line">cyrus-sasl-devel-2.1.23-15.el6_6.2.x86_64</div><div class="line">cyrus-sasl-gssapi-2.1.23-15.el6_6.2.x86_64</div><div class="line"></div><div class="line"># yum install</div><div class="line">		cyrus-sasl-gssapi\</div><div class="line">        cyrus-sasl-md5\</div><div class="line">        cyrus-sasl\</div><div class="line">        cyrus-sasl-plain\</div><div class="line">        cyrus-sasl-devel</div></pre></td></tr></table></figure></p>
+<p>6)<br><code>m4</code>重新生成<code>sendmail.cf</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">m4 /etc/mail/sendmail.mc &gt; /etc/mail/sendmail.cf</div></pre></td></tr></table></figure></p>
+<p>7)<br>重启<code>sendmail、saslauthd</code>服务<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">[root@vmlin5282 mail]# service saslauthd restart</div><div class="line">Stopping saslauthd:                                        [  OK  ]</div><div class="line">Starting saslauthd:                                        [  OK  ]</div><div class="line">[root@vmlin5282 mail]# service sendmail restart</div><div class="line">Shutting down sm-client:                                   [  OK  ]</div><div class="line">Shutting down sendmail:                                    [  OK  ]</div><div class="line">Starting sendmail:                                         [  OK  ]</div><div class="line">Starting sm-client:                                        [  OK  ]</div></pre></td></tr></table></figure></p>
+<p>8)<br><code>iptables</code>设置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"> # vi /etc/sysconfig/iptables</div><div class="line">-A INPUT -p tcp -m state --state NEW -m tcp --dport 25 -j ACCEPT</div></pre></td></tr></table></figure></p>
+<p>9)<br>Testing SMTP AUTH<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">[root@vmlin5101 ops]# telnet 10.100.133.248 25</div><div class="line">Trying 10.100.133.248...</div><div class="line">Connected to 10.100.133.248.</div><div class="line">Escape character is &apos;^]&apos;.</div><div class="line">220 mail.xxx.com ESMTP Sendmail 8.14.4/8.14.4; Wed, 15 Nov 2017 10:07:11 +0800</div><div class="line">ehlo laptop</div><div class="line">250-mail.xxx.com Hello [10.100.133.98], pleased to meet you</div><div class="line">250-ENHANCEDSTATUSCODES</div><div class="line">250-PIPELINING</div><div class="line">250-8BITMIME</div><div class="line">250-SIZE</div><div class="line">250-DSN</div><div class="line">250-ETRN</div><div class="line">`50-AUTH GSSAPI DIGEST-MD5 CRAM-MD5 LOGIN PLAIN`</div><div class="line">250-DELIVERBY</div><div class="line">250 HELP</div></pre></td></tr></table></figure></p>
+<h3 id="相关配置文件说明"><a href="#相关配置文件说明" class="headerlink" title="相关配置文件说明"></a>相关配置文件说明</h3><ul>
+<li><strong><code>/etc/mail/access</code></strong>Allow/Deny other systems to use Sendmail for outbound emails</li>
+<li><strong><code>/etc/mail/domaintable</code></strong>AllUsed for domain name mapping for Sendmail</li>
+<li><strong><code>/etc/mail/local-host-names</code></strong>Used to define aliases for the host</li>
+<li><strong><code>/etc/mail/mailertable</code></strong>Defined the instructions that override routing for particular domains</li>
+<li><strong><code>/etc/mail/virtusertable</code></strong>Specifies a domain-specific form of aliasing, allowing multiple virtual domains to be hosted on one machine</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">vim /etc/mail/access</div><div class="line"></div><div class="line"># Check the /usr/share/doc/sendmail/README.cf file for a description</div><div class="line"># of the format of this file. (search for access_db in that file)</div><div class="line"># The /usr/share/doc/sendmail/README.cf is part of the sendmail-doc</div><div class="line"># package.</div><div class="line">#</div><div class="line"># If you want to use AuthInfo with &quot;M:PLAIN LOGIN&quot;, make sure to have the</div><div class="line"># cyrus-sasl-plain package installed.</div><div class="line">#</div><div class="line"># By default we allow relaying from localhost...</div><div class="line">Connect:localhost.localdomain		RELAY</div><div class="line">Connect:localhost			RELAY</div><div class="line">Connect:127.0.0.1			RELAY</div><div class="line">Connect:10.100.133.248			RELAY</div><div class="line">Connect:10.100				RELAY</div><div class="line">Connect:10.96				RELAY</div><div class="line">Connect:*				RELAY</div></pre></td></tr></table></figure>
+<p><strong>在实际代码测试过程中未配置hostname aliases</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">vim /etc/mail/local-host-names</div><div class="line"></div><div class="line"># local-host-names - include all aliases for your machine here.</div><div class="line">#mail.xxx.com</div><div class="line">#xxx.com</div><div class="line">#yyyy.com</div></pre></td></tr></table></figure></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
   <link itemprop="mainEntityOfPage" href="https://svolence.github.io/kong/introduce/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1035,195 +1219,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="https://svolence.github.io/DRBD/Gitlab+DRBD+KEEPALIVED+NFS/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="Svolence">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/images/avatar.gif">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="Svolence">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="Svolence" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/DRBD/Gitlab+DRBD+KEEPALIVED+NFS/" itemprop="url">
-                  Gitlab+DRBD+KEEPALIVED+NFS
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <!-- <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-12-07T15:30:04+08:00">
-              2016-12-07
-            </time> -->
-
-            &nbsp;|&nbsp;
-
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-check-o"></i>
-            </span>
-            <time title="Post modified" itemprop="dateModified" datetime="2016-12-07T16:20:25+08:00">
-              2016-12-07
-            </time>
-            
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/gitlab/" itemprop="url" rel="index">
-                    <span itemprop="name">gitlab</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/DRBD/Gitlab+DRBD+KEEPALIVED+NFS/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="DRBD/Gitlab+DRBD+KEEPALIVED+NFS/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/DRBD/Gitlab+DRBD+KEEPALIVED+NFS/" class="leancloud_visitors" data-flag-title="Gitlab+DRBD+KEEPALIVED+NFS">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">Visitors </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-          
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="Gitlab-cluster-deployment-related-services"><a href="#Gitlab-cluster-deployment-related-services" class="headerlink" title="Gitlab cluster deployment related services"></a>Gitlab cluster deployment related services</h1><h2 id="1-Gitlab-server"><a href="#1-Gitlab-server" class="headerlink" title="1.Gitlab server"></a>1.Gitlab server</h2><ul>
-<li>System:　<code>ubuntu 14.04 x86_64</code></li>
-<li>Gitlab master:　<code>10.100.136.62</code>　</li>
-<li>Gitlab slave:　<code>10.100.136.63</code>　</li>
-<li>Gitlab version:　<code>GitLab Community Edition 8.13.5</code></li>
-<li>Location:　<code>/var/opt/gitlab</code></li>
-</ul>
-<h2 id="2-redis-pgsql"><a href="#2-redis-pgsql" class="headerlink" title="2.redis/pgsql"></a>2.redis/pgsql</h2><ul>
-<li>System:　<code>centos 6.8 x86_64</code></li>
-<li>Redis:　<code>10.100.17.25:6380</code>　</li>
-<li>Pgsql:　<code>10.100.17.25:5432</code>　</li>
-<li>Version:　<code>redis:2.8，pgsql:9.6</code></li>
-<li>Location:　<code>/data/redis，/var/lib/pgsql/9.6</code></li>
-</ul>
-<h2 id="3-DRBD-amp-keepalived-amp-nfs"><a href="#3-DRBD-amp-keepalived-amp-nfs" class="headerlink" title="3.DRBD &amp; keepalived &amp; nfs"></a>3.DRBD &amp; keepalived &amp; nfs</h2><ul>
-<li>System:　<code>centos 6.8 x86_64</code></li>
-<li>DRBD master:　<code>10.100.17.31</code>　</li>
-<li>DRBD slave:　<code>10.100.17.32</code>　</li>
-<li>Version:　<code>8.9.6</code></li>
-<li>Location:<ul>
-<li><code>/usr/loca/etc/drbd</code></li>
-<li><code>/keepalived</code></li>
-<li><code>/etc/exports</code></li>
-</ul>
-</li>
-</ul>
-<h2 id="4-gitlab-cluser-config"><a href="#4-gitlab-cluser-config" class="headerlink" title="4.gitlab cluser config"></a>4.gitlab cluser config</h2><ul>
-<li>MASTER<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># vi /etc/gitlab/gitlab.rb</span></div><div class="line"></div><div class="line"><span class="comment"># Disable the built-in Postgres</span></div><div class="line">postgresql[<span class="string">'enable'</span>] = <span class="literal">false</span></div><div class="line"></div><div class="line"><span class="comment"># Fill in the values for database.yml</span></div><div class="line">gitlab_rails[<span class="string">'db_adapter'</span>] = <span class="string">"postgresql"</span></div><div class="line">gitlab_rails[<span class="string">'db_encoding'</span>] = <span class="string">"unicode"</span></div><div class="line">gitlab_rails[<span class="string">'db_database'</span>] = <span class="string">"gitlabhq_production"</span></div><div class="line">gitlab_rails[<span class="string">'db_host'</span>] = <span class="string">'10.100.17.25'</span></div><div class="line">gitlab_rails[<span class="string">'db_port'</span>] = <span class="string">'5432'</span></div><div class="line">gitlab_rails[<span class="string">'db_username'</span>] = <span class="string">'gitlab'</span></div><div class="line">gitlab_rails[<span class="string">'db_password'</span>] = <span class="string">'123456'</span></div><div class="line"></div><div class="line"><span class="comment"># Redis connection details</span></div><div class="line"></div><div class="line">redis[<span class="string">'enable'</span>] = <span class="literal">false</span></div><div class="line">gitlab_rails[<span class="string">'redis_port'</span>] = <span class="string">'6380'</span></div><div class="line">gitlab_rails[<span class="string">'redis_host'</span>] = <span class="string">'10.100.17.25'</span></div><div class="line"><span class="comment">#gitlab_rails['redis_password'] = '123456'</span></div></pre></td></tr></table></figure>
-</li>
-</ul>
-          <!--noindex-->
-          <div class="post-more-link text-center">
-            <a class="btn" href="/DRBD/Gitlab+DRBD+KEEPALIVED+NFS/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1269,7 +1264,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">14</span>
+              <span class="site-state-item-count">15</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
@@ -1277,7 +1272,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">categories</span>
               </a>
             </div>
@@ -1286,7 +1281,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-count">16</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>
